@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ShogiCS301</string>
+    <string name="Game_Creation_Error_Msg">Error creating game.</string>
+    <string name="Game_Server_Error_Msg">Game server error!</string>
+    <string name="Mult_GUI_Tabl_Error_Msg">More GUIs than players.</string>
+</resources>

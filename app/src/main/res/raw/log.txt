@@ -1,0 +1,18 @@
+Log containing references to outside sources.
+
+Date: 3/3/2020
+Problem: wanted a nice grid for the board
+Source: https://github.com/rtsfred3/Shogi/app/src/main/java/edu/up/cs371/resop18
+            /shogi/shogi/ShogiGui.java
+Solution: I took this handmade GUI and stripped it away to just include the board that I needed.
+    I made other adjustments as I saw fit, and then I integrated this GUI into our layout.
+Where to find: ShogiGui, activity_main.xml
+-HM (malikh22)
+
+Date: 3/3/2020
+Problem: had to implement GameFramework for skeleton
+Source: https://github.com/cs301up/TicTacToe
+Solution: I took the framework from Vegdahl's Tic-tac-toe demo and refactored it as needed
+Where to find: Everywhere
+-HM (malikh22)
+
