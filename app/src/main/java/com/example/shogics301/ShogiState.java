@@ -1,6 +1,7 @@
 package com.example.shogics301;
 
 import com.example.shogics301.GameFramework.infoMessage.GameState;
+import java.util.ArrayList;
 
 
 /**
@@ -17,15 +18,25 @@ public class ShogiState extends GameState {
     private static final String TAG = "ShogiState";
 	private static final long serialVersionUID = 7552321013488624386L;
 
+
     ///////////////////////////////////////////////////
     // ************** instance variables ************
     ///////////////////////////////////////////////////
 	
 	// the 9x9 array of char that represents the pieces on the board
-    private char[][] board;
+    private char[][] board = new char[9][9];
     
     // an int that tells whose move it is
     private int playerToMove;
+
+    //player 0's captured pieces
+    private ArrayList<Piece> drops0;
+
+    //player 1's captured pieces
+    private ArrayList<Piece> drops1;
+
+    //history of moves
+    private ArrayList<ShogiMoveAction> moves;
 
     /**
      * Constructor for objects of class ShogiState
@@ -48,7 +59,7 @@ public class ShogiState extends GameState {
      * Copy constructor for class ShogiState
      *  
      * @param original
-     * 		the ShogiState object that we want to clong
+     * 		the ShogiState object that we want to clone
      */
     public ShogiState(ShogiState original)
     {
@@ -63,6 +74,17 @@ public class ShogiState extends GameState {
     	
     	// copy the player-to-move information
         playerToMove = original.playerToMove;
+
+        //copy player 0's captured pieces
+        drops0 = original.drops0;
+
+        //copy player 1's captured pieces
+        drops1 = original.drops1;
+
+        //copy history of moves
+        moves = original.moves;
+
+
     }
 
     /**
@@ -121,4 +143,13 @@ public class ShogiState extends GameState {
     public void setWhoseMove(int id) {
     	playerToMove = id;
     }
+
+    public ArrayList<ShogiMoveAction> getHistory() { return moves; }
+
+    public void recordHistory(ShogiMoveAction move) { moves.add(move); }
+
+    public void capturep0 (Piece captured) { drops0.add(captured); }
+    public void capturep1 (Piece captured) { drops1.add(captured); }
+    public ArrayList<Piece> getDrops0() {return drops0;}
+    public ArrayList<Piece> getDrops1() {return drops1;}
 }
