@@ -4,7 +4,7 @@ import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.actionMessage.GameAction;
 
 /**
- * A game-move object that a tic-tac-toe player sends to the game to make
+ * A game-move object that a shogi player sends to the game to make
  * a move.
  *
  * TODO: update this class to reflect a checkmate.
