@@ -30,8 +30,8 @@ public abstract class Piece {
         this.captured = captured;
     }
 
-    public abstract boolean canMove(Board board,
-                                    Spot start, Spot end);
+
+    public abstract boolean canMove();
 
 
 }

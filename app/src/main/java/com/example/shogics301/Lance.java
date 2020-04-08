@@ -1,22 +1,19 @@
 package com.example.shogics301;
 
 public class Lance extends Piece {
-    public Lance (boolean player)
-    {
+    public Lance(boolean player) {
         super(player);
     }
 
     @Override
-    public boolean canMove(Board board, Spot start,
-                           Spot end)
-    {
-        // we can't move the piece to a spot that has
-        // a piece of the same colour
-        if (end.getPiece().isplayer() == this.isplayer()) {
-            return false;
-        }
+    public boolean canMove() {
+//        // we can't move the piece to a spot that has
+//        // a piece of the same colour
+//        if (end.getPiece().isplayer() == this.isplayer()) {
+//            return false;
+//        }
 
         return false;
     }
 }
-}
+

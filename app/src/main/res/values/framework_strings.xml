@@ -37,10 +37,10 @@ really need to.-->
     <!--The following strings are used as error messages in various classes-->
     <string name="IP_Error_Msg">Unable to determine IP address.</string>
     <string name="Config_Error_Msg">Error in attempting to read game configuration file.</string>
-    <string name="Game_Creation_Error_Msg">Game creation failed.</string>
+    <string name="Game_Creation_Error_Msg1">Game creation failed.</string>
     <string name="Local_Player_Name_Error_Msg">Local player name cannot be empty.</string>
-    <string name="Game_Server_Error_Msg">Could not find game server on network.</string>
-    <string name="Mult_GUI_Tabl_Error_Msg">Cannot have more than one GUI player on a single device.</string>
+    <string name="Game_Server_Error_Msg1">Could not find game server on network.</string>
+    <string name="Mult_GUI_Tabl_Error_Msg1">Cannot have more than one GUI player on a single device.</string>
     <string name="Saved_Config_Error_Msg">"Unable to save game configuration.</string>
     <string name="Min_Player_Error_Msg">Sorry, removing a player would drop below the minimum allowed.</string>
     <string name="Max_Player_Error_Msg">Sorry, adding another player would exceed the maximum allowed."</string>
