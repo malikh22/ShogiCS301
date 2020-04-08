@@ -2,6 +2,8 @@ package com.example.shogics301;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import static com.example.shogics301.R.layout.activity_main;
@@ -17,9 +19,13 @@ public class ShogiMainActivity extends AppCompatActivity {
         setContentView(activity_main);
 
 
+
     }
 
 
 
 
 }
+
+
+

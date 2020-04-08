@@ -1,10 +1,13 @@
 package com.example.shogics301;
 
+import android.graphics.Bitmap;
+
 public class Piece {
 
     private boolean captured = false;
     private boolean player = false;
     private PieceType myType = null;
+
     enum PieceType {
         BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL;
     }
