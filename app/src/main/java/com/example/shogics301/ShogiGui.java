@@ -41,6 +41,24 @@ public class ShogiGui extends SurfaceView {
     private Bitmap computerRook;
     private Bitmap computerKnight;
     private Bitmap computerBishop;
+
+    private Piece humanKingPiece;
+    private Piece humanSGPiece;
+    private Piece humanGGPiece;
+    private Piece humanPawnPiece;
+    private Piece humanBishopPiece;
+    private Piece humanLancePiece;
+    private Piece humanRookPiece;
+    private Piece humanKnightPiece;
+    private Piece computerKingPiece;
+    private Piece computerSGPiece;
+    private Piece computerGGPiece;
+    private Piece computerPawnPiece;
+    private Piece computerLancePiece;
+    private Piece computerRookPiece;
+    private Piece computerKnightPiece;
+    private Piece computerBishopPiece;
+
     Paint square = new Paint();
     Point size = new Point();
     public static int width, height;
@@ -52,37 +70,55 @@ public class ShogiGui extends SurfaceView {
         board = BitmapFactory.decodeResource(getResources(), shougi_board);
         board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
 
-         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        humanKingPiece = new Piece(humanKing, Piece.PieceType.KING, 1, 1);
 
-         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
+        humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
+        humanSGPiece = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 1, 2);
 
-         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        humanGGPiece = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 1, 3);
 
-         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        humanPawnPiece = new Piece(humanPawn, Piece.PieceType.PAWN, 1, 4);
 
-         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        humanBishopPiece = new Piece(humanBishop, Piece.PieceType.BISHOP, 1, 5);
 
-         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        humanLancePiece = new Piece(humanLance, Piece.PieceType.LANCE, 1, 6);
 
-         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
 
-         humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
+        humanRookPiece = new Piece(humanRook, Piece.PieceType.ROOK, 1, 7);
 
-         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        humanKnightPiece = new Piece(humanKnight, Piece.PieceType.KNIGHT, 1, 8);
 
-         computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
 
-         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        computerKingPiece = new Piece(computerKing, Piece.PieceType.KING, 3, 1);
 
-         computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
+        computerSGPiece = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 3, 2);
 
-         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        computerGGPiece = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 3, 3);
 
-         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        computerPawnPiece = new Piece(computerPawn, Piece.PieceType.PAWN, 3, 4);
 
-         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
+        computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        computerBishopPiece = new Piece(computerBishop, Piece.PieceType.BISHOP, 3, 5);
 
-         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        computerLancePiece = new Piece(computerLance, Piece.PieceType.LANCE, 3, 6);
+
+        computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
+        computerRookPiece = new Piece(computerRook, Piece.PieceType.ROOK, 3, 7);
+
+        computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        computerKnightPiece = new Piece(computerKnight, Piece.PieceType.KNIGHT, 3, 8);
 
     }
 
@@ -127,13 +163,11 @@ public class ShogiGui extends SurfaceView {
         int j;
         for (i = 0; i < 11; i++) {
             for (j = 0; j < 9; j++) {
-                canvas.drawBitmap(humanKing, 50f, 275f, null );
-                canvas.drawBitmap(humanBishop, 500f, 275f, null );
-                canvas.drawBitmap(humanGG, 500f, 275f, null );
-                canvas.drawBitmap(humanSG, 350f, 275f, null );
-                canvas.drawBitmap(humanKnight, 400f, 250f, null );
-                canvas.drawBitmap(humanPawn, 500f, 250f, null );
+                canvas.drawBitmap(humanKingPiece.getMyBitmap(), humanKingPiece.getRow(), humanKingPiece.getColumn(), null);
+                canvas.drawBitmap(humanBishopPiece.getMyBitmap(), humanBishopPiece.getRow(), humanBishopPiece.getColumn(), null);
+
             }
         }
     }
+
 }

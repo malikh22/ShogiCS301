@@ -5,24 +5,22 @@ import android.graphics.Bitmap;
 public class Piece {
 
     private boolean captured = false;
-    private boolean player = false;
     private PieceType myType = null;
+    public int row = 300;
+    public int column = 300;
+    public Bitmap myBitmap;
 
     enum PieceType {
         BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL;
     }
 
-    public Piece(boolean player) {
-        this.setplayer(player);
+    public Piece(Bitmap bitmap, PieceType type, int row, int column) {
+        this.setMyBitmap(bitmap);
+        this.setMyType(type);
+        this.row = row;
+        this.column = column;
     }
 
-    public boolean isplayer() {
-        return this.player == true;
-    }
-
-    public void setplayer(boolean player) {
-        this.player = player;
-    }
 
     public boolean iscaptured() {
         return this.captured == true;
@@ -32,41 +30,37 @@ public class Piece {
         this.captured = captured;
     }
 
-    public void setMyType(PieceType pieceType)
-    {
+    public void setMyType(PieceType pieceType) {
         this.myType = pieceType;
     }
 
+    public void setRow(int row) {
 
-//    public drawPiece() {
-//
-//        switch (shogistate.getPiece()) {
-//            case 1:
-//                piece.setImageResource(R.drawable.bishop);
-//                break;
-//            case 2:
-//                piece.setImageResource(R.drawable.goldgeneral);
-//                break;
-//            case 3:
-//                piece.setImageResource(R.drawable.king);
-//                break;
-//            case 4:
-//                piece.setImageResource(R.drawable.knight);
-//                break;
-//            case 5:
-//                piece.setImageResource(R.drawable.lance);
-//                break;
-//            case 6:
-//                piece.setImageResource(R.drawable.pawn);
-//                break;
-//            case 7:
-//                piece.setImageResource(R.drawable.rook);
-//                break;
-//            case 8:
-//                piece.setImageResource(R.drawable.silvergeneral);
-//                break;
-//
-//
-//        }
+        this.row = row;
     }
 
+    public void setColumn(int column) {
+
+        this.column = column;
+    }
+
+    public int getRow() {
+
+        return this.row;
+    }
+
+    public int getColumn() {
+
+        return this.column;
+    }
+
+    public void setMyBitmap(Bitmap bitmap) {
+
+        this.myBitmap = bitmap;
+    }
+
+    public Bitmap getMyBitmap() {
+
+        return myBitmap;
+    }
+}
