@@ -46,7 +46,7 @@ public class ShogiGui extends SurfaceView {
 
         //sets size according to display
         display.getSize(size);
-        width = (int) (size.x / 1.3);
+        width = (int) (size.x / 1.4);
         height = (int) (size.y / 1.3);
 
         //creates the colors used
