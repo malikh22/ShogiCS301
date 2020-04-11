@@ -6,20 +6,21 @@ public class Piece {
 
     private boolean captured = false;
     private PieceType myType = null;
-    public int row = 300;
-    public int column = 300;
-    public Bitmap myBitmap;
+    private int row = 300;
+    private int column = 300;
+    private Bitmap myBitmap;
     private int player = 0;
 
     enum PieceType {
         BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL;
     }
 
-    public Piece(Bitmap bitmap, PieceType type, int row, int column) {
+    Piece(Bitmap bitmap, PieceType type, int row, int column, int player) {
         this.setMyBitmap(bitmap);
         this.setMyType(type);
         this.row = row;
         this.column = column;
+        this.player = player;
     }
 
 

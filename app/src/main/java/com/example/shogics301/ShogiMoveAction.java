@@ -37,7 +37,8 @@ public class ShogiMoveAction extends GameAction implements Serializable {
     public ShogiMoveAction(GamePlayer player, Piece piece, int destRow,
                            int destCol, int srcRow, int srcCol) {
         super(player);
-        this.thisPiece = new Piece(piece.getMyBitmap(), piece.getType(), piece.getRow(), piece.getColumn());
+        this.thisPiece = new Piece(piece.getMyBitmap(), piece.getType(), piece.getRow(),
+                piece.getColumn(), piece.getPlayer());
         this.thisPiece.setPlayer(piece.getPlayer());
 
         this.destRow = destRow;
@@ -49,6 +50,14 @@ public class ShogiMoveAction extends GameAction implements Serializable {
     public ShogiMoveAction(GamePlayer player, Piece[][] board){
         super(player);
         this.board = board;
+    }
+
+    int getRow() {
+        return destRow;
+    }
+
+    int getCol() {
+        return destCol;
     }
 }
 
