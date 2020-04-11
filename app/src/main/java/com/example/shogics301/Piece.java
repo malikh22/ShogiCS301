@@ -23,11 +23,11 @@ public class Piece {
     }
 
 
-    public boolean iscaptured() {
-        return this.captured == true;
+    public boolean isCaptured() {
+        return this.captured;
     }
 
-    public void setcaptured(boolean captured) {
+    public void setCaptured(boolean captured) {
         this.captured = captured;
     }
 
