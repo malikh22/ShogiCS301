@@ -21,6 +21,8 @@ import static com.example.shogics301.R.drawable.shougi_board;
  */
 
 public class ShogiGui extends SurfaceView {
+    public Piece myPieces[][];
+
 
     //instance values for board creation
     public static final float space = 150; //150 is height/width of rows & cols
@@ -53,6 +55,8 @@ public class ShogiGui extends SurfaceView {
         setWillNotDraw(false);
         board = BitmapFactory.decodeResource(getResources(), shougi_board);
         board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
+
+        myPieces = new ShogiState().getBoard();
 
 
         //human piece objects
@@ -114,7 +118,6 @@ public class ShogiGui extends SurfaceView {
 
         //This draws the pieces from the array
         //TODO: Fix so this actually draws the pieces based on the current board
-        Piece[][] myPieces = ShogiLocalGame.boardCopy;
 
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
