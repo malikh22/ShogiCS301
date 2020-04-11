@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -35,6 +36,8 @@ public class ShogiGui extends SurfaceView {
     private Bitmap humanLance;
     private Bitmap humanRook;
     private Bitmap humanKnight;
+
+
     private Bitmap computerKing;
     private Bitmap computerSG;
     private Bitmap computerGG;
@@ -63,6 +66,7 @@ public class ShogiGui extends SurfaceView {
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
         humanKing = Bitmap.createScaledBitmap(humanKing, 120, 120, false);
 
+
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
         humanSG = Bitmap.createScaledBitmap(humanSG, 120, 120, false);
 
@@ -87,27 +91,35 @@ public class ShogiGui extends SurfaceView {
         //computer piece objects
         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
         computerKing = Bitmap.createScaledBitmap(computerKing, 120, 120, false);
+        computerKing = RotateBitmap(computerKing, 180);
 
         computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
         computerSG = Bitmap.createScaledBitmap(computerSG, 120, 120, false);
+        computerSG = RotateBitmap(computerSG, 180);
 
         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
         computerGG = Bitmap.createScaledBitmap(computerGG, 120, 120, false);
+        computerGG = RotateBitmap(computerGG, 180);
 
         computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
         computerPawn = Bitmap.createScaledBitmap(computerPawn, 120, 120, false);
+        computerPawn = RotateBitmap(computerPawn, 180);
 
         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
         computerBishop = Bitmap.createScaledBitmap(computerBishop, 120, 120, false);
+        computerBishop = RotateBitmap(computerBishop, 180);
 
         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
         computerLance = Bitmap.createScaledBitmap(computerLance, 120, 120, false);
+        computerLance = RotateBitmap(computerLance, 180);
 
         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
         computerRook = Bitmap.createScaledBitmap(computerRook, 120, 120, false);
+        computerRook = RotateBitmap(computerRook, 180);
 
         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
         computerKnight = Bitmap.createScaledBitmap(computerKnight, 120, 120, false);
+        computerKnight = RotateBitmap(computerKnight, 180);
 
     }
 
@@ -241,5 +253,12 @@ public class ShogiGui extends SurfaceView {
                 }
             }
         }
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }

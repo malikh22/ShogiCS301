@@ -108,19 +108,19 @@ public class ShogiState extends GameState {
         row = 8;
         for(col = 0; col < 9; col++){
             if(col == 0 || col == 8){
-                myPiece = new Piece(null, Piece.PieceType.LANCE, row, col, 1);
+                myPiece = new Piece(null, Piece.PieceType.LANCE, row, col, 0);
                 pieces[row][col] = myPiece;
             }else if(col == 1 || col == 7){
-                myPiece = new Piece(null, Piece.PieceType.KNIGHT, row, col, 1);
+                myPiece = new Piece(null, Piece.PieceType.KNIGHT, row, col, 0);
                 pieces[row][col] = myPiece;
             }else if(col == 2 || col == 6){
-                myPiece = new Piece(null, Piece.PieceType.SILVERGENERAL, row, col, 1);
+                myPiece = new Piece(null, Piece.PieceType.SILVERGENERAL, row, col, 0);
                 pieces[row][col] = myPiece;
             }else if(col == 3 || col == 5){
-                myPiece = new Piece(null, Piece.PieceType.GOLDGENERAL, row, col, 1);
+                myPiece = new Piece(null, Piece.PieceType.GOLDGENERAL, row, col, 0);
                 pieces[row][col] = myPiece;
             }else{
-                myPiece = new Piece(null, Piece.PieceType.KING, row, col, 1);
+                myPiece = new Piece(null, Piece.PieceType.KING, row, col, 0);
                 pieces[row][col] = myPiece;
             }
         }
