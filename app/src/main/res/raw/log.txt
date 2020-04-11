@@ -16,3 +16,12 @@ Solution: I took the framework from Vegdahl's Tic-tac-toe demo and refactored it
 Where to find: Everywhere
 -HM (malikh22)
 
+Date: 4/11/2020
+Problem: needed to rotate pieces for opponent
+Source: https://stackoverflow.com/questions/9015372/how-to-rotate-a-bitmap-90-degrees
+Solution: I took a code snippet from here to give me a simple method that rotates a Bitmap
+Where to find: ShogiGUI, RotateBitmap method
+-HM (malikh22)
+
+
+

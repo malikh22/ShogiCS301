@@ -27,6 +27,9 @@ public class ShogiGui extends SurfaceView {
 
     //instance values for board creation
     public static final float space = 150; //150 is height/width of rows & cols
+    public static final float topLeftX = 25 + space / 2; //95 is good
+    public static final float topLeftY = 125; //350 is good
+    public boolean pieceIsSelected;
     private Bitmap board;
     private Bitmap humanKing;
     private Bitmap humanSG;
@@ -158,8 +161,7 @@ public class ShogiGui extends SurfaceView {
         }
 
 
-        //This draws the pieces from the array
-        //TODO: Fix so this actually draws the pieces based on the current board
+        //This draws the pieces from the board
 
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
@@ -249,6 +251,7 @@ public class ShogiGui extends SurfaceView {
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanLance);
                         canvas.drawBitmap(humanLance, left, top, null);
+
                     }
                 }
             }

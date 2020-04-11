@@ -1,29 +1,13 @@
 package com.example.shogics301;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.shogics301.GameFramework.Game;
+import com.example.shogics301.GameFramework.GameHumanPlayer;
 import com.example.shogics301.GameFramework.GameMainActivity;
-import com.example.shogics301.GameFramework.GamePlayer;
 
-import com.example.shogics301.GameFramework.actionMessage.GameOverAckAction;
-import com.example.shogics301.GameFramework.actionMessage.MyNameIsAction;
-import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
-import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
-import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
-import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
-import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
-import com.example.shogics301.GameFramework.utilities.GameTimer;
-import com.example.shogics301.GameFramework.utilities.Logger;
-import com.example.shogics301.GameFramework.utilities.MessageBox;
-import com.example.shogics301.GameFramework.utilities.Tickable;
 
 /**
  * class ShogiHumanPlayer
@@ -32,343 +16,184 @@ import com.example.shogics301.GameFramework.utilities.Tickable;
  * particular game, a subclass should be created that can display the current
  * game state and responds to user commands.
  *
- * TODO: Update Human behavior
+ * TODO: Fix touching
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
  * @version July 2013
  *
  */
-public abstract class ShogiHumanPlayer implements GamePlayer, Tickable {
-    //Tag for logging
-    private static final String TAG = "ShogiHumanPlayer";
-    /**
-     * instance variables
-     */
-    protected Game game; // the game
-    protected int playerNum; // my player ID
-    protected String name; // my player's name
-    protected String[] allPlayerNames; // the names of all the player
-    private Handler myHandler; // my thread's handler
-    private Handler saveMe;
-    private GameMainActivity myActivity; // the current activity
-    private GameTimer myTimer = new GameTimer(this); // my player's timer
-    private boolean gameOver; // whether the game is over
+public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
+    private GameMainActivity myActivity;
+    private ShogiState state;
+    private Piece[][] myPieces;
+    private boolean havePieceSelected = false;
+    private Integer rowSel, colSel;
+    private ShogiGui gui;
+    private boolean hasKing = true;
 
     /**
      * constructor
      *
-     * @param name the name of the player
+     * @param name the name of the human player
      */
+    public ShogiHumanPlayer(String name) { super(name); }
 
-    public ShogiHumanPlayer(String name) {
-        // set the name via the argument
 
-        this.name = name;
-
-        // mark game as not being over
-        this.gameOver = false;
-
-        // get new handler for this thread
-        this.myHandler = new Handler();
-        this.saveMe = new Handler();
-    }
 
     /**
-     * Returns this object's game timer
+     * used to update the human player's game state
      *
-     * @return this object's game timer.
+     * @param info the updated game state
      */
-    protected final GameTimer getTimer() {
-        return myTimer;
-    }
+    @Override
+    public void receiveInfo(GameInfo info) {
 
-    /**
-     * "tick" call-back method, called when a timer message is received.
-     */
-    public final void tick(GameTimer timer) {
-        // send the message to the player
-        sendInfo(new TimerInfo(timer));
-    }
+        //only update the state if info is a game state
+        if(info instanceof ShogiState){
 
-    /**
-     * Returns the GUI's top object; used for flashing.
-     *
-     * @return the GUI's top object.
-     */
-    public abstract View getTopView();
+            // update our state, then display
+            this.state = (ShogiState)info;
+            this.myPieces = state.getBoard();
+            gui = (ShogiGui)myActivity.findViewById(R.id.shogiBoard);
+            gui.myPieces = this.myPieces;
 
-    /**
-     * Start's the GUI's thread, setting up handler.
-     */
-    public void start() {
-        // Don't need to do anything since I'm already looping
-        // and have a handler.
-    }
 
-    /**
-     * perform any initialization that needs to be done after the player
-     * knows what their game-position and opponents' names are.
-     */
-    protected void initAfterReady() {
-        // by default, we do nothing
-    }
-
-    /**
-     * Sets this player as the one attached to the GUI. Saves the
-     * activity, then invokes subclass-specific method.
-     */
-    public final void gameSetAsGui(GameMainActivity a) {
-
-        myActivity = a;
-        setAsGui(a);
-
-    }
-
-    /*
-     * ====================================================================
-     * Abstract Methods
-     *
-     * Create the game specific functionality for this human player by
-     * sub-classing this class and implementing the following methods.
-     * --------------------------------------------------------------------
-     */
-
-    /*
-     * ====================================================================
-     * Public Methods
-     * --------------------------------------------------------------------
-     */
-
-    /**
-     * Flashes the background of the GUI--typically indicating that some kind
-     * of error occurred. Caveat: if multiple flash calls overlap, the prior one
-     * will take precedence.
-     *
-     * @param color
-     * 			the color to flash
-     * @param duration
-     * 			the number of milliseconds the flash should last
-     */
-    protected void flash(int color, int duration) {
-        // get the top view, ignoring if null
-        View top = this.getTopView();
-        if (top == null) return;
-
-        // save the original background color; set the new background
-        // color
-        int savedColor = getBackgroundColor(top);
-        top.setBackgroundColor(color);
-
-        // set up a timer event to set the background color back to
-        // the original.
-        myHandler.postDelayed(new Unflasher(savedColor), duration);
-    }
-
-    /**
-     * helper-class to finish a "flash.
-     *
-     */
-    private class Unflasher implements Runnable {
-
-        // the original color
-        private int oldColor;
-
-        // constructor
-        public Unflasher(int oldColor) {
-            this.oldColor = oldColor;
-        }
-
-        // method to run at the appropriate time: sets background color
-        // back to the original
-        public void run() {
-            View top = ShogiHumanPlayer.this.getTopView();
-            if (top == null) return;
-            top.setBackgroundColor(oldColor);
+            gui.invalidate();
         }
     }
 
     /**
-     * helper-method to get the background color of a view
-     * @param v
-     * 			the view
-     * @return
-     * 			the (int representation) of the background color,
-     * 			or "transparent" if the color could not be deduced
+     *
+     * @param activity the main activity
      */
-    private static int getBackgroundColor(View v) {
-        int color = Color.TRANSPARENT;
-        Drawable background = v.getBackground();
-        if (background instanceof ColorDrawable) {
-            color = ((ColorDrawable) background).getColor();
+    @Override
+    public void setAsGui(GameMainActivity activity) {
+        // remember the activity
+        myActivity = activity;
+
+        // Load the layout resource for our GUI
+        activity.setContentView(R.layout.activity_main);
+        myActivity.findViewById(R.id.shogiBoard).setOnTouchListener(this);
+
+        // GUI values are updated
+        if (state != null) {
+            receiveInfo(state);
         }
-        return color;
     }
 
     /**
-     * Sends a 'state' object to the game's thread.
+     * detects when a button was clicked
      *
-     * @param info
-     * 		the information object to send
+     * @param v the view (button) that was clicked
      */
-    public void sendInfo(GameInfo info) {
-        // wait until handler is there
-        while (myHandler == null) Thread.yield();
+    @Override
+    public void onClick(View v) {
 
-        // post message to the handler
-        Log.d(TAG, "sendInfo - about to post");
-        myHandler.post(new MyRunnable(info, false));
-        Log.d(TAG, "sendInfo - done with post");
     }
 
+
     /**
-     * Callback method, called when player gets a message
+     * this handles a touch on the board so that a move can be made
      *
-     * @param info
-     * 		the message
+     * @param v the view that was touched, i.e. the human player
+     * @param event
+     *
+     * @return true if the listener has detected the event, false otherwise
+     *
      */
-    public abstract void receiveInfo(GameInfo info);
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
 
-    /**
-     * Helper-class that runs the on the GUI's main thread when
-     * there is a message to the player.
-     */
-    private class MyRunnable implements Runnable {
-        // the message to send to the player
-        private GameInfo myInfo;
-        private Boolean isInitialState = false;
+        int row, col; //used for storing the location of the space tapped
+        if(this.myPieces == null){ return false; }
+        if(event.getAction() != MotionEvent.ACTION_UP) { return true; }
 
-        // constructor
-        public MyRunnable(GameInfo info, boolean initial) {
-            myInfo = info;
-            isInitialState = initial;
+
+        //get the row and column of the tapped space
+        row = (int)((event.getY() - ShogiGui.topLeftY)/(ShogiGui.space));
+        col = (int)((event.getX() - ShogiGui.topLeftX)/(ShogiGui.space));
+        Log.d("touched", Float.toString(event.getX()));
+
+
+        //dont do anything if the user tapped outside the board
+        if(row >= 8|| col >= 8){
+            return false;
+        }
+        else if(row < 0 || col < 0){
+            return false;
         }
 
-        // the run method, which is run in the main GUI thread
-        public void run() {
 
-            // if the game is over, just tell the activity that the game is over
-            if (gameOver) {
-                myActivity.setGameOver(true);
-                return;
-            }
+        //when a piece on the board is currently selected
+        if(havePieceSelected) {
 
-            if (game == null) {
-                // game has not been bound: the only thing we're looking for is
-                // BindGameInfo object; ignore everything else
-                if (myInfo instanceof BindGameInfo) {
-                    Logger.debugLog(TAG, "binding game");
-                    BindGameInfo bgs = (BindGameInfo)myInfo;
-                    game = bgs.getGame(); // set the game
-                    playerNum = bgs.getPlayerNum(); // set our player id
+            //when a piece is currently selected and
+            //the tapped space contains one of the player's own pieces
+            //old comment: when the user tapped a space that has one of his/her own pieces
+            if (state.getWhoseMove() == 0) {
+                if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
 
-                    // respond to the game, telling it our name
-                    game.sendAction(new MyNameIsAction(ShogiHumanPlayer.this, name));
+                    //when the player taps the piece that is already selected, deselect it
+                    //old comment: This deals with selected and deselecting myPieces
+                    if (myPieces[row][col].isSelected()) {
+                        myPieces[row][col].setSelected(false);
+                        gui.pieceIsSelected = false;
+                        havePieceSelected = false;
+                    }
+
+
+                    // deselect the currently selected piece and select the other tapped piece
+                    else {
+
+                        //find and deselect the currently selected piece
+                        for (int i = 1; i < 9; i++) {
+                            for (int j = 0; j < 9; j++) {
+                                if (myPieces[i][j] != null) {
+                                    if (myPieces[i][j].isSelected()) {
+                                        myPieces[i][j].setSelected(false);
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //select the newly tapped piece
+                        myPieces[row][col].setSelected(true);
+                        gui.pieceIsSelected = true;
+                        rowSel = row;
+                        colSel = col;
+                    }
                 }
-            }
-            else if (allPlayerNames == null) {
-                // here, the only thing we're looking for is a StartGameInfo object;
-                // ignore everything else
-                if (myInfo instanceof StartGameInfo) {
-                    Logger.debugLog(TAG, "notification to start game");
 
-                    // update our player-name array
-                    allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
 
-                    // perform game-specific initialization
-                    initAfterReady();
+                // move the piece
+                game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
 
-                    // tell the game we're ready to play the game
-                    game.sendAction(new ReadyAction(ShogiHumanPlayer.this));
+                    //reset
+                    havePieceSelected = false;
+                    rowSel = -1;
+                    colSel = -1;
                 }
+
+                //leave everything as it is
+                return true;
+
             }
-            else if (myInfo instanceof GameOverInfo) {
-                // if we're being notified the game is over, finish up
+
+        //redraw board with myPieces updated
+        gui.invalidate();
 
 
-                // if our activity is non-null (which it should be), mark the activity as over
-                if (myActivity != null) myActivity.setGameOver(true);
-
-                // acknowledge to the game that the game is over
-                game.sendAction(new GameOverAckAction(ShogiHumanPlayer.this));
-
-                // set our instance variable, to indicate the game as over
-                gameOver = true;
-
-                //Since the game is over, we will ask the player if they would like to restart the game
-                String quitQuestion = ((GameOverInfo)myInfo).getMessage() + "Would you like to restart the game?";
-                String posLabel = "Yes!";
-                String negLabel = "No";
-                MessageBox.popUpChoice(quitQuestion, posLabel, negLabel,
-                        //If they want to restart the game, restart it
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface di, int val) {
-                                myActivity.restartGame();
-                            }},
-                        //If not, then just display who won the game
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface di, int val) {
-                                // perform the "gave over" behavior--by default, to show pop-up message
-                                gameIsOver(((GameOverInfo)myInfo).getMessage());
-                            }},
-                        myActivity);
-            }
-            else if (myInfo instanceof TimerInfo) {
-                // if we have a timer-tick, and it's our timer object,
-                // directly invoke the subclass method; otherwise, pass
-                // it on as a message
-                if (((TimerInfo)myInfo).getTimer() == myTimer) {
-                    // checking that it's from our timer
-                    timerTicked();
-                }
-                else {
-                    receiveInfo(myInfo);
-                }
-            }
-            else {
-                // pass the state on to the subclass
-                    receiveInfo(myInfo);
-            }
-        }
-    }
-
-    /**
-     * callback method--called when we are notified that the game is over
-     *
-     * @param msg
-     * 		the "game over" message sent by the game
-     */
-    protected void gameIsOver(String msg) {
-        // the default behavior is to put a pop-up for the user to see that tells
-        // the game's result
-        MessageBox.popUpMessage(msg, myActivity);
-    }
-
-    /**
-     * Tells whether this class requires a GUI to run
-     *
-     * @return true, since this player needs to be running as a GUI
-     */
-    public final boolean requiresGui() {
+        //done
         return true;
     }
 
-    /**
-     * Tells whether this class supports the running in a GUI
-     *
-     * @return true, since this player actually needs to be running as a GUI
-     */
-    public final boolean supportsGui() {
-        return true;
+    public boolean getHasKing(){
+        return hasKing;
     }
 
-    /**
-     * Invoked whenever the player's timer has ticked. It is expected
-     * that this will be overridden in many games.
-     */
-    protected void timerTicked() {
-        // by default, do nothing
+    public void setHasKing(boolean hasKing){
+        this.hasKing = hasKing;
     }
-
-}// class ShogiHumanPlayer
-
+}

@@ -1,6 +1,9 @@
 package com.example.shogics301;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 public class Piece {
 
@@ -10,6 +13,7 @@ public class Piece {
     private int column = 300;
     private Bitmap myBitmap;
     private int player = 0;
+    private boolean selected = false;
 
 
     PieceType getPromotedPiece() {
@@ -27,6 +31,9 @@ public class Piece {
         }
         if(this.getType() == PieceType.SILVERGENERAL){
             return PieceType.P_SILVER;
+        }
+        if(this.getType() == PieceType.BISHOP){
+            return PieceType.P_BISHOP;
         }
         else return null;
     }
@@ -81,4 +88,9 @@ public class Piece {
     public int getPlayer() { return this.player; }
 
     public void setPlayer(int player) { this.player = player; }
+
+    public boolean isSelected() { return selected; }
+
+    public void setSelected(boolean b) { this.selected = b;}
+
 }
