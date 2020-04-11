@@ -61,7 +61,11 @@ public class ShogiGui extends SurfaceView {
 
         //human piece objects
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        humanKing = Bitmap.createScaledBitmap(humanKing, 45, 50, false);
+
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
+        humanSG = Bitmap.createScaledBitmap(humanSG, 45, 50, false);
+
         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
@@ -122,46 +126,48 @@ public class ShogiGui extends SurfaceView {
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
                 if (myPieces[k][l] != null) {
+                    float left = (myPieces[k][l].getColumn() * 200);
+                    float top = 200 + (myPieces[k][l].getRow() * 200);
                     //draws opponent pieces
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerPawn);
-                        canvas.drawBitmap(computerPawn, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerPawn, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.KNIGHT
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerKnight);
-                        canvas.drawBitmap(computerKnight, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerKnight, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.ROOK
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerRook);
-                        canvas.drawBitmap(computerRook, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerRook, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.BISHOP
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerBishop);
-                        canvas.drawBitmap(computerRook, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerRook, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.KING
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerKing);
-                        canvas.drawBitmap(computerKing, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerKing, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.GOLDGENERAL
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerGG);
-                        canvas.drawBitmap(computerGG, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerGG,left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.SILVERGENERAL
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerSG);
-                        canvas.drawBitmap(computerSG, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerSG, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.LANCE
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerLance);
-                        canvas.drawBitmap(computerLance, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(computerLance, left, top, null);
                     }
 
 
@@ -169,42 +175,42 @@ public class ShogiGui extends SurfaceView {
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanPawn);
-                        canvas.drawBitmap(humanPawn, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanPawn, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.KNIGHT
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanKnight);
-                        canvas.drawBitmap(humanKnight, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanKnight, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.ROOK
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanRook);
-                        canvas.drawBitmap(humanRook, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanRook, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.BISHOP
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanBishop);
-                        canvas.drawBitmap(humanBishop, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanBishop,left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.KING
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanKing);
-                        canvas.drawBitmap(humanKing, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanKing,left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.GOLDGENERAL
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanGG);
-                        canvas.drawBitmap(humanGG, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanGG,left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.SILVERGENERAL
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanSG);
-                        canvas.drawBitmap(humanSG, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanSG, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.LANCE
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanLance);
-                        canvas.drawBitmap(humanLance, myPieces[k][l].getRow(), myPieces[k][l].getColumn(), null);
+                        canvas.drawBitmap(humanLance, left, top, null);
                     }
                 }
             }
