@@ -58,6 +58,7 @@ public class ShogiGui extends SurfaceView {
     private Piece humanPawnPiece8;
     private Piece humanBishopPiece;
     private Piece humanLancePiece;
+    private Piece humanLancePiece1;
     private Piece humanRookPiece;
     private Piece humanKnightPiece;
     private Piece humanKnightPiece1;
@@ -126,6 +127,7 @@ public class ShogiGui extends SurfaceView {
 
         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
         humanLancePiece = new Piece(humanLance, Piece.PieceType.LANCE, 8, 0);
+        humanLancePiece1 = new Piece(humanLance, Piece.PieceType.LANCE, 8, 8);
 
         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
         humanRookPiece = new Piece(humanRook, Piece.PieceType.ROOK, 7, 7);
@@ -213,13 +215,63 @@ public class ShogiGui extends SurfaceView {
         //This draws the pieces from the array
         //for iterating and managing the pieces array
         //TODO: complete when we have a way to draw pieces
-        int j;
-        for (i = 0; i < 11; i++) {
-            for (j = 0; j < 9; j++) {
-                canvas.drawBitmap(humanKingPiece.getMyBitmap(), humanKingPiece.getRow(), humanKingPiece.getColumn(), null);
+        canvas.drawBitmap(humanKingPiece.getMyBitmap(), humanKingPiece.getRow(), humanKingPiece.getColumn(), null);
 
-            }
-        }
+        canvas.drawBitmap(humanSGPiece.getMyBitmap(), humanSGPiece.getRow(), humanSGPiece.getColumn(), null);
+        canvas.drawBitmap(humanSGPiece1.getMyBitmap(), humanSGPiece1.getRow(), humanSGPiece1.getColumn(), null);
+
+        canvas.drawBitmap(humanGGPiece.getMyBitmap(), humanGGPiece.getRow(), humanGGPiece.getColumn(), null);
+        canvas.drawBitmap(humanGGPiece1.getMyBitmap(), humanSGPiece1.getRow(), humanSGPiece1.getColumn(), null);
+
+        canvas.drawBitmap(humanPawnPiece.getMyBitmap(), humanPawnPiece.getRow(), humanPawnPiece.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece1.getMyBitmap(), humanPawnPiece1.getRow(), humanPawnPiece1.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece2.getMyBitmap(), humanPawnPiece2.getRow(), humanPawnPiece2.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece3.getMyBitmap(), humanPawnPiece3.getRow(), humanPawnPiece3.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece4.getMyBitmap(), humanPawnPiece4.getRow(), humanPawnPiece4.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece5.getMyBitmap(), humanPawnPiece5.getRow(), humanPawnPiece5.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece6.getMyBitmap(), humanPawnPiece6.getRow(), humanPawnPiece6.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece7.getMyBitmap(), humanPawnPiece7.getRow(), humanPawnPiece7.getColumn(), null);
+        canvas.drawBitmap(humanPawnPiece8.getMyBitmap(), humanPawnPiece8.getRow(), humanPawnPiece8.getColumn(), null);
+
+        canvas.drawBitmap(humanBishopPiece.getMyBitmap(), humanBishopPiece.getRow(), humanBishopPiece.getColumn(), null);
+
+        canvas.drawBitmap(humanLancePiece.getMyBitmap(), humanLancePiece.getRow(), humanLancePiece.getColumn(), null);
+        canvas.drawBitmap(humanLancePiece1.getMyBitmap(), humanLancePiece1.getRow(), humanLancePiece1.getColumn(), null);
+
+        canvas.drawBitmap(humanRookPiece.getMyBitmap(), humanRookPiece.getRow(), humanRookPiece.getColumn(), null);
+
+        canvas.drawBitmap(humanKnightPiece.getMyBitmap(), humanKnightPiece.getRow(), humanKnightPiece.getColumn(), null);
+        canvas.drawBitmap(humanKnightPiece1.getMyBitmap(), humanKnightPiece1.getRow(), humanKnightPiece1.getColumn(), null);
+
+
+        canvas.drawBitmap(computerKingPiece.getMyBitmap(), computerKingPiece.getRow(), computerKingPiece.getColumn(), null);
+
+        canvas.drawBitmap(computerSGPiece.getMyBitmap(), computerSGPiece.getRow(), computerSGPiece.getColumn(), null);
+        canvas.drawBitmap(computerSGPiece1.getMyBitmap(), computerSGPiece1.getRow(), computerSGPiece1.getColumn(), null);
+
+        canvas.drawBitmap(computerGGPiece.getMyBitmap(), computerGGPiece.getRow(), computerGGPiece.getColumn(), null);
+        canvas.drawBitmap(computerGGPiece1.getMyBitmap(), computerSGPiece1.getRow(), computerSGPiece1.getColumn(), null);
+
+        canvas.drawBitmap(computerPawnPiece.getMyBitmap(), computerPawnPiece.getRow(), computerPawnPiece.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece1.getMyBitmap(), computerPawnPiece1.getRow(), computerPawnPiece1.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece2.getMyBitmap(), computerPawnPiece2.getRow(), computerPawnPiece2.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece3.getMyBitmap(), computerPawnPiece3.getRow(), computerPawnPiece3.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece4.getMyBitmap(), computerPawnPiece4.getRow(), computerPawnPiece4.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece5.getMyBitmap(), computerPawnPiece5.getRow(), computerPawnPiece5.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece6.getMyBitmap(), computerPawnPiece6.getRow(), computerPawnPiece6.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece7.getMyBitmap(), computerPawnPiece7.getRow(), computerPawnPiece7.getColumn(), null);
+        canvas.drawBitmap(computerPawnPiece8.getMyBitmap(), computerPawnPiece8.getRow(), computerPawnPiece8.getColumn(), null);
+
+        canvas.drawBitmap(computerBishopPiece.getMyBitmap(), computerBishopPiece.getRow(), computerBishopPiece.getColumn(), null);
+
+        canvas.drawBitmap(computerLancePiece.getMyBitmap(), computerLancePiece.getRow(), computerLancePiece.getColumn(), null);
+        canvas.drawBitmap(computerLancePiece1.getMyBitmap(), computerLancePiece1.getRow(), computerLancePiece1.getColumn(), null);
+
+        canvas.drawBitmap(computerRookPiece.getMyBitmap(), computerRookPiece.getRow(), computerRookPiece.getColumn(), null);
+
+        canvas.drawBitmap(computerKnightPiece.getMyBitmap(), computerKnightPiece.getRow(), computerKnightPiece.getColumn(), null);
+        canvas.drawBitmap(computerKnightPiece1.getMyBitmap(), computerKnightPiece1.getRow(), computerKnightPiece1.getColumn(), null);
+
     }
 
 }

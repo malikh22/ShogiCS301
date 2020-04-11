@@ -9,6 +9,7 @@ public class Piece {
     public int row = 300;
     public int column = 300;
     public Bitmap myBitmap;
+    private int player = 0;
 
     enum PieceType {
         BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL;
@@ -30,37 +31,25 @@ public class Piece {
         this.captured = captured;
     }
 
+    public PieceType getType() { return this.myType; }
+
     public void setMyType(PieceType pieceType) {
         this.myType = pieceType;
     }
 
-    public void setRow(int row) {
+    public void setRow(int row) { this.row = row; }
 
-        this.row = row;
-    }
+    public void setColumn(int column) { this.column = column; }
 
-    public void setColumn(int column) {
+    public int getRow() { return this.row; }
 
-        this.column = column;
-    }
+    public int getColumn() { return this.column; }
 
-    public int getRow() {
+    public void setMyBitmap(Bitmap bitmap) { this.myBitmap = bitmap; }
 
-        return this.row;
-    }
+    public Bitmap getMyBitmap() { return myBitmap; }
 
-    public int getColumn() {
+    public int getPlayer() { return this.player; }
 
-        return this.column;
-    }
-
-    public void setMyBitmap(Bitmap bitmap) {
-
-        this.myBitmap = bitmap;
-    }
-
-    public Bitmap getMyBitmap() {
-
-        return myBitmap;
-    }
+    public void setPlayer(int player) { this.player = player; }
 }
