@@ -10,173 +10,138 @@ import com.example.shogics301.GameFramework.actionMessage.GameAction;
  *
  * TODO: Update to reflect Shogi rules and interactions
  *
- * @author Steven R. Vegdahl 
- * @version July 2013
+ * @author Steven R. Vegdahl
+ * @author Hera Malik
+ * @version April 2020
  */
 
 public class ShogiLocalGame extends LocalGame {
 	//Tag for logging
 	private static final String TAG = "ShogiLocalGame";
 	// the game's state
-	protected ShogiState state;
+	private ShogiState gameState;
+	public static Piece[][] boardCopy = new Piece[9][9];
 
-	// the marks for player 0 and player 1, respectively
-	private final static char[] mark = {'X','O'};
-
-	// the number of moves that have been played so far, used to
-	// determine whether the game is over
-	protected int moveCount;
-
-	/**
-	 * Constructor for the ShogiLocalGame.
-	 */
-	public ShogiLocalGame() {
-
-		// perform superclass initialization
-		super();
-
-		// create a new, unfilled-in ShogiState object
-		state = new ShogiState();
-	}
-
-	/**
-	 * Check if the game is over. It is over, return a string that tells
-	 * who the winner(s), if any, are. If the game is not over, return null;
-	 * 
-	 * @return
-	 * 		a message that tells who has won the game, or null if the
-	 * 		game is not over
-	 */
-	@Override
-	protected String checkIfGameOver() {
-
-		// the idea is that we simultaneously look at a row, column and
-		// a diagonal, using the variables 'rowToken', 'colToken' and
-		// 'diagToken'; we do this three times so that we get all three
-		// rows, all three columns, and both diagonals.  (The way the
-		// math works out, one of the diagonal tests tests the middle
-		// column.)  The respective variables get set to ' ' unless
-		// all characters in the line that have currently been seen are
-		// identical; in this case the variable contains that character
-
-		// the character that will eventually contain an 'X' or 'O' if we
-		// find a winner
-		char resultChar = ' ';
-
-		// to all three lines in the current group
-		for (int i = 0; i < 3; i++) {
-			// get the initial character in each line
-			char rowToken = state.getPiece(i,0);
-			char colToken = state.getPiece(0,i);;
-			char diagToken = state.getPiece(0,i);
-			// determine the direction that the diagonal moves
-			int diagDelta = 1-i;
-			// look for matches for each of the three positions in each
-			// of the current lines; set the corresponding variable to ' '
-			// if a mismatch is found
-			for (int j = 1; j < 3; j++) {
-				if (state.getPiece(i,j) != rowToken) rowToken = ' ';
-				if (state.getPiece(j,i) != colToken) colToken = ' ';
-				if (state.getPiece(j, i+(diagDelta*j)) != diagToken) diagToken = ' ';
-			}
-
-			////////////////////////////////////////////////////////////
-			// At this point, if any of our three variables is non-blank
-			// then we have found a winner.
-			////////////////////////////////////////////////////////////
-
-			// if we find a winner, indicate such by setting 'resultChar'
-			// to the winning mark.
-			if (rowToken != ' ') resultChar = rowToken;
-			else if (colToken != ' ') resultChar = colToken;
-			else if (diagToken != ' ') resultChar = diagToken;
-		}
-
-		// if resultChar is blank, we found no winner, so return null,
-		// unless the board is filled up. In that case, it's a cat's game.
-		if (resultChar == ' ') {
-			if  (moveCount >= 9) {
-				// no winner, but all 9 spots have been filled
-				return "It's a cat's game.";
-			}
-			else {
-				return null; // no winner, but game not over
+	public ShogiLocalGame(){
+		this.gameState = new ShogiState();
+		for(int i = 0; i < 9; i++){
+			for (int j = 0; j < 9; j++){
+				boardCopy[i][j] = gameState.getBoard()[i][j];
 			}
 		}
-
-		// if we get here, then we've found a winner, so return the 0/1
-		// value that corresponds to that mark; then return a message
-		int gameWinner = resultChar == mark[0] ? 0 : 1;
-		return playerNames[gameWinner]+" is the winner.";
 	}
 
-	/**
-	 * Notify the given player that its state has changed. This should involve sending
-	 * a GameInfo object to the player. If the game is not a perfect-information game
-	 * this method should remove any information from the game that the player is not
-	 * allowed to know.
-	 * 
-	 * @param p
-	 * 			the player to notify
-	 */
 	@Override
 	protected void sendUpdatedStateTo(GamePlayer p) {
-		// make a copy of the state, and send it to the player
-		p.sendInfo(new ShogiState(state));
-
+		//Log.i("p","sent the info");
+		p.sendInfo(new ShogiState(gameState));
 	}
 
-	/**
-	 * Tell whether the given player is allowed to make a move at the
-	 * present point in the game. 
-	 * 
-	 * @param playerIdx
-	 * 		the player's player-number (ID)
-	 * @return
-	 * 		true iff the player is allowed to move
-	 */
-	protected boolean canMove(int playerIdx) {
-		return playerIdx == state.getWhoseMove();
+	@Override
+	public boolean canMove(int playerIdx) {
+		return playerIdx == gameState.getWhoseMove();
 	}
 
-	/**
-	 * Makes a move on behalf of a player.
-	 * 
-	 * @param action
-	 * 			The move that the player has sent to the game
-	 * @return
-	 * 			Tells whether the move was a legal one.
-	 */
+	@Override
+	protected String checkIfGameOver() {
+		if(!gameState.getPlayerHasKing(0)){
+			return playerNames[1] +" has won!";
+		}
+		if(!gameState.getPlayerHasKing(1)){
+			return playerNames[0] +" has won!";
+		}
+		return null;
+	}
+
 	@Override
 	protected boolean makeMove(GameAction action) {
+		//Shogi Move Action
+		if(action instanceof ShogiMoveAction){
+			ShogiMoveAction sma = ((ShogiMoveAction)action);
+			Piece[][] newBoard = gameState.getBoard();
 
-		// get the row and column position of the player's move
-		ShogiMoveAction tm = (ShogiMoveAction) action;
-		int row = tm.getRow();
-		int col = tm.getCol();
+			int row = sma.destRow;
+			int col = sma.destCol;
 
-		// get the 0/1 id of our player
-		int playerId = getPlayerIdx(tm.getPlayer());
+			//if possible, capture the piece at the given spot
+			if(newBoard[row][col] != null && gameState.getWhoseMove() == 0
+					&& newBoard[row][col].getPlayer() != 0){
+				if(newBoard[row][col].getType() == Piece.PieceType.KING) {gameState.setPlayerHasKing(1);}
+				else if(newBoard[row][col].getType() == Piece.PieceType.PAWN){
+					gameState.capturep0(new Piece(null, Piece.PieceType.PAWN,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.LANCE){
+					gameState.capturep0(new Piece(null, Piece.PieceType.LANCE,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.KNIGHT){
+					gameState.capturep0(new Piece(null, Piece.PieceType.LANCE,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL){
+					gameState.capturep0(new Piece(null, Piece.PieceType.SILVERGENERAL,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL){
+					gameState.capturep0(new Piece(null, Piece.PieceType.GOLDGENERAL,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.ROOK){
+					gameState.capturep0(new Piece(null, Piece.PieceType.ROOK,0));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.BISHOP){
+					gameState.capturep0(new Piece(null, Piece.PieceType.BISHOP,0));
+				}
+					newBoard[row][col] = null;
+			}
 
-		// if that space is not blank, indicate an illegal move
-		if (state.getPiece(row, col) != ' ') {
-			return false;
+			else if(newBoard[row][col] != null && gameState.getWhoseMove() == 1
+					&& newBoard[row][col].getPlayer() != 1){
+				if(newBoard[row][col].getType() == Piece.PieceType.KING) {gameState.setPlayerHasKing(0);}
+				else if(newBoard[row][col].getType() == Piece.PieceType.PAWN){
+					gameState.capturep1(new Piece(null, Piece.PieceType.PAWN,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.LANCE){
+					gameState.capturep1(new Piece(null, Piece.PieceType.LANCE,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.KNIGHT){
+					gameState.capturep1(new Piece(null, Piece.PieceType.LANCE,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL){
+					gameState.capturep1(new Piece(null, Piece.PieceType.SILVERGENERAL,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL){
+					gameState.capturep1(new Piece(null, Piece.PieceType.GOLDGENERAL,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.ROOK){
+					gameState.capturep1(new Piece(null, Piece.PieceType.ROOK,1));
+				}
+				else if(newBoard[row][col].getType() == Piece.PieceType.BISHOP){
+					gameState.capturep1(new Piece(null, Piece.PieceType.BISHOP,1));
+				}
+				newBoard[row][col] = null;
+			}
+
+			//Create piece in new spot
+			newBoard[row][col] = new Piece(null, sma.thisPiece.getType(), row, col, gameState.getWhoseMove());
+			newBoard[row][col].setPlayer(sma.thisPiece.getPlayer());
+			newBoard[sma.srcRow][sma.srcCol] = null;
+
+
+			//forced promotion for piece if in proper zone
+			if(row < 3 && row >= 0 && newBoard[row][col].getPlayer() == 1){
+				newBoard[row][col] = new Piece(null,
+						newBoard[row][col].getPromotedPiece(), row, col, 1);
+			}
+
+			if(row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0){
+				newBoard[row][col] = new Piece(null,
+						newBoard[row][col].getPromotedPiece(), row, col, 0);
+			}
+
+			gameState.setBoard(newBoard);
+
+
+			if(gameState.getWhoseMove() == 1){ gameState.setWhoseMove(0); }
+			else if(gameState.getWhoseMove() == 0){ gameState.setWhoseMove(1); }
+			return true;
 		}
-
-		// get the 0/1 id of the player whose move it is
-		int whoseMove = state.getWhoseMove();
-
-		// place the player's piece on the selected square
-		state.setPiece(row, col, mark[playerId]);
-
-		// make it the other player's turn
-		state.setWhoseMove(1-whoseMove);
-
-		// bump the move count
-		moveCount++;
-		
-		// return true, indicating the it was a legal move
 		return true;
 	}
-
 }

@@ -11,8 +11,30 @@ public class Piece {
     private Bitmap myBitmap;
     private int player = 0;
 
+
+    PieceType getPromotedPiece() {
+        if (this.getType() == PieceType.PAWN){
+            return PieceType.P_PAWN;
+        }
+        if (this.getType() == PieceType.KNIGHT){
+            return PieceType.P_KNIGHT;
+        }
+        if (this.getType() == PieceType.ROOK){
+            return PieceType.P_ROOK;
+        }
+        if (this.getType() == PieceType.LANCE){
+            return PieceType.P_LANCE;
+        }
+        if(this.getType() == PieceType.SILVERGENERAL){
+            return PieceType.P_SILVER;
+        }
+        else return null;
+    }
+
+
     enum PieceType {
-        BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL;
+        BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL,
+        P_BISHOP, P_ROOK, P_SILVER, P_PAWN, P_LANCE, P_KNIGHT
     }
 
     Piece(Bitmap bitmap, PieceType type, int row, int column, int player) {
@@ -20,6 +42,12 @@ public class Piece {
         this.setMyType(type);
         this.row = row;
         this.column = column;
+        this.player = player;
+    }
+
+    Piece(Bitmap bitmap, PieceType type, int player) { //for captured piece purposes
+        this.setMyBitmap(bitmap);
+        this.setMyType(type);
         this.player = player;
     }
 

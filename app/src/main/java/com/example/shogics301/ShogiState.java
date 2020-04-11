@@ -43,6 +43,7 @@ public class ShogiState extends GameState {
 
     private boolean[] playersHaveKing = {true, true};
 
+
     /**
      * Constructor for objects of class ShogiState
      */
@@ -122,32 +123,6 @@ public class ShogiState extends GameState {
                 myPiece = new Piece(null, Piece.PieceType.KING, row, col, 1);
                 pieces[row][col] = myPiece;
             }
-        }
-        for(row = 0; row < 9; row++){
-            for (col = 0; col < 9; col++){
-                if (pieces[row][col].getType() == Piece.PieceType.KING){
-                    board[row][col] = 'K';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.KNIGHT){
-                    board[row][col] = 'N';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.ROOK){
-                    board[row][col] = 'R';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.BISHOP){
-                    board[row][col] = 'B';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.GOLDGENERAL){
-                    board[row][col] = 'G';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.SILVERGENERAL){
-                    board[row][col] = 'S';
-                }
-                if (pieces[row][col].getType() == Piece.PieceType.PAWN){
-                    board[row][col] = 'P';
-                }
-            }
-
         }
         // make it player 0's move
         playerToMove = 0;
@@ -248,15 +223,19 @@ public class ShogiState extends GameState {
     }
 
     public ArrayList<ShogiMoveAction> getHistory() { return moves; }
-
     public void recordHistory(ShogiMoveAction move) { moves.add(move); }
 
-    public void capturep0 (Piece captured) { drops0.add(captured); }
-    public void capturep1 (Piece captured) { drops1.add(captured); }
     public ArrayList<Piece> getDrops0() {return drops0;}
     public ArrayList<Piece> getDrops1() {return drops1;}
+    public void capturep0 (Piece captured) { drops0.add(captured); }
+    public void capturep1 (Piece captured) { drops1.add(captured); }
 
-    public char[][] getBoard() {
-        return board;
-    }
+
+    public Piece[][] getBoard() { return pieces; }
+    public void setBoard(Piece[][] pieces) { this.pieces = pieces; }
+
+    public boolean getPlayerHasKing(int i) { return playersHaveKing[i]; }
+    public void setPlayerHasKing(int i) { playersHaveKing[i] = !playersHaveKing[i]; }
+
+
 }
