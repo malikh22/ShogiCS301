@@ -61,27 +61,53 @@ public class ShogiGui extends SurfaceView {
 
         //human piece objects
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
-        humanKing = Bitmap.createScaledBitmap(humanKing, 45, 50, false);
+        humanKing = Bitmap.createScaledBitmap(humanKing, 120, 120, false);
 
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
-        humanSG = Bitmap.createScaledBitmap(humanSG, 45, 50, false);
+        humanSG = Bitmap.createScaledBitmap(humanSG, 120, 120, false);
 
         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        humanGG = Bitmap.createScaledBitmap(humanGG, 120, 120, false);
+
         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        humanPawn = Bitmap.createScaledBitmap(humanPawn, 120, 120, false);
+
         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        humanBishop = Bitmap.createScaledBitmap(humanBishop, 120, 120, false);
+
         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        humanLance = Bitmap.createScaledBitmap(humanLance, 120, 120, false);
+
         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
+        humanRook = Bitmap.createScaledBitmap(humanRook, 120, 120, false);
+
         humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        humanKnight = Bitmap.createScaledBitmap(humanKnight, 120, 120, false);
 
         //computer piece objects
         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
+        computerKing = Bitmap.createScaledBitmap(computerKing, 120, 120, false);
+
         computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
+        computerSG = Bitmap.createScaledBitmap(computerSG, 120, 120, false);
+
         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
+        computerGG = Bitmap.createScaledBitmap(computerGG, 120, 120, false);
+
         computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
+        computerPawn = Bitmap.createScaledBitmap(computerPawn, 120, 120, false);
+
         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
+        computerBishop = Bitmap.createScaledBitmap(computerBishop, 120, 120, false);
+
         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
+        computerLance = Bitmap.createScaledBitmap(computerLance, 120, 120, false);
+
         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
+        computerRook = Bitmap.createScaledBitmap(computerRook, 120, 120, false);
+
         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
+        computerKnight = Bitmap.createScaledBitmap(computerKnight, 120, 120, false);
 
     }
 
@@ -126,8 +152,8 @@ public class ShogiGui extends SurfaceView {
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
                 if (myPieces[k][l] != null) {
-                    float left = (myPieces[k][l].getColumn() * 200);
-                    float top = 200 + (myPieces[k][l].getRow() * 200);
+                    float left = 90 + (myPieces[k][l].getColumn() * 150);
+                    float top = 290 + (myPieces[k][l].getRow() * 150);
                     //draws opponent pieces
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
                             && myPieces[k][l].getPlayer() == 1) {
