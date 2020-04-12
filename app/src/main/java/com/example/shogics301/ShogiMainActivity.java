@@ -19,10 +19,11 @@ import java.util.ArrayList;
 
 import static com.example.shogics301.R.layout.activity_main;
 
-public class ShogiMainActivity extends AppCompatActivity implements Serializable {
+public class ShogiMainActivity extends GameMainActivity implements Serializable {
     private static final long serialVersionUID = 42978563847L;
     private static final int PORT_NUMBER = 3452;
 
+    @Override
     public GameConfig createDefaultConfig() {
 
         // Define the allowed player types
@@ -31,33 +32,13 @@ public class ShogiMainActivity extends AppCompatActivity implements Serializable
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new ShogiHumanPlayer(name) {
-                    @Override
-                    public void setAsGui(GameMainActivity activity) {
-
-                    }
-
-                    @Override
-                    public View getTopView() {
-                        return null;
-                    }
-
-                    @Override
-                    public void receiveInfo(GameInfo info) {
-
-                    }
-                };
+                return new ShogiHumanPlayer(name);
             }});
 
         // a computer player type (player type 1)
         playerTypes.add(new GamePlayerType("Dumb Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new ShogiDumbAI(name) {
-                    @Override
-                    protected void receiveInfo(GameInfo info) {
-
-                    }
-                };
+                return new ShogiDumbAI(name);
             }});
 
         // a computer player type (player type 2)
@@ -93,21 +74,8 @@ public class ShogiMainActivity extends AppCompatActivity implements Serializable
         return defaultConfig;
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(activity_main);
-
-
-
-    }
-
     public LocalGame createLocalGame() {
         return new ShogiLocalGame();
     }
 
 }
-
-
-

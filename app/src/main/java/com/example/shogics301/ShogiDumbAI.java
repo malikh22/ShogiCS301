@@ -29,7 +29,6 @@ import java.util.Random;
  * should be sub-classed to implement different AIs. The subclass must implement
  * the {@link #receiveInfo} method.
  *
- * TODO: Update AI behavior
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll

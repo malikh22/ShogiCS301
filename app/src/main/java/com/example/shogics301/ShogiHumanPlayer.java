@@ -1,5 +1,7 @@
 package com.example.shogics301;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +25,7 @@ import com.example.shogics301.GameFramework.infoMessage.GameInfo;
  * @version July 2013
  *
  */
-public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
+public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
     private GameMainActivity myActivity;
     private ShogiState state;
     private Piece[][] myPieces;
@@ -31,7 +33,7 @@ public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.O
     private Integer rowSel, colSel;
     private ShogiGui gui;
     private boolean hasKing = true;
-
+    private ShogiGui topView;
     /**
      * constructor
      *
@@ -39,6 +41,8 @@ public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.O
      */
     public ShogiHumanPlayer(String name) { super(name); }
 
+    @Override
+    public View getTopView() { return topView; }
 
 
     /**
@@ -67,6 +71,7 @@ public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.O
      *
      * @param activity the main activity
      */
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     public void setAsGui(GameMainActivity activity) {
         // remember the activity
@@ -74,7 +79,9 @@ public abstract class ShogiHumanPlayer extends GameHumanPlayer implements View.O
 
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
-        myActivity.findViewById(R.id.shogiBoard).setOnTouchListener(this);
+        topView =(ShogiGui)myActivity.findViewById(R.id.shogiBoard);
+        myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        topView.setOnTouchListener(this);
 
         // GUI values are updated
         if (state != null) {

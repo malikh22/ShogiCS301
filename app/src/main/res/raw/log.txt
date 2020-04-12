@@ -23,5 +23,12 @@ Solution: I took a code snippet from here to give me a simple method that rotate
 Where to find: ShogiGUI, RotateBitmap method
 -HM (malikh22)
 
+Date: 4/12/2020
+Problem: needed to lock orientation to portrait
+Source: Dr. Vegdahl
+Solution: I used this line:
+    myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+Where to find: ShogiHumanPlayer
+-HM (malikh22)
 
 
