@@ -130,11 +130,13 @@ public class ShogiLocalGame extends LocalGame {
 						newBoard[row][col].getPromotedPiece(), row, col, 1);
 			}
 
-			if(row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0){
-				newBoard[row][col] = new Piece(null,
-						newBoard[row][col].getPromotedPiece(), row, col, 0);
-			}
 
+			if(newBoard[row][col] != null) {
+				if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
+					newBoard[row][col] = new Piece(null,
+							newBoard[row][col].getPromotedPiece(), row, col, 0);
+				}
+			}
 			gameState.setBoard(newBoard);
 
 
