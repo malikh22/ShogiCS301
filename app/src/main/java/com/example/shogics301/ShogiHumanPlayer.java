@@ -207,8 +207,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 if (gui.pieceIsSelected && (myPieces[row][col] == null || myPieces[row][col].getPlayer() == 1)) {
                     Log.d("touched8: ", "move the piece ");
                     // move the piece
+                    Log.d("touched8: ", "send the action ");
                     game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
-                    Log.d("touched8: ", "move the piece ");
+                    Log.d("touched8: ", "sent the action ");
                     //reset
                     havePieceSelected = false;
                     rowSel = -1;
