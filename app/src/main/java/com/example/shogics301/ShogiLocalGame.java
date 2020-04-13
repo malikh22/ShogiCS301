@@ -126,6 +126,7 @@ public class ShogiLocalGame extends LocalGame {
 			}
 			else {
 				newBoard[row][col] = sma.thisPiece;
+				newBoard[sma.srcRow][sma.srcCol] = null;
 			}
 
 			gameState.setBoard(newBoard);
