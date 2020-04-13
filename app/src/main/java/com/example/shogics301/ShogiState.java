@@ -1,5 +1,6 @@
 package com.example.shogics301;
 
+import com.example.shogics301.GameFramework.LocalGame;
 import com.example.shogics301.GameFramework.infoMessage.GameState;
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class ShogiState extends GameState {
 	
 	// the 9x9 array of char that represents the pieces on the board
     private char[][] board = new char[9][9];
+
+    private Piece[][] pieces;
     
     // an int that tells whose move it is
     private int playerToMove;
@@ -38,19 +41,89 @@ public class ShogiState extends GameState {
     //history of moves
     private ArrayList<ShogiMoveAction> moves;
 
+    private boolean[] playersHaveKing = {true, true};
+
+
     /**
      * Constructor for objects of class ShogiState
      */
-    public ShogiState()
+    ShogiState()
     {
         // initialize the state to be a brand new game
-        board = new char[9][9];
-        for (int i = 0; i < 9; i++) {
-        	for (int j = 0; j < 9; j++) {
-        		board[i][j] = ' ';
-        	}
+        Piece myPiece;
+        pieces = new Piece[9][9];
+
+        //opponent pawns
+        int row = 2;
+        //for setting up init state
+        int col;
+        for(col = 0; col < 9; col++){
+            myPiece = new Piece(null, Piece.PieceType.PAWN, row, col, 1);
+            pieces[row][col] = myPiece;
         }
-        
+
+        //player pawns
+        row = 6;
+        for(col = 0; col < 9; col++){
+            myPiece = new Piece(null, Piece.PieceType.PAWN, row, col, 0);
+            pieces[row][col] = myPiece;
+        }
+        //opponent bishop
+        myPiece = new Piece(null, Piece.PieceType.BISHOP, 1, 7, 1);
+        pieces[1][7] = myPiece;
+
+        //player bishop
+        myPiece = new Piece(null, Piece.PieceType.BISHOP, 7, 1, 0);
+        pieces[7][1] = myPiece;
+
+       //opponent rook
+        myPiece = new Piece(null, Piece.PieceType.ROOK, 1,1, 1);
+        pieces[1][1] = myPiece;
+
+        //player rook
+        myPiece = new Piece(null, Piece.PieceType.ROOK, 7,7, 0);
+        pieces[7][7] = myPiece;
+
+        //opponent back row
+        row = 0;
+        for(col = 0; col < 9; col++){
+            if(col == 0 || col == 8){
+                myPiece = new Piece(null, Piece.PieceType.LANCE, row, col, 1);
+                pieces[row][col] = myPiece;
+            }else if(col == 1 || col == 7){
+                myPiece = new Piece(null, Piece.PieceType.KNIGHT, row, col, 1);
+                pieces[row][col] = myPiece;
+            }else if(col == 2 || col == 6){
+                myPiece = new Piece(null, Piece.PieceType.SILVERGENERAL, row, col, 1);
+                pieces[row][col] = myPiece;
+            }else if(col == 3 || col == 5){
+                myPiece = new Piece(null, Piece.PieceType.GOLDGENERAL, row, col, 1);
+                pieces[row][col] = myPiece;
+            }else{
+                myPiece = new Piece(null, Piece.PieceType.KING, row, col, 1);
+                pieces[row][col] = myPiece;
+            }
+        }
+        //player back row
+        row = 8;
+        for(col = 0; col < 9; col++){
+            if(col == 0 || col == 8){
+                myPiece = new Piece(null, Piece.PieceType.LANCE, row, col, 0);
+                pieces[row][col] = myPiece;
+            }else if(col == 1 || col == 7){
+                myPiece = new Piece(null, Piece.PieceType.KNIGHT, row, col, 0);
+                pieces[row][col] = myPiece;
+            }else if(col == 2 || col == 6){
+                myPiece = new Piece(null, Piece.PieceType.SILVERGENERAL, row, col, 0);
+                pieces[row][col] = myPiece;
+            }else if(col == 3 || col == 5){
+                myPiece = new Piece(null, Piece.PieceType.GOLDGENERAL, row, col, 0);
+                pieces[row][col] = myPiece;
+            }else{
+                myPiece = new Piece(null, Piece.PieceType.KING, row, col, 0);
+                pieces[row][col] = myPiece;
+            }
+        }
         // make it player 0's move
         playerToMove = 0;
     }// constructor
@@ -61,14 +134,16 @@ public class ShogiState extends GameState {
      * @param original
      * 		the ShogiState object that we want to clone
      */
-    public ShogiState(ShogiState original)
+    ShogiState(ShogiState original)
     {
     	// create a new 9x9 array, and copy the values from
     	// the original
     	board = new char[9][9];
+    	pieces = new Piece[9][9];
     	for (int i = 0; i < 9; i++) {
     		for (int j = 0; j < 9; j++) {
     			board[i][j] = original.board[i][j];
+    			pieces[i][j] = original.pieces[i][j];
     		}
     	}
     	
@@ -83,6 +158,9 @@ public class ShogiState extends GameState {
 
         //copy history of moves
         moves = original.moves;
+
+        //copy original check for kings
+        playersHaveKing = original.playersHaveKing;
 
 
     }
@@ -117,7 +195,7 @@ public class ShogiState extends GameState {
      * @param
      * 		piece the piece to place
      */
-    public void setPiece(int row, int col, char piece) {
+    void setPiece(int row, int col, char piece) {
         // if we're out of bounds or anything, return;
         if (board == null || row < 0 || col < 0) return;
         if (row >= board.length || col >= board[row].length) return;
@@ -131,7 +209,7 @@ public class ShogiState extends GameState {
      * 
      * @return the index (0 or 1) of the player whose move it is.
      */
-    public int getWhoseMove() {
+    int getWhoseMove() {
         return playerToMove;
     }
     
@@ -140,16 +218,24 @@ public class ShogiState extends GameState {
      * @param id
      * 		the player we want to set as to whose move it is
      */
-    public void setWhoseMove(int id) {
+    void setWhoseMove(int id) {
     	playerToMove = id;
     }
 
     public ArrayList<ShogiMoveAction> getHistory() { return moves; }
-
     public void recordHistory(ShogiMoveAction move) { moves.add(move); }
 
-    public void capturep0 (Piece captured) { drops0.add(captured); }
-    public void capturep1 (Piece captured) { drops1.add(captured); }
     public ArrayList<Piece> getDrops0() {return drops0;}
     public ArrayList<Piece> getDrops1() {return drops1;}
+    public void capturep0 (Piece captured) { drops0.add(captured); }
+    public void capturep1 (Piece captured) { drops1.add(captured); }
+
+
+    public Piece[][] getBoard() { return pieces; }
+    public void setBoard(Piece[][] pieces) { this.pieces = pieces; }
+
+    public boolean getPlayerHasKing(int i) { return playersHaveKing[i]; }
+    public void setPlayerHasKing(int i) { playersHaveKing[i] = !playersHaveKing[i]; }
+
+
 }

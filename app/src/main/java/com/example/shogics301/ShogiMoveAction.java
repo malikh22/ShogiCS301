@@ -3,6 +3,8 @@ package com.example.shogics301;
 import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.actionMessage.GameAction;
 
+import java.io.Serializable;
+
 /**
  * A game-move object that a Shogi player sends to the game to make
  * a move.
@@ -11,44 +13,51 @@ import com.example.shogics301.GameFramework.actionMessage.GameAction;
  * @author Hera Malik
  * @version March 2020
  */
-public class ShogiMoveAction extends GameAction {
+public class ShogiMoveAction extends GameAction implements Serializable {
     //Tag for logging
     private static final String TAG = "ShogiMoveAction";
 	private static final long serialVersionUID = -2242980258970485343L;
 	
 	// instance variables: the selected row and column
-    private int row;
-    private int col;
+    private Piece capturedPiece;
+    public int destRow, destCol, srcRow, srcCol;
+    public Piece thisPiece;
+    public Piece[][] board = new Piece[9][9];
 
     /**
      * Constructor for ShogiMoveAction
+     /**
+     * constructor for GameAction
      *
-     //@param source the player making the move
-     * @param row the row of the square selected (0-8)
-     * @param col the column of the square selected
+     * @param player the player who created the action
+     * @param piece the piece to be moved
+     * @param destRow the new row to which shogiPiece Piece will be moved
+     * @param destCol the new column to which shogiPiece Piece will be moved
      */
-    public ShogiMoveAction(GamePlayer player, int row, int col)
-    {
-        // invoke superclass constructor to set the player
+    public ShogiMoveAction(GamePlayer player, Piece piece, int destRow,
+                           int destCol, int srcRow, int srcCol) {
         super(player);
+        this.thisPiece = new Piece(piece.getMyBitmap(), piece.getType(), piece.getRow(),
+                piece.getColumn(), piece.getPlayer());
+        this.thisPiece.setPlayer(piece.getPlayer());
 
-        // set the row and column as passed to us
-        this.row = Math.max(0, Math.min(8, row));
-        this.col = Math.max(0, Math.min(8, col));
+        this.destRow = destRow;
+        this.destCol = destCol;
+        this.srcRow = srcRow;
+        this.srcCol = srcCol;
     }
 
-    /**
-     * get the object's row
-     *
-     * @return the row selected
-     */
-    public int getRow() { return row; }
+    public ShogiMoveAction(GamePlayer player, Piece[][] board){
+        super(player);
+        this.board = board;
+    }
 
-    /**
-     * get the object's column
-     *
-     * @return the column selected
-     */
-    public int getCol() { return col; }
+    int getRow() {
+        return destRow;
+    }
 
+    int getCol() {
+        return destCol;
+    }
 }
+

@@ -96,81 +96,81 @@ public class ShogiGui extends SurfaceView {
         board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
 
 
-        //the following board set up is for the start of the game
+        //the following board set up is for the start of the game 
 
         //human piece objects
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
-        humanKingPiece = new Piece(humanKing, Piece.PieceType.KING, 8, 4);
+        humanKingPiece = new Piece(humanKing, Piece.PieceType.KING, 8, 4,0);
 
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
-        humanSGPiece = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 2);
-        humanSGPiece1 = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 6);
+        humanSGPiece = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 2,0);
+        humanSGPiece1 = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 6,0);
 
         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
-        humanGGPiece = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 3);
-        humanGGPiece1 = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 5);
+        humanGGPiece = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 3,0);
+        humanGGPiece1 = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 5,0);
 
         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
-        humanPawnPiece = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 0);
-        humanPawnPiece1 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 1);
-        humanPawnPiece2 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 2);
-        humanPawnPiece3 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 3);
-        humanPawnPiece4 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 4);
-        humanPawnPiece5 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 5);
-        humanPawnPiece6 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 6);
-        humanPawnPiece7 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 7);
-        humanPawnPiece8 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 8);
+        humanPawnPiece = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 0,0);
+        humanPawnPiece1 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 1,0);
+        humanPawnPiece2 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 2,0);
+        humanPawnPiece3 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 3,0);
+        humanPawnPiece4 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 4,0);
+        humanPawnPiece5 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 5,0);
+        humanPawnPiece6 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 6,0);
+        humanPawnPiece7 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 7,0);
+        humanPawnPiece8 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 8,0);
 
         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
-        humanBishopPiece = new Piece(humanBishop, Piece.PieceType.BISHOP, 7, 1);
+        humanBishopPiece = new Piece(humanBishop, Piece.PieceType.BISHOP, 7, 1,0);
 
         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
-        humanLancePiece = new Piece(humanLance, Piece.PieceType.LANCE, 8, 0);
+        humanLancePiece = new Piece(humanLance, Piece.PieceType.LANCE, 8, 0,0);
 
         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
-        humanRookPiece = new Piece(humanRook, Piece.PieceType.ROOK, 7, 7);
+        humanRookPiece = new Piece(humanRook, Piece.PieceType.ROOK, 7, 7,0);
 
         humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
-        humanKnightPiece = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 1);
-        humanKnightPiece1 = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 7);
+        humanKnightPiece = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 1,0);
+        humanKnightPiece1 = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 7,0);
 
 
         //computer piece objects
         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
-        computerKingPiece = new Piece(computerKing, Piece.PieceType.KING, 0, 4);
+        computerKingPiece = new Piece(computerKing, Piece.PieceType.KING, 0, 4,1);
 
         computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
-        computerSGPiece = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 2);
-        computerSGPiece1 = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 6);
+        computerSGPiece = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 2,1);
+        computerSGPiece1 = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 6,1);
 
         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
-        computerGGPiece = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 3);
-        computerGGPiece1 = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 5);
+        computerGGPiece = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 3,1);
+        computerGGPiece1 = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 5,1);
 
         computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
-        computerPawnPiece = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 0);
-        computerPawnPiece1 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 1);
-        computerPawnPiece2 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 2);
-        computerPawnPiece3 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 3);
-        computerPawnPiece4 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 4);
-        computerPawnPiece5 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 5);
-        computerPawnPiece6 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 6);
-        computerPawnPiece7 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 7);
-        computerPawnPiece8 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 8);
+        computerPawnPiece = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 0,1);
+        computerPawnPiece1 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 1,1);
+        computerPawnPiece2 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 2,1);
+        computerPawnPiece3 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 3,1);
+        computerPawnPiece4 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 4,1);
+        computerPawnPiece5 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 5,1);
+        computerPawnPiece6 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 6,1);
+        computerPawnPiece7 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 7,1);
+        computerPawnPiece8 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 8,1);
 
         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
-        computerBishopPiece = new Piece(computerBishop, Piece.PieceType.BISHOP, 1, 7);
+        computerBishopPiece = new Piece(computerBishop, Piece.PieceType.BISHOP, 1, 7,1);
 
         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
-        computerLancePiece = new Piece(computerLance, Piece.PieceType.LANCE, 0, 0);
-        computerLancePiece1 = new Piece(computerLance, Piece.PieceType.LANCE, 0, 8);
+        computerLancePiece = new Piece(computerLance, Piece.PieceType.LANCE, 0, 0,1);
+        computerLancePiece1 = new Piece(computerLance, Piece.PieceType.LANCE, 0, 8,1);
 
         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
-        computerRookPiece = new Piece(computerRook, Piece.PieceType.ROOK, 1, 1);
+        computerRookPiece = new Piece(computerRook, Piece.PieceType.ROOK, 1, 1,1);
 
         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
-        computerKnightPiece = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 1);
-        computerKnightPiece1 = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 7);
+        computerKnightPiece = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 1,1);
+        computerKnightPiece1 = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 7,1);
 
 
     }
