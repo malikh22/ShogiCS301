@@ -143,8 +143,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         }
         gui.pieceIsSelected = true;
         havePieceSelected = true;
-        for(int i = 0; i < gui.myPieces.length - 1; i++){
-            for(int j = 0; j < gui.myPieces[0].length - 1; i++){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
                 if(gui.myPieces[i][j] != null) {
                     if (gui.myPieces[i][j].getRow() == row && gui.myPieces[i][j].getColumn() == col) {
                         gui.myPieces[row][col].setSelected(true);
@@ -182,7 +182,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     else {
                         Log.d("touchedf: ", "deselect ");
                         //find and deselect the currently selected piece
-                        for (int i = 1; i < 9; i++) {
+                        for (int i = 0; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
                                 if (myPieces[i][j] != null) {
                                     if (myPieces[i][j].isSelected()) {
