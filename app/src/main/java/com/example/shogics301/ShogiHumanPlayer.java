@@ -170,10 +170,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
                     // deselect the currently selected piece and select the other tapped piece
                     else {
-
                         Log.d("touchedf: ", "deselect ");
-
-
                         //find and deselect the currently selected piece
                         for (int i = 1; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
@@ -184,9 +181,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                                 }
                             }
                         }
-
                         Log.d("touchedg: ", "select new piece ");
-
                         //select the newly tapped piece
                         myPieces[row][col].setSelected(true);
                         gui.pieceIsSelected = true;
@@ -196,30 +191,35 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
                     }
                 }
-                Log.d("touched8: ", "move the piece ");
 
-
-                // move the piece
-                game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
-                Log.d("touched8: ", "move the piece ");
-                //reset
-                havePieceSelected = false;
-                rowSel = -1;
-                colSel = -1;
-
-
+                if (gui.pieceIsSelected && (myPieces[row][col] == null || myPieces[row][col].getPlayer() == 1)) {
+                    Log.d("touched8: ", "move the piece ");
+                    // move the piece
+                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+                    Log.d("touched8: ", "move the piece ");
+                    //reset
+                    havePieceSelected = false;
+                    rowSel = -1;
+                    colSel = -1;
+                }
+                else {
+                    Log.d("touched9: ", "move the piece ");
+                    // move the piece
+                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+                    Log.d("touched9: ", "move the piece ");
+                    //reset
+                    havePieceSelected = false;
+                    rowSel = -1;
+                    colSel = -1;
+                }
             }
-
             //leave everything as it is
             return true;
-
         }
-
         //redraw board with myPieces updated
         Log.d("touched4: ", "before invalidate called");
         gui.invalidate();
         Log.d("touched5: ", "after invalidate called");
-
         //done
         return true;
     }
