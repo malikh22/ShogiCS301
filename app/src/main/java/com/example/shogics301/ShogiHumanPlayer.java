@@ -221,8 +221,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     Log.d("touched9: ", "move the piece ");
                     //reset
                     havePieceSelected = false;
-                    rowSel = -1;
-                    colSel = -1;
+                    rowSel = 0;
+                    colSel = 0;
                 }
             }
             //leave everything as it is
