@@ -145,8 +145,10 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         havePieceSelected = true;
         for(int i = 0; i < gui.myPieces.length; i++){
             for(int j = 0; j < gui.myPieces[0].length; i++){
-                if (gui.myPieces[i][j].getRow() == row && gui.myPieces[i][j].getColumn() == col){
-                    gui.myPieces[row][col].setSelected(true);
+                if(gui.myPieces[i][j] != null) {
+                    if (gui.myPieces[i][j].getRow() == row && gui.myPieces[i][j].getColumn() == col) {
+                        gui.myPieces[row][col].setSelected(true);
+                    }
                 }
             }
         }
