@@ -96,7 +96,7 @@ public class ShogiGui extends SurfaceView {
         board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
 
 
-        //the following board set up is for the start of the game 
+        //the following board set up is for the start of the game
 
         //human piece objects
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
