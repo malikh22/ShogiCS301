@@ -29,7 +29,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private ShogiState state;
     private Piece[][] myPieces;
     private boolean havePieceSelected = false;
-    private Integer rowSel, colSel;
+    private int rowSel = 0, colSel = 0;
     private ShogiGui gui;
     private boolean hasKing = true;
     private ShogiGui topView;
@@ -148,6 +148,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 if(gui.myPieces[i][j] != null) {
                     if (gui.myPieces[i][j].getRow() == row && gui.myPieces[i][j].getColumn() == col) {
                         gui.myPieces[row][col].setSelected(true);
+                        rowSel = row;
+                        colSel = col;
                     }
                 }
             }
