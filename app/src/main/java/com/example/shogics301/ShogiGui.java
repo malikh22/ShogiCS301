@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -21,9 +22,14 @@ import static com.example.shogics301.R.drawable.shougi_board;
  */
 
 public class ShogiGui extends SurfaceView {
+    public Piece myPieces[][];
+
 
     //instance values for board creation
     public static final float space = 150; //150 is height/width of rows & cols
+    public static final float topLeftX = 25 + space / 2; //95 is good
+    public static final float topLeftY = 125; //350 is good
+    public boolean pieceIsSelected;
     private Bitmap board;
     private Bitmap humanKing;
     private Bitmap humanSG;
@@ -33,6 +39,8 @@ public class ShogiGui extends SurfaceView {
     private Bitmap humanLance;
     private Bitmap humanRook;
     private Bitmap humanKnight;
+
+
     private Bitmap computerKing;
     private Bitmap computerSG;
     private Bitmap computerGG;
@@ -42,47 +50,6 @@ public class ShogiGui extends SurfaceView {
     private Bitmap computerKnight;
     private Bitmap computerBishop;
 
-    private Piece humanKingPiece;
-    private Piece humanSGPiece;
-    private Piece humanGGPiece;
-    private Piece humanSGPiece1;
-    private Piece humanGGPiece1;
-    private Piece humanPawnPiece;
-    private Piece humanPawnPiece1;
-    private Piece humanPawnPiece2;
-    private Piece humanPawnPiece3;
-    private Piece humanPawnPiece4;
-    private Piece humanPawnPiece5;
-    private Piece humanPawnPiece6;
-    private Piece humanPawnPiece7;
-    private Piece humanPawnPiece8;
-    private Piece humanBishopPiece;
-    private Piece humanLancePiece;
-    private Piece humanRookPiece;
-    private Piece humanKnightPiece;
-    private Piece humanKnightPiece1;
-
-
-    private Piece computerKingPiece;
-    private Piece computerSGPiece;
-    private Piece computerSGPiece1;
-    private Piece computerGGPiece;
-    private Piece computerGGPiece1;
-    private Piece computerPawnPiece;
-    private Piece computerPawnPiece1;
-    private Piece computerPawnPiece2;
-    private Piece computerPawnPiece3;
-    private Piece computerPawnPiece4;
-    private Piece computerPawnPiece5;
-    private Piece computerPawnPiece6;
-    private Piece computerPawnPiece7;
-    private Piece computerPawnPiece8;
-    private Piece computerLancePiece;
-    private Piece computerLancePiece1;
-    private Piece computerRookPiece;
-    private Piece computerKnightPiece;
-    private Piece computerKnightPiece1;
-    private Piece computerBishopPiece;
 
     Paint square = new Paint();
     Point size = new Point();
@@ -95,83 +62,67 @@ public class ShogiGui extends SurfaceView {
         board = BitmapFactory.decodeResource(getResources(), shougi_board);
         board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
 
+        myPieces = new ShogiState().getBoard();
 
-        //the following board set up is for the start of the game 
 
         //human piece objects
         humanKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
-        humanKingPiece = new Piece(humanKing, Piece.PieceType.KING, 8, 4,0);
+        humanKing = Bitmap.createScaledBitmap(humanKing, 120, 120, false);
+
 
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
-        humanSGPiece = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 2,0);
-        humanSGPiece1 = new Piece(humanSG, Piece.PieceType.SILVERGENERAL, 8, 6,0);
+        humanSG = Bitmap.createScaledBitmap(humanSG, 120, 120, false);
 
         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
-        humanGGPiece = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 3,0);
-        humanGGPiece1 = new Piece(humanGG, Piece.PieceType.GOLDGENERAL, 8, 5,0);
+        humanGG = Bitmap.createScaledBitmap(humanGG, 120, 120, false);
 
         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
-        humanPawnPiece = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 0,0);
-        humanPawnPiece1 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 1,0);
-        humanPawnPiece2 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 2,0);
-        humanPawnPiece3 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 3,0);
-        humanPawnPiece4 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 4,0);
-        humanPawnPiece5 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 5,0);
-        humanPawnPiece6 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 6,0);
-        humanPawnPiece7 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 7,0);
-        humanPawnPiece8 = new Piece(humanPawn, Piece.PieceType.PAWN, 6, 8,0);
+        humanPawn = Bitmap.createScaledBitmap(humanPawn, 120, 120, false);
 
         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
-        humanBishopPiece = new Piece(humanBishop, Piece.PieceType.BISHOP, 7, 1,0);
+        humanBishop = Bitmap.createScaledBitmap(humanBishop, 120, 120, false);
 
         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
-        humanLancePiece = new Piece(humanLance, Piece.PieceType.LANCE, 8, 0,0);
+        humanLance = Bitmap.createScaledBitmap(humanLance, 120, 120, false);
 
         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
-        humanRookPiece = new Piece(humanRook, Piece.PieceType.ROOK, 7, 7,0);
+        humanRook = Bitmap.createScaledBitmap(humanRook, 120, 120, false);
 
         humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
-        humanKnightPiece = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 1,0);
-        humanKnightPiece1 = new Piece(humanKnight, Piece.PieceType.KNIGHT, 8, 7,0);
-
+        humanKnight = Bitmap.createScaledBitmap(humanKnight, 120, 120, false);
 
         //computer piece objects
         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
-        computerKingPiece = new Piece(computerKing, Piece.PieceType.KING, 0, 4,1);
+        computerKing = Bitmap.createScaledBitmap(computerKing, 120, 120, false);
+        computerKing = RotateBitmap(computerKing, 180);
 
         computerSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
-        computerSGPiece = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 2,1);
-        computerSGPiece1 = new Piece(computerSG, Piece.PieceType.SILVERGENERAL, 0, 6,1);
+        computerSG = Bitmap.createScaledBitmap(computerSG, 120, 120, false);
+        computerSG = RotateBitmap(computerSG, 180);
 
         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
-        computerGGPiece = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 3,1);
-        computerGGPiece1 = new Piece(computerGG, Piece.PieceType.GOLDGENERAL, 0, 5,1);
+        computerGG = Bitmap.createScaledBitmap(computerGG, 120, 120, false);
+        computerGG = RotateBitmap(computerGG, 180);
 
         computerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
-        computerPawnPiece = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 0,1);
-        computerPawnPiece1 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 1,1);
-        computerPawnPiece2 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 2,1);
-        computerPawnPiece3 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 3,1);
-        computerPawnPiece4 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 4,1);
-        computerPawnPiece5 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 5,1);
-        computerPawnPiece6 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 6,1);
-        computerPawnPiece7 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 7,1);
-        computerPawnPiece8 = new Piece(computerPawn, Piece.PieceType.PAWN, 2, 8,1);
+        computerPawn = Bitmap.createScaledBitmap(computerPawn, 120, 120, false);
+        computerPawn = RotateBitmap(computerPawn, 180);
 
         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
-        computerBishopPiece = new Piece(computerBishop, Piece.PieceType.BISHOP, 1, 7,1);
+        computerBishop = Bitmap.createScaledBitmap(computerBishop, 120, 120, false);
+        computerBishop = RotateBitmap(computerBishop, 180);
 
         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
-        computerLancePiece = new Piece(computerLance, Piece.PieceType.LANCE, 0, 0,1);
-        computerLancePiece1 = new Piece(computerLance, Piece.PieceType.LANCE, 0, 8,1);
+        computerLance = Bitmap.createScaledBitmap(computerLance, 120, 120, false);
+        computerLance = RotateBitmap(computerLance, 180);
 
         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
-        computerRookPiece = new Piece(computerRook, Piece.PieceType.ROOK, 1, 1,1);
+        computerRook = Bitmap.createScaledBitmap(computerRook, 120, 120, false);
+        computerRook = RotateBitmap(computerRook, 180);
 
         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
-        computerKnightPiece = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 1,1);
-        computerKnightPiece1 = new Piece(computerKnight, Piece.PieceType.KNIGHT, 0, 7,1);
-
+        computerKnight = Bitmap.createScaledBitmap(computerKnight, 120, 120, false);
+        computerKnight = RotateBitmap(computerKnight, 180);
 
     }
 
@@ -210,16 +161,107 @@ public class ShogiGui extends SurfaceView {
         }
 
 
-        //This draws the pieces from the array
-        //for iterating and managing the pieces array
-        //TODO: complete when we have a way to draw pieces
-        int j;
-        for (i = 0; i < 11; i++) {
-            for (j = 0; j < 9; j++) {
-                canvas.drawBitmap(humanKingPiece.getMyBitmap(), humanKingPiece.getRow(), humanKingPiece.getColumn(), null);
+        //This draws the pieces from the board
 
+        for (int k = 0; k < 9; k++) {
+            for (int l = 0; l < 9; l++) {
+                if (myPieces[k][l] != null) {
+                    float left = 90 + (myPieces[k][l].getColumn() * 150);
+                    float top = 290 + (myPieces[k][l].getRow() * 150);
+                    //draws opponent pieces
+                    if (myPieces[k][l].getType() == Piece.PieceType.PAWN
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerPawn);
+                        canvas.drawBitmap(computerPawn, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.KNIGHT
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerKnight);
+                        canvas.drawBitmap(computerKnight, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.ROOK
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerRook);
+                        canvas.drawBitmap(computerRook, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.BISHOP
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerBishop);
+                        canvas.drawBitmap(computerRook, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.KING
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerKing);
+                        canvas.drawBitmap(computerKing, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.GOLDGENERAL
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerGG);
+                        canvas.drawBitmap(computerGG,left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.SILVERGENERAL
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerSG);
+                        canvas.drawBitmap(computerSG, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.LANCE
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(computerLance);
+                        canvas.drawBitmap(computerLance, left, top, null);
+                    }
+
+
+                    //draws player pieces
+                    if (myPieces[k][l].getType() == Piece.PieceType.PAWN
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanPawn);
+                        canvas.drawBitmap(humanPawn, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.KNIGHT
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanKnight);
+                        canvas.drawBitmap(humanKnight, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.ROOK
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanRook);
+                        canvas.drawBitmap(humanRook, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.BISHOP
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanBishop);
+                        canvas.drawBitmap(humanBishop,left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.KING
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanKing);
+                        canvas.drawBitmap(humanKing,left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.GOLDGENERAL
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanGG);
+                        canvas.drawBitmap(humanGG,left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.SILVERGENERAL
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanSG);
+                        canvas.drawBitmap(humanSG, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.LANCE
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(humanLance);
+                        canvas.drawBitmap(humanLance, left, top, null);
+
+                    }
+                }
             }
         }
     }
 
+    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
 }
