@@ -59,7 +59,8 @@ public class ShogiLocalGame extends LocalGame {
 		if(action instanceof ShogiMoveAction){
 			ShogiMoveAction sma = ((ShogiMoveAction)action);
 			Piece[][] newBoard = gameState.getBoard();
-
+			int oldRow = sma.srcRow;
+			int oldCol = sma.srcCol;
 			int row = sma.destRow;
 			int col = sma.destCol;
 
@@ -117,12 +118,14 @@ public class ShogiLocalGame extends LocalGame {
 							newBoard[row][col].getPromotedPiece(), row, col, 1);
 				}
 
-				if(newBoard[row][col] != null) {
-					if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
+				if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
 						newBoard[row][col] = new Piece(null,
 								newBoard[row][col].getPromotedPiece(), row, col, 0);
-					}
 				}
+
+			}
+			else {
+				newBoard[row][col] = sma.thisPiece;
 			}
 
 			gameState.setBoard(newBoard);
