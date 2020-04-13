@@ -208,7 +208,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     Log.d("touched8: ", "move the piece ");
                     // move the piece
                     Log.d("touched8: ", "send the action ");
-                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+                    game.sendAction(new ShogiMoveAction(this, myPieces[row][col], row, col, rowSel, colSel));
                     Log.d("touched8: ", "sent the action ");
                     //reset
                     havePieceSelected = false;
@@ -218,7 +218,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 else {
                     Log.d("touched9: ", "move the piece ");
                     // move the piece
-                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+                    game.sendAction(new ShogiMoveAction(this, myPieces[row][col], row, col, rowSel, colSel));
                     Log.d("touched9: ", "move the piece ");
                     //reset
                     havePieceSelected = false;
