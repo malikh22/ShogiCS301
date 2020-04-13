@@ -113,14 +113,14 @@ public class ShogiLocalGame extends LocalGame {
 
 
 				//forced promotion for piece if in proper zone
-				if (row < 3 && row >= 0 && newBoard[row][col].getPlayer() == 1) {
+				if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
 					newBoard[row][col] = new Piece(null,
-							newBoard[row][col].getPromotedPiece(), row, col, 1);
+							newBoard[row][col].getPromotedPiece(), row, col, 0);
 				}
 
-				if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
+				if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
 						newBoard[row][col] = new Piece(null,
-								newBoard[row][col].getPromotedPiece(), row, col, 0);
+								newBoard[row][col].getPromotedPiece(), row, col, 1);
 				}
 
 			}
