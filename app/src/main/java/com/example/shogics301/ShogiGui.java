@@ -60,7 +60,7 @@ public class ShogiGui extends SurfaceView {
         super(context, attrs);
         setWillNotDraw(false);
         board = BitmapFactory.decodeResource(getResources(), shougi_board);
-        board = Bitmap.createScaledBitmap(board, 1400, 1400, false);
+        board = Bitmap.createScaledBitmap(board, 1300, 1400, false);
 
         myPieces = new ShogiState().getBoard();
 
