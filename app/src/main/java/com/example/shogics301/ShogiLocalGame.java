@@ -63,80 +63,68 @@ public class ShogiLocalGame extends LocalGame {
 			int row = sma.destRow;
 			int col = sma.destCol;
 
-			//if possible, capture the piece at the given spot
-			if(newBoard[row][col] != null && gameState.getWhoseMove() == 0
-					&& newBoard[row][col].getPlayer() != 0){
-				if(newBoard[row][col].getType() == Piece.PieceType.KING) {gameState.setPlayerHasKing(1);}
-				else if(newBoard[row][col].getType() == Piece.PieceType.PAWN){
-					gameState.capturep0(new Piece(null, Piece.PieceType.PAWN,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.LANCE){
-					gameState.capturep0(new Piece(null, Piece.PieceType.LANCE,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.KNIGHT){
-					gameState.capturep0(new Piece(null, Piece.PieceType.LANCE,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL){
-					gameState.capturep0(new Piece(null, Piece.PieceType.SILVERGENERAL,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL){
-					gameState.capturep0(new Piece(null, Piece.PieceType.GOLDGENERAL,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.ROOK){
-					gameState.capturep0(new Piece(null, Piece.PieceType.ROOK,0));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.BISHOP){
-					gameState.capturep0(new Piece(null, Piece.PieceType.BISHOP,0));
-				}
-					newBoard[row][col] = null;
-			}
-
-			else if(newBoard[row][col] != null && gameState.getWhoseMove() == 1
-					&& newBoard[row][col].getPlayer() != 1){
-				if(newBoard[row][col].getType() == Piece.PieceType.KING) {gameState.setPlayerHasKing(0);}
-				else if(newBoard[row][col].getType() == Piece.PieceType.PAWN){
-					gameState.capturep1(new Piece(null, Piece.PieceType.PAWN,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.LANCE){
-					gameState.capturep1(new Piece(null, Piece.PieceType.LANCE,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.KNIGHT){
-					gameState.capturep1(new Piece(null, Piece.PieceType.LANCE,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL){
-					gameState.capturep1(new Piece(null, Piece.PieceType.SILVERGENERAL,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL){
-					gameState.capturep1(new Piece(null, Piece.PieceType.GOLDGENERAL,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.ROOK){
-					gameState.capturep1(new Piece(null, Piece.PieceType.ROOK,1));
-				}
-				else if(newBoard[row][col].getType() == Piece.PieceType.BISHOP){
-					gameState.capturep1(new Piece(null, Piece.PieceType.BISHOP,1));
-				}
-				newBoard[row][col] = null;
-			}
-
-			//Create piece in new spot
-			newBoard[row][col] = new Piece(null, sma.thisPiece.getType(), row, col, gameState.getWhoseMove());
-			newBoard[row][col].setPlayer(sma.thisPiece.getPlayer());
-			newBoard[sma.srcRow][sma.srcCol] = null;
-
-
-			//forced promotion for piece if in proper zone
-			if(row < 3 && row >= 0 && newBoard[row][col].getPlayer() == 1){
-				newBoard[row][col] = new Piece(null,
-						newBoard[row][col].getPromotedPiece(), row, col, 1);
-			}
-
-
 			if(newBoard[row][col] != null) {
-				if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
+				//if possible, capture the piece at the given spot
+				if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
+					if (newBoard[row][col].getType() == Piece.PieceType.KING) {
+						gameState.setPlayerHasKing(1);
+					} else if (newBoard[row][col].getType() == Piece.PieceType.PAWN) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.PAWN, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.LANCE) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.LANCE, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.KNIGHT) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.LANCE, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.SILVERGENERAL, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.GOLDGENERAL, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.ROOK) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.ROOK, 0));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.BISHOP) {
+						gameState.capturep0(new Piece(null, Piece.PieceType.BISHOP, 0));
+					}
+					newBoard[row][col] = null;
+				} else if (gameState.getWhoseMove() == 1 && newBoard[row][col].getPlayer() != 1) {
+					if (newBoard[row][col].getType() == Piece.PieceType.KING) {
+						gameState.setPlayerHasKing(0);
+					} else if (newBoard[row][col].getType() == Piece.PieceType.PAWN) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.PAWN, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.LANCE) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.LANCE, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.KNIGHT) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.LANCE, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.SILVERGENERAL, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.GOLDGENERAL, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.ROOK) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.ROOK, 1));
+					} else if (newBoard[row][col].getType() == Piece.PieceType.BISHOP) {
+						gameState.capturep1(new Piece(null, Piece.PieceType.BISHOP, 1));
+					}
+					newBoard[row][col] = null;
+				}
+
+				//Create piece in new spot
+				newBoard[row][col] = new Piece(null, sma.thisPiece.getType(), row, col, gameState.getWhoseMove());
+				newBoard[row][col].setPlayer(sma.thisPiece.getPlayer());
+				newBoard[sma.srcRow][sma.srcCol] = null;
+
+
+				//forced promotion for piece if in proper zone
+				if (row < 3 && row >= 0 && newBoard[row][col].getPlayer() == 1) {
 					newBoard[row][col] = new Piece(null,
-							newBoard[row][col].getPromotedPiece(), row, col, 0);
+							newBoard[row][col].getPromotedPiece(), row, col, 1);
+				}
+
+				if(newBoard[row][col] != null) {
+					if (row < 9 && row >= 7 && newBoard[row][col].getPlayer() == 0) {
+						newBoard[row][col] = new Piece(null,
+								newBoard[row][col].getPromotedPiece(), row, col, 0);
+					}
 				}
 			}
+
 			gameState.setBoard(newBoard);
 
 
