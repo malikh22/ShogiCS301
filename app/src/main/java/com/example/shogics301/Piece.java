@@ -40,6 +40,33 @@ public class Piece {
         else return null;
     }
 
+    /**
+     *
+     * @param board the current setup of pieces on the board
+     * @param currRow the row of the space that may be legal for this piece to move to
+     * @param currCol the column of the space that may be legal for this piece to move to
+     *
+     * @return true if this is a legal move, false otherwise
+     */
+    public boolean legalMove(Piece[][] board, int currRow, int currCol){
+        int a = player;
+        ShogiLegalMoveList getLegalMoves = new ShogiLegalMoveList(a);
+        int[][] moves = getLegalMoves.moves(board, this.getType(), row, column);
+
+        for(int i = 0; i < moves.length; i++) {
+            if(moves[i] == null){ continue; }
+            if(moves[i][0] == currRow && moves[i][1] == currCol){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean getSelected() {
+        return this.selected;
+    }
+
 
     enum PieceType {
         BISHOP, GOLDGENERAL, KING, KNIGHT, LANCE, PAWN, ROOK, SILVERGENERAL,

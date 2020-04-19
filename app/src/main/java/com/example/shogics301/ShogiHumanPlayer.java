@@ -18,7 +18,7 @@ import com.example.shogics301.GameFramework.infoMessage.GameInfo;
  * particular game, a subclass should be created that can display the current
  * game state and responds to user commands.
  * <p>
- * TODO: Fix touching
+ * TODO: Fix NPEs
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
@@ -104,135 +104,161 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
 
     /**
-     * this handles a touch on the board so that a move can be made
+     * handles touch on the board so that a move can be made
      *
-     * @param v     the view that was touched, i.e. the human player
+     * @param v     the view that was touched, the human player
      * @param event
-     * @return true if the listener has detected the event, false otherwise
+     * @return true if the listener detected event, false otherwise
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d("toucheda: ", "first touch ");
+        int row, col; //used for storing the location of the space that the user tapped
 
-        int row, col; //used for storing the location of the space tapped
-        if (this.myPieces == null) {
+        //don't do anything if we don't have the current piece placements
+        if(this.myPieces == null){
             return false;
         }
-        if (event.getAction() != MotionEvent.ACTION_UP) {
+
+        //Don't do anything when dragging or lifting touch
+        if(event.getAction() != MotionEvent.ACTION_UP) {
             return true;
         }
 
-
         //get the row and column of the tapped space
-        row = (int) ((event.getY() - ShogiGui.topLeftY) / (ShogiGui.space));
-        col = (int) ((event.getX() - ShogiGui.topLeftX) / (ShogiGui.space));
-        Log.d("touched", Float.toString(event.getX()));
-        Log.d("touched1: ", Integer.toString(row));
-        Log.d("touched2: ", Integer.toString(col));
+        row = (int)((event.getY() - ShogiGui.topLeftY)/(ShogiGui.space));
+        col = (int)((event.getX() - ShogiGui.topLeftX)/(ShogiGui.space));
+        System.out.print("col: " + col +" row: " + row);
 
 
-        //dont do anything if the user tapped outside the board
-        if (row > 8 || col > 8) {
-            Log.d("touchedb: ", "outside board ");
-
-            return false;
-        } else if (row < 1 || col < 1) {
-            Log.d("touchedb: ", "outside board ");
-
+        //don't do anything if the user tapped outside the board
+        if(row >= 9 || col >= 9){
             return false;
         }
-        gui.pieceIsSelected = true;
-        havePieceSelected = true;
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(gui.myPieces[i][j] != null) {
-                    if (gui.myPieces[i][j].getRow() == row && gui.myPieces[i][j].getColumn() == col) {
-                        gui.myPieces[row][col].setSelected(true);
-                        rowSel = row;
-                        colSel = col;
-                    }
-                }
-            }
+        else if(row < 0 || col < 0){
+            return false;
         }
 
         //when a piece on the board is currently selected
+        if(havePieceSelected) {
 
-        if (havePieceSelected) {
-            Log.d("touchedc: ", "inside board ");
-
-            //when a piece is currently selected and
-            //the tapped space contains one of the player's own pieces
-            //old comment: when the user tapped a space that has one of his/her own pieces
-            if (state.getWhoseMove() == 0)
-                Log.d("touchedD: ", "inside board and player 0");
-            {
+            if (state.getWhoseMove() == 0) {
                 if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
-                    Log.d("touchedD: ", "inside board & player 0 ");
 
-                    //when the player taps the piece that is already selected, deselect it
-                    //old comment: This deals with selected and deselecting myPieces
-                    if (myPieces[row][col].isSelected()) {
-                        Log.d("touchede: ", "already selected ");
-
+                    if (myPieces[row][col].getSelected()) {
                         myPieces[row][col].setSelected(false);
                         gui.pieceIsSelected = false;
                         havePieceSelected = false;
                     }
 
-
-                    // deselect the currently selected piece and select the other tapped piece
                     else {
-                        Log.d("touchedf: ", "deselect ");
+
                         //find and deselect the currently selected piece
-                        for (int i = 0; i < 9; i++) {
+                        for (int i = 1; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
                                 if (myPieces[i][j] != null) {
-                                    if (myPieces[i][j].isSelected()) {
+                                    if (myPieces[i][j].getSelected()) {
                                         myPieces[i][j].setSelected(false);
                                     }
                                 }
                             }
                         }
-                        Log.d("touchedg: ", "select new piece ");
+
                         //select the newly tapped piece
                         myPieces[row][col].setSelected(true);
                         gui.pieceIsSelected = true;
                         rowSel = row;
                         colSel = col;
-                        Log.d("touched7: ", "select newly tapped piece");
-
                     }
                 }
 
-                if (gui.pieceIsSelected && (myPieces[row][col] == null || myPieces[row][col].getPlayer() == 1)) {
-                    Log.d("touched8: ", "move the piece ");
-                    // move the piece
-                    Log.d("touched8: ", "send the action ");
-                    game.sendAction(new ShogiMoveAction(this, myPieces[row][col], row, col, rowSel, colSel));
-                    Log.d("touched8: ", "sent the action ");
+                //check if the tapped space is a legal move for the currently selected piece.
+                // If it is, move the piece
+                else if (myPieces[rowSel][colSel].legalMove(myPieces, row, col)) {
+
+                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+
                     //reset
                     havePieceSelected = false;
                     rowSel = 0;
                     colSel = 0;
                 }
-                else {
-                    Log.d("touched9: ", "move the piece ");
-                    // move the piece
-                    game.sendAction(new ShogiMoveAction(this, myPieces[row][col], row, col, rowSel, colSel));
-                    Log.d("touched9: ", "move the piece ");
+
+                else return true;
+
+            }
+            else{
+                if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
+
+                    if (myPieces[row][col].getSelected()) {
+                        myPieces[row][col].setSelected(false);
+                        gui.pieceIsSelected = false;
+                        havePieceSelected = false;
+                    }
+
+                    //select the other tapped piece
+                    else {
+
+                        //find and deselect the currently selected piece
+                        for (int i = 0; i < 9; i++) {
+                            for (int j = 0; j < 9; j++) {
+                                if (myPieces[i][j] != null) {
+                                    if (myPieces[i][j].getSelected()) {
+                                        myPieces[i][j].setSelected(false);
+                                    }
+                                }
+                            }
+                        }
+
+                        //select the newly tapped piece
+                        myPieces[row][col].setSelected(true);
+                        gui.pieceIsSelected = true;
+                        rowSel = row;
+                        colSel = col;
+                    }
+                }
+
+
+                //move the piece
+                else if (myPieces[rowSel][colSel].legalMove(myPieces, row, col)) {
+                    game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
+
                     //reset
                     havePieceSelected = false;
-                    rowSel = 0;
-                    colSel = 0;
+                    rowSel = -1;
+                    colSel = -1;
+                }
+
+                //if a piece is selected and the tapped space is not a legal move,
+                //then leave everything as it is
+                else return true;
+
+            }
+        }
+        //when no piece is currently selected
+        else {
+
+            //when the tapped space is not empty and contains a piece
+            //that belongs to the human player
+            if(state.getWhoseMove() == 0){
+                if(myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
+                    this.myPieces[row][col].setSelected(true);
+                    havePieceSelected = true;
+                    rowSel = row;
+                    colSel = col;
                 }
             }
-            //leave everything as it is
-            return true;
+            else{
+                if(myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
+                    this.myPieces[row][col].setSelected(true);
+                    havePieceSelected = true;
+                    rowSel = row;
+                    colSel = col;
+                }
+            }
         }
-        //redraw board with myPieces updated
-        Log.d("touched4: ", "before invalidate called");
+
+        //redraw board with pieces updated
         gui.invalidate();
-        Log.d("touched5: ", "after invalidate called");
         //done
         return true;
     }

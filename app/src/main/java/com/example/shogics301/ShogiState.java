@@ -237,5 +237,55 @@ public class ShogiState extends GameState {
     public boolean getPlayerHasKing(int i) { return playersHaveKing[i]; }
     public void setPlayerHasKing(int i) { playersHaveKing[i] = !playersHaveKing[i]; }
 
+    /**
+     * This method determines if a players based on a location
+     *
+     * @param idx the index of the player whom we want to know is in check
+     * @param board the state of the board in which we want to determine
+     *              if the specified player is in check
+     * @param row takes row of where the king is
+     * @param col take col of where the king is
+     *
+     * @return true if the specified player's king is in check, false if not
+     */
+    public boolean determinePlayerInCheck(int idx, Piece[][] board, int row, int col) {
+
+        //necessary variables
+        int r = 0, c = 0; //for iterating through the board
+        //ShogiPiece king = board[row][col]; //the to-be-found king of the specified player
+        int thisPlayerPiece; //for determining if the king is the specified player's
+        boolean playerInCheck = false;
+
+        //determine which player's piece we should be looking for
+        if(idx == 0) thisPlayerPiece = 0;
+        else thisPlayerPiece = 1;
+
+
+        //determine if the king is in check. Either way, update the gamestate
+        // so that it reflects this player's status of check
+        for(r = 1; r < 10; r++) {
+            for(c = 0; c < 9; c++) {
+                if (board[r][c] != null &&
+                        board[r][c].getPlayer() != thisPlayerPiece &&
+                        board[r][c].legalMove(board, row, col)) {
+
+                    playerInCheck = true;
+                    break;
+                }
+            }
+            if(playerInCheck) break; //don't continue if player is already in check
+        }
+
+
+        setPlayerInCheck(idx, playerInCheck);
+
+        //Log.i("ShogiLocalGame", "player " + idx + " in check: " + getPlayerInCheck(idx));
+
+        return playerInCheck;
+
+    }
+
+    private void setPlayerInCheck(int idx, boolean playerInCheck) {
+    }
 
 }
