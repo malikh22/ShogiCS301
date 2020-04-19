@@ -11,7 +11,7 @@ public class ShogiLegalMoveList implements Serializable{
     private int player;
     private int playerIdx;
 
-    public ShogiLegalMoveList(int n){
+    ShogiLegalMoveList(int n){
         this.playerIdx = n;
         if(n == 0){
             this.player = 0;
@@ -20,7 +20,7 @@ public class ShogiLegalMoveList implements Serializable{
         }
     }
 
-    public int[][] moves(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol){
+    int[][] moves(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol){
         int[][] moves = new int[20][];
         int[][] dropMoves = new int[81][];
 
@@ -41,26 +41,22 @@ public class ShogiLegalMoveList implements Serializable{
         }
 
         if(pieceName.equals(Piece.PieceType.PAWN)){
-            if (currRow != 0 || currRow != 9) {
-                if (player == 0) {
-                    if (currRow - 1 >= 0) {
-                        if (board[currRow - 1][currCol] == null) {
-                            moves[0] = new int[]{currRow - 1, currCol};
-                        } else if (board[currRow - 1][currCol] != null && board[currRow - 1][currCol].getPlayer() != player) {
-                            moves[0] = new int[]{currRow - 1, currCol};
-                        }
+            if (player == 0) {
+                if (currRow - 1 >= 0) {
+                    if (board[currRow - 1][currCol] == null) {
+                        moves[0] = new int[]{currRow - 1, currCol};
+                    } else if (board[currRow - 1][currCol] != null && board[currRow - 1][currCol].getPlayer() != player) {
+                        moves[0] = new int[]{currRow - 1, currCol};
                     }
-                } else {
-                    if (currRow + 1 < 9) {
-                        if (board[currRow + 1][currCol] == null) {
+                }
+            } else {
+                if (currRow + 1 < 9) {
+                    if (board[currRow + 1][currCol] == null) {
+                        moves[0] = new int[]{currRow + 1, currCol};
+                    } else if (board[currRow + 1][currCol] != null) {
+                        moves[0] = new int[]{currRow + 1, currCol};
+                        if (board[currRow + 1][currCol].getPlayer() != player) {
                             moves[0] = new int[]{currRow + 1, currCol};
-                        } else if (board[currRow + 1][currCol] != null) {
-                            if (row + 1 != 7 || row + 1 != 8) {
-                                moves[0] = new int[]{currRow + 1, currCol};
-                            }
-                            if (board[currRow + 1][currCol].getPlayer() != player) {
-                                moves[0] = new int[]{currRow + 1, currCol};
-                            }
                         }
                     }
                 }
@@ -520,12 +516,12 @@ public class ShogiLegalMoveList implements Serializable{
 
         return moves;
     }
-
+    //TODO: use
     public int[][] kingInCheck(Piece[][] board, ShogiState state, int currRow, int currCol){
         if(!board[currRow][currCol].getType().equals(Piece.PieceType.KING)){ return null; }
 
         Piece piece = board[currRow][currCol];
-        int[][] possibleMoves;// = moves(board, "King", currRow, currCol);
+        int[][] possibleMoves;
 
         if(state.determinePlayerInCheck(playerIdx, board, piece.getRow(), piece.getColumn())){
             possibleMoves = moves(board, piece.getType(), piece.getRow(), piece.getColumn());

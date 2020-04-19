@@ -15,9 +15,6 @@ public class Piece {
     private int player = 0;
     private boolean selected = false;
 
-
-
-
     PieceType getPromotedPiece() {
         if (this.getType() == PieceType.PAWN){
             return PieceType.P_PAWN;
@@ -81,15 +78,11 @@ public class Piece {
         this.player = player;
     }
 
-
-
-
    public Piece(Bitmap bitmap, PieceType type, int player) { //for captured piece purposes
         this.setMyBitmap(bitmap);
         this.setMyType(type);
         this.player = player;
     }
-
 
     public boolean isCaptured() {
         return this.captured;
