@@ -111,17 +111,23 @@ public class ShogiLocalGame extends LocalGame {
 				newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(), sma.thisPiece.getType(), row, col, gameState.getWhoseMove());
 				newBoard[row][col].setPlayer(sma.thisPiece.getPlayer());
 				newBoard[sma.srcRow][sma.srcCol] = null;
+				sma.thisPiece.setColumn(col);
+				sma.thisPiece.setRow(row);
 
 
 				//forced promotion for piece if in proper zone
 				if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
 					newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
 							newBoard[row][col].getPromotedPiece(), row, col, 0);
+					sma.thisPiece.setColumn(col);
+					sma.thisPiece.setRow(row);
 				}
 
 				if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
 					newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
 							newBoard[row][col].getPromotedPiece(), row, col, 1);
+					sma.thisPiece.setColumn(col);
+					sma.thisPiece.setRow(row);
 				}
 
 			}
