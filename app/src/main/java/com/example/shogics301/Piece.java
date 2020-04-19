@@ -46,6 +46,7 @@ public class Piece {
      * @return true if this is a legal move, false otherwise
      */
     public boolean legalMove(Piece[][] board, int currRow, int currCol){
+        if (true) return true;
         int a = player;
         ShogiLegalMoveList getLegalMoves = new ShogiLegalMoveList(a);
         int[][] moves = getLegalMoves.moves(board, this.getType(), row, column);
@@ -78,7 +79,7 @@ public class Piece {
         this.player = player;
     }
 
-   public Piece(Bitmap bitmap, PieceType type, int player) { //for captured piece purposes
+    public Piece(Bitmap bitmap, PieceType type, int player) { //for captured piece purposes
         this.setMyBitmap(bitmap);
         this.setMyType(type);
         this.player = player;

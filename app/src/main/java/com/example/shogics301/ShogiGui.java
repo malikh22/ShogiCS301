@@ -13,6 +13,8 @@ import android.view.Display;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.example.shogics301.GameFramework.utilities.Logger;
+
 import static com.example.shogics301.R.drawable.shougi_board;
 
 /*
@@ -26,9 +28,9 @@ public class ShogiGui extends SurfaceView {
 
 
     //instance values for board creation
-    public static final float space = 150; //150 is height/width of rows & cols
-    public static final float topLeftX = 25 + space / 2; //95 is good
-    public static final float topLeftY = 125; //350 is good
+    public static final float space = 125; //150 is height/width of rows & cols
+    public static final float topLeftX = 0 + space / 2; //95 is good
+    public static final float topLeftY = 200; //350 is good
     public boolean pieceIsSelected;
     private Bitmap board;
     private Bitmap humanKing;
@@ -166,8 +168,8 @@ public class ShogiGui extends SurfaceView {
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
                 if (myPieces[k][l] != null) {
-                    float left = 90 + (myPieces[k][l].getColumn() * 150);
-                    float top = 290 + (myPieces[k][l].getRow() * 150);
+                    float left = topLeftX + (myPieces[k][l].getColumn() * space);
+                    float top = topLeftY + (myPieces[k][l].getRow() * space);
                     //draws opponent pieces
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
                             && myPieces[k][l].getPlayer() == 1) {
@@ -240,6 +242,7 @@ public class ShogiGui extends SurfaceView {
                     if (myPieces[k][l].getType() == Piece.PieceType.GOLDGENERAL
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(humanGG);
+                        Logger.log("draw gold general","draw gold general at "+left+","+top);
                         canvas.drawBitmap(humanGG,left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.SILVERGENERAL

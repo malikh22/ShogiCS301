@@ -39,6 +39,7 @@ public class ShogiLocalGame extends LocalGame {
 
 	@Override
 	public boolean canMove(int playerIdx) {
+
 		return playerIdx == gameState.getWhoseMove();
 	}
 
@@ -119,13 +120,15 @@ public class ShogiLocalGame extends LocalGame {
 				}
 
 				if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
-						newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
-								newBoard[row][col].getPromotedPiece(), row, col, 1);
+					newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
+							newBoard[row][col].getPromotedPiece(), row, col, 1);
 				}
 
 			}
 			else {
 				newBoard[row][col] = sma.thisPiece;
+				sma.thisPiece.setColumn(col);
+				sma.thisPiece.setRow(row);
 				newBoard[sma.srcRow][sma.srcCol] = null;
 			}
 
