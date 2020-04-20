@@ -66,14 +66,14 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
 
         boolean myPiece=false;
         while(!myPiece) {
-            int i = rnd.nextInt(pLength);
-            int j = rnd.nextInt(pieces[i].length);
+            int i = rnd.nextInt(pLength - 1);
+            int j = rnd.nextInt(pieces[i].length - 1);
             p=pieces[i][j];
             if(p instanceof Piece) myPiece = (p.getPlayer()==this.playerNum);
         }
 
-        int destRow = rnd.nextInt(pLength);
-        int destCol = rnd.nextInt(pieces[destRow].length);
+        int destRow = rnd.nextInt(pLength - 1);
+        int destCol = rnd.nextInt(pieces[destRow].length - 1);
 
 
         // delay for a second to make opponent think we're thinking
