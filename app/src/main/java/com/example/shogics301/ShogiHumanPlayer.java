@@ -15,6 +15,7 @@ import com.example.shogics301.GameFramework.GameMainActivity;
 
 import com.example.shogics301.GameFramework.Rules;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
+import com.example.shogics301.GameFramework.utilities.Logger;
 
 
 /**
@@ -40,6 +41,14 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private boolean hasKing = true;
     private ShogiGui topView;
     private Button toRules;
+
+    private Button rulesButtonMoving;
+    private Button rulesButtonPromotion;
+    private Button rulesButtonToGame;
+    private Button movingButtonToGame;
+    private Button promotionButtonToGame;
+
+    private boolean usingRulesScreen = false;
 
 
     /**
@@ -71,6 +80,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             // update our state, then display
             this.state = (ShogiState) info;
             this.myPieces = state.getBoard();
+
+            if (usingRulesScreen) return;
+
             gui = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
@@ -94,34 +106,122 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         topView.setOnTouchListener(this);
 
+        toRules = (Button) myActivity.findViewById(R.id.button2);
+        Log.d("attempt to open rules", "open rules");
+
+        toRules.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View V) {
+                Logger.log("rules click", "rules button clicked");
+                Log.d("on click", "on cliked");
+                openRules();
+
+            }
+        });
+
         // GUI values are updated
         if (state != null) {
             receiveInfo(state);
-
-
-            toRules = (Button) getTopView().findViewById(R.id.button2);
-            Log.d("attempt to open rules", "open rules");
-
-            toRules.setOnClickListener(new View.OnClickListener() {
-
-
-                @Override
-                public void onClick(View V) {
-                    Log.d("on click", "on cliked");
-                    openRules();
-
-                }
-            });
-
         }
     }
 
 
     public void openRules() {
 
-        Intent intent = new Intent(myActivity, Rules.class);
+
+//        Intent intent = new Intent(myActivity, Rules.class);
+
+        usingRulesScreen = true;
+        myActivity.setContentView(R.layout.rules);
+        rulesButtonToGame = (Button) myActivity.findViewById(R.id.button7);
+        rulesButtonMoving = (Button) myActivity.findViewById(R.id.button3);
+        rulesButtonPromotion = (Button) myActivity.findViewById(R.id.button5);
+
+        rulesButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingRulesScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                }
+
+
+        );
+
+        rulesButtonMoving.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        openMoving();
+                    }
+                }
+
+
+        );
+
+        rulesButtonPromotion.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+
+                        openPromotion();
+                    }
+                }
+
+
+        );
+
         Log.d("attempt to open rules", "open rules");
-        myActivity.startActivity(intent);
+//        myActivity.startActivity(intent);
+    }
+
+    public void openMoving() {
+        myActivity.setContentView(R.layout.moving);
+        movingButtonToGame = (Button) myActivity.findViewById(R.id.button10);
+
+        movingButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingRulesScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                }
+
+
+        );
+
+
+    }
+
+    public void openPromotion() {
+        myActivity.setContentView(R.layout.promotion);
+        promotionButtonToGame = (Button) myActivity.findViewById(R.id.button6);
+
+        promotionButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingRulesScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                }
+
+
+        );
+
+
     }
 
     /**

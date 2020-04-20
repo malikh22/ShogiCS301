@@ -150,6 +150,30 @@
         android:layout_height="wrap_content"
         android:text="Lose their ability to current move and gain properties of gold general.  " />
 
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pawn" />
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A pawn can move one square directly forward. It cannot retreat.  " />
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Promoted Pawn" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lose their ability to current move and gain properties of gold general.  " />
+
     <Button
         android:id="@+id/button10"
         android:layout_width="match_parent"
