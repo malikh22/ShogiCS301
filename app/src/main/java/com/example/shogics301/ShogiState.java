@@ -33,10 +33,10 @@ public class ShogiState extends GameState {
     private int playerToMove;
 
     //player 0's captured pieces
-    private ArrayList<Piece> drops0;
+    private ArrayList<Piece> drops0 = new ArrayList<>();
 
     //player 1's captured pieces
-    private ArrayList<Piece> drops1;
+    private ArrayList<Piece> drops1 = new ArrayList<>();
 
     //history of moves
     private ArrayList<ShogiMoveAction> moves;
