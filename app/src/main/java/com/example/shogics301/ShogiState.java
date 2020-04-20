@@ -263,7 +263,7 @@ public class ShogiState extends GameState {
 
         //determine if the king is in check. Either way, update the gamestate
         // so that it reflects this player's status of check
-        for(r = 1; r < 10; r++) {
+        for(r = 0; r < 9; r++) {
             for(c = 0; c < 9; c++) {
                 if (board[r][c] != null &&
                         board[r][c].getPlayer() != thisPlayerPiece &&
