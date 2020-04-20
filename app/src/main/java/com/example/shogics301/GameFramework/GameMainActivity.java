@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -75,6 +77,9 @@ public abstract class GameMainActivity extends Activity implements
     // whether the game is in the "configuration" stage, before the actual game
     // has started
     private boolean doingConfiguration = true;
+
+//    private Button toRules;
+
 
     /**
      * contains the game configuration this activity will be used to initialize
@@ -153,11 +158,24 @@ public abstract class GameMainActivity extends Activity implements
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //Set Context for Toast Logging
         Logger.setContext(getApplicationContext());
 
         // Initialize the layout
         setContentView(R.layout.game_config_main);
+//
+//        toRules = (Button) findViewById(R.id.button2);
+//        toRules.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View V){
+//                openRules();
+//
+//            }
+//        });
+
+
 
         // create the default configuration for this game
         this.config = createDefaultConfig();
@@ -200,6 +218,12 @@ public abstract class GameMainActivity extends Activity implements
             Logger.setDebugValue(false);
         }
     }// onCreate
+
+//    public void openRules(){
+//
+//        Intent intent =  new Intent ( this, Rules.class);
+//        startActivity(intent);
+//    }
 
     /**
      * Returns the name of the configuration save-file.

@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.app.Activity;
 
 
 import com.example.shogics301.GameFramework.GameHumanPlayer;
 import com.example.shogics301.GameFramework.GameMainActivity;
 
+import com.example.shogics301.GameFramework.Rules;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
+
 
 /**
  * class ShogiHumanPlayer
@@ -36,6 +39,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private ShogiGui gui;
     private boolean hasKing = true;
     private ShogiGui topView;
+    private Button toRules;
+
 
     /**
      * constructor
@@ -92,7 +97,31 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         // GUI values are updated
         if (state != null) {
             receiveInfo(state);
+
+
+            toRules = (Button) getTopView().findViewById(R.id.button2);
+            Log.d("attempt to open rules", "open rules");
+
+            toRules.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View V) {
+                    Log.d("on click", "on cliked");
+                    openRules();
+
+                }
+            });
+
         }
+    }
+
+
+    public void openRules() {
+
+        Intent intent = new Intent(myActivity, Rules.class);
+        Log.d("attempt to open rules", "open rules");
+        myActivity.startActivity(intent);
     }
 
     /**
@@ -104,8 +133,6 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     public void onClick(View v) {
 
     }
-
-
 
 
     /**

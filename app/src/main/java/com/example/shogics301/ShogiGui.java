@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import com.example.shogics301.GameFramework.utilities.Logger;
 
@@ -51,6 +52,7 @@ public class ShogiGui extends SurfaceView {
     private Bitmap computerRook;
     private Bitmap computerKnight;
     private Bitmap computerBishop;
+
 
 
     Paint square = new Paint();
