@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Promotion of Pieces"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The last 3 rows on the game board are called the “promotion zone”. When a piece is moved and part of a pieces's path lies within the promotion zone (that is, if the piece moves into, out or wholly within the zone), then such piece can be promoted at the end of the turn (the piece is turned over revealing the red character)." />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capturing Pieces"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pieces are captured as follows: the attacking piece takes the place of the captured enemy piece (capturing by placement). Captured pieces are removed from the game board. A player who captured the piece acquires the piece and places it aside to be seen, next to the game board on his side, and always shown as an unpromoted piece." />
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Drops"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="On any turn, a player may either move a piece on the board or drop a captured piece onto the board.  A player may drop a captured piece on any empty square on the board as his own (that's why the pieces are differentiated only by their oriented tips, not by colors).  By dropping a piece, a check can be given (endangering of the king does not have to be announced), or even a checkmate can be given (except by a pawn).  A piece can be dropped in the path of danger and to cancel a check.  A piece is always dropped unpromoted side up, even if dropped into the promotion zone.  A piece should be dropped on a field where it is still possible to move such a piece for at least one more move. Pawns and lances cannot be dropped onto the last row while knights cannot be dropped on the last two rows.  A pawn cannot be dropped in a column containing another unpromoted pawn of the same player (promoted pawns do not count).  A pawn cannot be dropped to give an immediate checkmate (although other pieces can); however, pawns may give checkmate on any subsequent move after the pawn was dropped." />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Return to Game" />
+
+</LinearLayout>

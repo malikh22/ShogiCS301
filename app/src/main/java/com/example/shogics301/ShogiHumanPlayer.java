@@ -1,10 +1,13 @@
 package com.example.shogics301;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+
 
 import com.example.shogics301.GameFramework.GameHumanPlayer;
 import com.example.shogics301.GameFramework.GameMainActivity;
@@ -103,6 +106,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     }
 
 
+
+
     /**
      * handles touch on the board so that a move can be made
      *
@@ -115,31 +120,30 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         int row, col; //used for storing the location of the space that the user tapped
 
         //don't do anything if we don't have the current piece placements
-        if(this.myPieces == null){
+        if (this.myPieces == null) {
             return false;
         }
 
         //Don't do anything when dragging or lifting touch
-        if(event.getAction() != MotionEvent.ACTION_UP) {
+        if (event.getAction() != MotionEvent.ACTION_UP) {
             return true;
         }
 
         //get the row and column of the tapped space
-        row = (int)((event.getY() - ShogiGui.topLeftY)/(ShogiGui.space));
-        col = (int)((event.getX() - ShogiGui.topLeftX)/(ShogiGui.space));
-        System.out.print("col: " + col +" row: " + row);
+        row = (int) ((event.getY() - ShogiGui.topLeftY) / (ShogiGui.space));
+        col = (int) ((event.getX() - ShogiGui.topLeftX) / (ShogiGui.space));
+        System.out.print("col: " + col + " row: " + row);
 
 
         //don't do anything if the user tapped outside the board
-        if(row >= 9 || col >= 9){
+        if (row >= 9 || col >= 9) {
             return false;
-        }
-        else if(row < 0 || col < 0){
+        } else if (row < 0 || col < 0) {
             return false;
         }
 
         //when a piece on the board is currently selected
-        if(havePieceSelected) {
+        if (havePieceSelected) {
 
             if (state.getWhoseMove() == 0) {
                 if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
@@ -148,9 +152,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                         myPieces[row][col].setSelected(false);
                         gui.pieceIsSelected = false;
                         havePieceSelected = false;
-                    }
-
-                    else {
+                    } else {
 
                         //find and deselect the currently selected piece
                         for (int i = 1; i < 9; i++) {
@@ -181,12 +183,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     havePieceSelected = false;
                     rowSel = 0;
                     colSel = 0;
-                }
+                } else return true;
 
-                else return true;
-
-            }
-            else{
+            } else {
                 if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
 
                     if (myPieces[row][col].getSelected()) {
@@ -239,16 +238,15 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
             //when the tapped space is not empty and contains a piece
             //that belongs to the human player
-            if(state.getWhoseMove() == 0){
-                if(myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
+            if (state.getWhoseMove() == 0) {
+                if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
                     this.myPieces[row][col].setSelected(true);
                     havePieceSelected = true;
                     rowSel = row;
                     colSel = col;
                 }
-            }
-            else{
-                if(myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
+            } else {
+                if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
                     this.myPieces[row][col].setSelected(true);
                     havePieceSelected = true;
                     rowSel = row;

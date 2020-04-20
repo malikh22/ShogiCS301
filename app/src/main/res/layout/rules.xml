@@ -1,4 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rules"
+        android:textSize="72sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Starting Positions"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="First Row"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lance | Knight | Silver General | Gold General | King | Gold General | Silver General | Knight | Lance" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Second Row"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Second column from left: Bishop- Second column from right: Rook" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Third Row"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All Pawns" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rules of the Game"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The object of the game is to checkmate to your opponent = attacking the opposing king which cannot be adequately parried or defended or which results in removing the opposing king from the game board.  Or one of the players resigns, or the opponents agree on a stalemate (draw).  Check: If a king is endangered and is threatened to be captured in the next move, this danger must be averted, if possible. The player giving check does not have to announce the check. (It means the king can be taken on the next turn and the player who lost the king loses the game.)  Checkmate (in Japanese, one says “Tsumi”): If a player cannot avert a danger and will be taken anyway on the next turn, this is checkmate and that player loses the game.  In professional and serious amateur games, a player who makes an illegal move immediately loses the game.  Repetition: the game ends if the same game position occurs four times consecutively – the game is considered a draw. However, if an eternal check originated from this situation, the player giving check and causing such a situation loses the game.  The game reaches a jishogi if both kings have advanced into their respective promotion zones and neither player can hope to mate the other or to gain any further material." />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Moving" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Promotion" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To Game" />
+    </LinearLayout>
+</LinearLayout>
