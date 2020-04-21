@@ -6,21 +6,21 @@ import java.io.Serializable;
  * @author Hera Malik
  */
 
-public class ShogiLegalMoveList implements Serializable{
+public class ShogiLegalMoveList implements Serializable {
     private static final long serialVersionUID = 42978563847L;
     private int player;
     private int playerIdx;
 
-    ShogiLegalMoveList(int n){
+    ShogiLegalMoveList(int n) {
         this.playerIdx = n;
-        if(n == 0){
+        if (n == 0) {
             this.player = 0;
         } else if (n == 1) {
             this.player = 1;
         }
     }
 
-    int[][] moves(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol){
+    int[][] moves(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol) {
         int[][] moves = new int[20][];
         int[][] dropMoves = new int[81][];
 
@@ -28,11 +28,11 @@ public class ShogiLegalMoveList implements Serializable{
         int col = 0;
         int i = 0;
 
-        if(currRow == 0){
-            for(row = 6; row > 0; row--){
-                for(col = 0; col < 9; col++){
-                    if(board[row][col] == null){
-                        dropMoves[i] = new int[]{row,col};
+        if (currRow == 0) {
+            for (row = 6; row > 0; row--) {
+                for (col = 0; col < 9; col++) {
+                    if (board[row][col] == null) {
+                        dropMoves[i] = new int[]{row, col};
                         i++;
                     }
                 }
@@ -40,7 +40,7 @@ public class ShogiLegalMoveList implements Serializable{
             return dropMoves;
         }
 
-        if(pieceName.equals(Piece.PieceType.PAWN)){
+        if (pieceName.equals(Piece.PieceType.PAWN)) {
             if (player == 0) {
                 if (currRow - 1 >= 0) {
                     if (board[currRow - 1][currCol] == null) {
@@ -124,12 +124,12 @@ public class ShogiLegalMoveList implements Serializable{
             }
         } else if (pieceName.equals(Piece.PieceType.LANCE)) {
             col = currCol;
-            if(player == 0){
+            if (player == 0) {
                 i = 0;
                 row = currRow - 1;
-                while(row >= 1){
+                while (row >= 1) {
                     if (board[row][col] != null) {
-                        if(board[row][col].getPlayer() != player){
+                        if (board[row][col].getPlayer() != player) {
                             moves[i] = new int[]{row, col};
                             i++;
                         }
@@ -235,7 +235,7 @@ public class ShogiLegalMoveList implements Serializable{
                     }
 
                     if (currCol + 1 < 9) {
-                        if(board[currRow - 2][currCol + 1] != null){
+                        if (board[currRow - 2][currCol + 1] != null) {
                             if (player != board[currRow - 2][currCol + 1].getPlayer()) {
                                 moves[1] = new int[]{currRow - 2, currCol + 1};
                             }
@@ -408,37 +408,37 @@ public class ShogiLegalMoveList implements Serializable{
             }
         } else if (pieceName.equals(Piece.PieceType.SILVERGENERAL)) {
             i = 0;
-            if(currRow-1 > 0 && currCol-1 >= 0 &&
-                    (board[currRow-1][currCol-1] == null || player != board[currRow-1][currCol-1].getPlayer())){
-                moves[i] = new int[]{currRow-1, currCol-1};
+            if (currRow - 1 > 0 && currCol - 1 >= 0 &&
+                    (board[currRow - 1][currCol - 1] == null || player != board[currRow - 1][currCol - 1].getPlayer())) {
+                moves[i] = new int[]{currRow - 1, currCol - 1};
                 i++;
             }
 
-            if(currRow-1 > 1 && currCol+1 < 9 &&
-                    (board[currRow-1][currCol+1] == null || player != board[currRow-1][currCol+1].getPlayer())){
-                moves[i] = new int[]{currRow-1, currCol+1};
+            if (currRow - 1 > 1 && currCol + 1 < 9 &&
+                    (board[currRow - 1][currCol + 1] == null || player != board[currRow - 1][currCol + 1].getPlayer())) {
+                moves[i] = new int[]{currRow - 1, currCol + 1};
                 i++;
             }
 
-            if(currRow+1 < 10 && currCol+1 > 0 &&
-                    (board[currRow+1][currCol+1] == null || player != board[currRow+1][currCol+1].getPlayer())){
-                moves[i] = new int[]{currRow+1, currCol+1};
+            if (currRow + 1 < 10 && currCol + 1 > 0 &&
+                    (board[currRow + 1][currCol + 1] == null || player != board[currRow + 1][currCol + 1].getPlayer())) {
+                moves[i] = new int[]{currRow + 1, currCol + 1};
                 i++;
             }
 
-            if(currRow+1 < 10 && currCol-1 > 0 &&
-                    (board[currRow+1][currCol-1] == null || player != board[currRow+1][currCol-1].getPlayer())){
-                moves[i] = new int[]{currRow+1, currCol-1};
+            if (currRow + 1 < 10 && currCol - 1 > 0 &&
+                    (board[currRow + 1][currCol - 1] == null || player != board[currRow + 1][currCol - 1].getPlayer())) {
+                moves[i] = new int[]{currRow + 1, currCol - 1};
                 i++;
             }
 
-            if(player == 0){
+            if (player == 0) {
                 if (currRow - 1 > 0 &&
                         (board[currRow - 1][currCol] == null || player != board[currRow - 1][currCol].getPlayer())) {
                     moves[i] = new int[]{currRow - 1, currCol};
                     i++;
                 }
-            }else{
+            } else {
                 if (currRow + 1 < 10 &&
                         (board[currRow + 1][currCol] == null || player != board[currRow + 1][currCol].getPlayer())) {
                     moves[i] = new int[]{currRow + 1, currCol};
@@ -457,56 +457,56 @@ public class ShogiLegalMoveList implements Serializable{
                 return moves(board, Piece.PieceType.GOLDGENERAL, currRow, currCol);
             } else if (pieceName.equals(Piece.PieceType.BISHOP)) {
                 i = 16;
-                if(currRow-1 >= 1) {
+                if (currRow - 1 >= 1) {
                     if (board[currRow - 1][currCol] == null || board[currRow - 1][currCol].getPlayer() != player) {
                         moves[i] = new int[]{currRow - 1, currCol};
                         i++;
                     }
                 }
-                if(currRow+1 < 10){
-                    if(board[currRow+1][currCol] == null || board[currRow+1][currCol].getPlayer() != player){
-                        moves[i] = new int[]{currRow+1, currCol};
+                if (currRow + 1 < 10) {
+                    if (board[currRow + 1][currCol] == null || board[currRow + 1][currCol].getPlayer() != player) {
+                        moves[i] = new int[]{currRow + 1, currCol};
                         i++;
                     }
                 }
-                if(currCol-1 >= 0) {
-                    if (board[currRow][currCol-1] == null || board[currRow][currCol-1].getPlayer() != player) {
-                        moves[i] = new int[]{currRow, currCol-1};
+                if (currCol - 1 >= 0) {
+                    if (board[currRow][currCol - 1] == null || board[currRow][currCol - 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow, currCol - 1};
                         i++;
                     }
                 }
-                if(currCol+1 < 9){
-                    if(board[currRow][currCol+1] == null || board[currRow][currCol+1].getPlayer() != player){
-                        moves[i] = new int[]{currRow, currCol+1};
+                if (currCol + 1 < 9) {
+                    if (board[currRow][currCol + 1] == null || board[currRow][currCol + 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow, currCol + 1};
                     }
                 }
                 return moves;
-            } else if (pieceName.equals(Piece.PieceType.ROOK)){
+            } else if (pieceName.equals(Piece.PieceType.ROOK)) {
                 i = 16;
-                if(currRow+1 < 9 && currCol+1 < 9){
-                    if(board[currRow+1][currCol+1] == null || board[currRow+1][currCol+1].getPlayer() != player){
-                        moves[i] = new int[]{currRow+1, currCol+1};
+                if (currRow + 1 < 9 && currCol + 1 < 9) {
+                    if (board[currRow + 1][currCol + 1] == null || board[currRow + 1][currCol + 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow + 1, currCol + 1};
                         i++;
                     }
                 }
 
-                if(currRow+1 < 9 && currCol-1 >= 0){
-                    if(board[currRow+1][currCol-1] == null || board[currRow+1][currCol-1].getPlayer() != player){
-                        moves[i] = new int[]{currRow+1, currCol-1};
+                if (currRow + 1 < 9 && currCol - 1 >= 0) {
+                    if (board[currRow + 1][currCol - 1] == null || board[currRow + 1][currCol - 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow + 1, currCol - 1};
                         i++;
                     }
                 }
 
-                if(currRow-1 > 1 && currCol+1 < 8){
-                    if(board[currRow-1][currCol+1] == null || board[currRow-1][currCol+1].getPlayer() != player){
-                        moves[i] = new int[]{currRow-1, currCol+1};
+                if (currRow - 1 > 1 && currCol + 1 < 8) {
+                    if (board[currRow - 1][currCol + 1] == null || board[currRow - 1][currCol + 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow - 1, currCol + 1};
                         i++;
                     }
                 }
 
-                if(currRow-1 > 1 && currCol-1 >= 0){
-                    if(board[currRow-1][currCol-1] == null || board[currRow-1][currCol-1].getPlayer() != player){
-                        moves[i] = new int[]{currRow-1, currCol-1};
+                if (currRow - 1 > 1 && currCol - 1 >= 0) {
+                    if (board[currRow - 1][currCol - 1] == null || board[currRow - 1][currCol - 1].getPlayer() != player) {
+                        moves[i] = new int[]{currRow - 1, currCol - 1};
                     }
                 }
 
@@ -516,22 +516,74 @@ public class ShogiLegalMoveList implements Serializable{
 
         return moves;
     }
+
     //TODO: use
-    public int[][] kingInCheck(Piece[][] board, ShogiState state, int currRow, int currCol){
-        if(!board[currRow][currCol].getType().equals(Piece.PieceType.KING)){ return null; }
+    public int[][] kingInCheck(Piece[][] board, ShogiState state, int currRow, int currCol) {
+        if (!board[currRow][currCol].getType().equals(Piece.PieceType.KING)) {
+            return null;
+        }
 
         Piece piece = board[currRow][currCol];
         int[][] possibleMoves;
 
-        if(state.determinePlayerInCheck(playerIdx, board, piece.getRow(), piece.getColumn())){
+        if (state.determinePlayerInCheck(playerIdx, board, piece.getRow(), piece.getColumn())) {
             possibleMoves = moves(board, piece.getType(), piece.getRow(), piece.getColumn());
-            for(int i = 0; i < possibleMoves.length; i++){
-                if(possibleMoves[i] == null){ continue; }
-                if(state.determinePlayerInCheck(playerIdx, board, possibleMoves[i][0], possibleMoves[i][1])){
+            for (int i = 0; i < possibleMoves.length; i++) {
+                if (possibleMoves[i] == null) {
+                    continue;
+                }
+                if (state.determinePlayerInCheck(playerIdx, board, possibleMoves[i][0], possibleMoves[i][1])) {
                     possibleMoves[i] = null;
                 }
             }
         }
         return new int[][]{{4}};
+    }
+
+    public boolean validMove(Piece.PieceType pieceName, int currRow, int currCol, int destRow, int destCol, int player) {
+        //pawns
+        if (pieceName == Piece.PieceType.PAWN) {
+            if (player == 0) {
+                if ((destRow == currRow - 1) && (destCol == currCol)) {
+                    return true;
+                }
+            } else if (player == 1) {
+                if ((destRow == currRow + 1) && (destCol == currCol)) {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        //rooks
+        if (pieceName == Piece.PieceType.ROOK) {
+
+            if ((destRow == currRow) || (destCol == currCol)) {
+                return true;
+
+            }else
+            return false;
+        }
+
+        //knights
+        if (pieceName == Piece.PieceType.KNIGHT) {
+            if (player == 0) {
+                if ((destRow == currRow - 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1))))
+                {
+                    return true;
+                }
+            } else if (player == 1) {
+                if ((destRow == currRow + 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1))))
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        return false;
+
     }
 }
