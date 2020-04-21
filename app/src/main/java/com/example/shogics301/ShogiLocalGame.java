@@ -32,8 +32,8 @@ public class ShogiLocalGame extends LocalGame {
                 boardCopy[i][j] = gameState.getBoard()[i][j];
             }
         }
-
-		legalMove = new ShogiLegalMoveList(gameState.getWhoseMove());
+        int n = gameState.getWhoseMove();
+		legalMove = new ShogiLegalMoveList(n);
     }
 
     @Override

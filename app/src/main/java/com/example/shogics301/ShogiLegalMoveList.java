@@ -562,27 +562,90 @@ public class ShogiLegalMoveList implements Serializable {
             if ((destRow == currRow) || (destCol == currCol)) {
                 return true;
 
-            }else
-            return false;
+            } else
+                return false;
         }
 
         //knights
         if (pieceName == Piece.PieceType.KNIGHT) {
             if (player == 0) {
-                if ((destRow == currRow - 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1))))
-                {
+                if ((destRow == currRow - 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
                     return true;
                 }
             } else if (player == 1) {
-                if ((destRow == currRow + 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1))))
-                {
+                if ((destRow == currRow + 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
+                    return true;
+                }
+            } else
+                return false;
+        }
+
+        //bishops
+        if (pieceName == Piece.PieceType.BISHOP) {
+            if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
+                return true;
+            } else
+                return false;
+        }
+
+        //lance
+        if (pieceName == Piece.PieceType.LANCE) {
+            if (player == 0) {
+                if ((destRow < currRow) && (destCol == currCol)) {
+                    return true;
+                }
+            } else if (player == 1) {
+                if ((destRow > currRow) && (destCol == currCol)) {
                     return true;
                 }
 
-            }
-            return false;
+            } else
+                return false;
+
+        }
+        //silver general
+        if (pieceName == Piece.PieceType.SILVERGENERAL) {
+            boolean b = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
+            if (player == 0) {
+                if (b || ((destRow == currRow - 1) && (destCol == currCol))) {
+                    return true;
+                }
+            } else if (player == 1) {
+                if (b || ((destRow == currRow + 1) && (destCol == currCol))) {
+                    return true;
+                }
+
+            } else
+                return false;
+
         }
 
+        //gold generals
+        if (pieceName == Piece.PieceType.GOLDGENERAL) {
+            boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
+            if (player == 0) {
+                if (((((destRow - currRow) == -1) && (destCol - currCol) == 1) || (destCol - currCol) == -1) || c) {
+                    return true;
+                }
+            } else if (player == 1) {
+                if (((((destRow - currRow) == 1) && (destCol - currCol) == 1) || (destCol - currCol) == -1) || c)
+                    return true;
+            } else
+                return false;
+
+        }
+
+        //king
+        if (pieceName == Piece.PieceType.KING) {
+            boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
+            boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
+
+            if (d || e) {
+                return true;
+            } else
+                return false;
+
+        }
         return false;
 
     }
