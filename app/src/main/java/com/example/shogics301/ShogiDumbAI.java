@@ -79,7 +79,9 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
         // delay for a second to make opponent think we're thinking
         sleep(3);
 
-        // Submit our move to the game object. If it was an illegal move,
+        // Submit our move to the game object. We haven't even checked it it's
+        // our turn, or that that position is unoccupied. If it was not our turn,
+        // we'll get a message back that we'll ignore. If it was an illegal move,
         // we'll end up here again (and possibly again, and again). At some point,
         // we'll end up randomly pick a move that is legal.
         Log.d("dumb AI", "makes move");
