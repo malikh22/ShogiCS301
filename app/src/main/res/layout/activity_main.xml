@@ -26,11 +26,17 @@
                 android:text="Rules" />
         </LinearLayout>
 
-        <com.example.shogics301.ShogiGui
-            android:id="@+id/shogiBoard"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1050dp"
-            android:clickable="false" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.example.shogics301.ShogiGui
+                android:id="@+id/shogiBoard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

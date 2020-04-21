@@ -62,10 +62,10 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
         ShogiState state = (ShogiState) info;
         Piece[][] pieces = state.getBoard();
         int pLength = pieces.length;
-        Piece selPiece;
+        Piece selPiece=null;
         boolean goodMove = false;
-        int destRow;
-        int destCol;
+        int destRow=0;
+        int destCol=0;
 
         //scroll through board
 
