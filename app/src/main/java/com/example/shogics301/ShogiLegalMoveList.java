@@ -556,14 +556,13 @@ public class ShogiLegalMoveList implements Serializable {
             return false;
         }
 
-        //rooks
-        if (pieceName == Piece.PieceType.ROOK) {
+        //rooks and promoted rooks
+        if ((pieceName == Piece.PieceType.ROOK) || (pieceName == Piece.PieceType.P_ROOK)) {
 
             if ((destRow == currRow) || (destCol == currCol)) {
                 return true;
 
-            } else
-                return false;
+            }
         }
 
         //knights
@@ -580,12 +579,11 @@ public class ShogiLegalMoveList implements Serializable {
                 return false;
         }
 
-        //bishops
-        if (pieceName == Piece.PieceType.BISHOP) {
+        //bishops and promoted bishops
+        if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP))  {
             if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
                 return true;
-            } else
-                return false;
+            }
         }
 
         //lance
@@ -620,8 +618,8 @@ public class ShogiLegalMoveList implements Serializable {
 
         }
 
-        //gold generals
-        if (pieceName == Piece.PieceType.GOLDGENERAL) {
+        //gold generals, promoted silver generals, promoted lances, promoted pawns, promoted pawns
+        if ((pieceName == Piece.PieceType.GOLDGENERAL) || (pieceName == Piece.PieceType.P_SILVER) || (pieceName == Piece.PieceType.P_LANCE) || (pieceName == Piece.PieceType.P_KNIGHT) || (pieceName == Piece.PieceType.P_PAWN)) {
             boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
             if (player == 0) {
                 if (((((destRow - currRow) == -1) && (destCol - currCol) == 1) || (destCol - currCol) == -1) || c) {
@@ -635,8 +633,8 @@ public class ShogiLegalMoveList implements Serializable {
 
         }
 
-        //king
-        if (pieceName == Piece.PieceType.KING) {
+        //king, promoted bishops, promoted rook
+        if ((pieceName == Piece.PieceType.KING) || (pieceName == Piece.PieceType.P_BISHOP) || (pieceName == Piece.PieceType.P_ROOK)) {
             boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
             boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
 
