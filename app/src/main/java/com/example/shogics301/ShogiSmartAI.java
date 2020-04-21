@@ -2,8 +2,10 @@ package com.example.shogics301;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.example.shogics301.GameFramework.Game;
+import com.example.shogics301.GameFramework.GameComputerPlayer;
 import com.example.shogics301.GameFramework.GameMainActivity;
 import com.example.shogics301.GameFramework.GamePlayer;
 
@@ -13,6 +15,7 @@ import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
 import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
+import com.example.shogics301.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
 import com.example.shogics301.GameFramework.utilities.GameTimer;
@@ -20,318 +23,156 @@ import com.example.shogics301.GameFramework.utilities.Logger;
 import com.example.shogics301.GameFramework.utilities.MessageBox;
 import com.example.shogics301.GameFramework.utilities.Tickable;
 
+import java.util.Random;
+
 /**
  * An abstract computerized game player player. This is an abstract class, that
  * should be sub-classed to implement different AIs. The subclass must implement
  * the {@link #receiveInfo} method.
  *
- * TODO: Update AI behavior
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
  * @version July 2013
  */
-public abstract class ShogiSmartAI implements GamePlayer, Tickable {
+public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
     //Tag for logging
     private static final String TAG = "ShogiDumbAI";
-    /**
-     * the current game state
-     */
-    protected Game game; // the game object
-    protected int playerNum; // which player number I am
-    protected String name; // my name
-    protected String[] allPlayerNames; // list of all player names, in ID order
-    private Handler myHandler; // the handler for this player's thread
-    private boolean running; // whether the player's thread is running
-    private boolean gameOver = false; // whether the game is over
-    private GameMainActivity myActivity; // the game's main activity, set only
-    // this game is connected to the GUI
-    private GameTimer myTimer = new GameTimer(this); // my timer
 
-    /**
-     * Returns this game's timer.
-     *
-     * @return this game's timer object
-     */
-    protected final GameTimer getTimer() {
-        return myTimer;
-    }
-
-    /**
-     * Called when the timer ticks; satisfies the Tickable interface.
-     */
-    public final void tick(GameTimer timer) {
-        sendInfo(new TimerInfo(timer));
-    }
-
-    /*
-     * ====================================================================
-     * Abstract Methods
-     *
-     * Create the game specific functionality for this human player by
-     * sub-classing this class and implementing the following methods.
-     * --------------------------------------------------------------------
-     */
-
-    /*
-     * ====================================================================
-     * Public Methods
-     * --------------------------------------------------------------------
-     */
-
-    /**
-     * constructor
-     *
-     * @param name
-     * 			the player's name (e.g., "John")
-     */
     public ShogiSmartAI(String name) {
-        this.name = name;
+        // invoke superclass constructor
+        super(name); // invoke superclass constructor
     }
 
     /**
-     * Sets this player to be the one connected to the GUI.
-     * Should only be called if the supportsGUI method returns
-     * true.
-     *
-     * @param a
-     * 			the activity that is being run
-     */
-    public final void gameSetAsGui(GameMainActivity a) {
-        myActivity = a;
-        setAsGui(a);
-    }
-
-    /**
-     * Subclass-behavior for setting this player to be the
-     * one associated with the GUI. Typically, changes the
-     * current screen to have a new layout, and sets up
-     * listeners, animators, etc.
-     *
-     * @param activity
-     * 			the activity that is being run
-     */
-    public void setAsGui(GameMainActivity activity) {
-        // default behavior is to do nothing
-    }
-
-    /**
-     * perform any initialization that needs to be done after the player
-     * knows what their game-position and opponents' names are.
-     */
-    protected void initAfterReady() {
-        // by default, we do nothing
-    }
-
-    /**
-     * Method used to send updated state to this player.
+     * Called when the player receives a game-state (or other info) from the
+     * game.
      *
      * @param info
-     * 			the information message to send
+     * 		the message from the game
      */
-    public final void sendInfo(GameInfo info) {
-        // post the state to the player's thread, waiting (if needed) until handler is there
-        while (myHandler == null) Thread.yield();
-        myHandler.post(new MyRunnable(info));
-    }
+    @Override
+    protected void receiveInfo(GameInfo info) {
 
-    /**
-     * Starts the player.
-     */
-    public final void start() {
-        // if the player's thread is not presently running, start it up, keeping
-        // track of its handler so that messages can be sent to the thread.
-        synchronized(this) {
-            if (running) return;
-            running = true;
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    Looper.prepare();
-                    myHandler = new Handler();
-                    Looper.loop();
-                }
-            };
-            Thread thread = new Thread(runnable);
-            thread.setName("Computer Player");
-            thread.start();
-        }
-    }
+        // if it was a "not your turn" message, just ignore it
+        if (info instanceof NotYourTurnInfo) return;
 
-    /**
-     * Callback-method implemented in the subclass whenever updated
-     * state is received.
-     *
-     * @param info
-     * 			the object representing the information from the game
-     */
-    protected abstract void receiveInfo(GameInfo info);
+        Random rnd = new Random();
 
-    /**
-     * Helper-class to post a message to this player's thread
-     *
-     */
-    private class MyRunnable implements Runnable {
+        ShogiState state = (ShogiState) info;
+        Piece[][] pieces = state.getBoard();
+        int pLength = pieces.length;
+        Piece selPiece;
+        boolean goodMove = false;
+        int destRow;
+        int destCol;
 
-        // the object to post
-        private Object data;
+        //scroll through board
 
-        // constructor
-        public MyRunnable(Object data) {
-            this.data = data;
-        }
+        //check for a checkmate
 
-        // run-method: executed in this player's thread, handling a message from
-        // the game, or the timer
-        public void run() {
+        //check for a capture
 
-            // if game is over, do nothing
-            if (gameOver) return;
+        //make a random move
 
-            // if it's a GameInfo object, process it
-            if (data instanceof GameInfo) { // ignore non GameInfo objects
-                GameInfo myInfo = (GameInfo)data;
-                if (game == null) {
+        for (int i = 0; i < pLength; i++){
+            for (int j = 0; j < pieces[i].length; j++) {
+                if(pieces[i][j] != null){
+                    for (int desti = 0; desti < pLength; desti++){
+                        for (int destj = 0; destj < pieces[i].length; destj++) {
+                            if(isValidMove(pieces[i][j],i,j,desti,destj)){
+                                if(pieces[desti][destj] != null){
+                                    switch (pieces[desti][destj].getType()) {
+                                        case GOLDGENERAL:
+                                        case ROOK:
+                                        case BISHOP:
+                                        case SILVERGENERAL:
+                                            if(rnd.nextBoolean()){
+                                                selPiece=pieces[i][j];
+                                                destRow=desti;
+                                                destCol=destj;
+                                            }
+                                            break;
+                                        case KING:
+                                        case KNIGHT:
+                                        case LANCE:
+                                            if(selPiece==null || pieces[desti][destj].getType() == Piece.PieceType.PAWN){
+                                                selPiece=pieces[i][j];
+                                                destRow=desti;
+                                                destCol=destj;
+                                            }
+                                            break;
+                                        case PAWN:
+                                            if(selPiece==null){
+                                                selPiece=pieces[i][j];
+                                                destRow=desti;
+                                                destCol=destj;
+                                            }
+                                    }
+                                }
+                                else{
 
-                    // CASE 1: we don't know who our game is; the only thing we're
-                    // looking for is BindGameInfo object; ignore everything else
-                    if (myInfo instanceof BindGameInfo) {
-                        BindGameInfo bgs = (BindGameInfo)myInfo;
-                        game = bgs.getGame(); // set our game
-                        playerNum = bgs.getPlayerNum(); // set our player ID
-
-                        // send a message to the game with our player's name
-                        game.sendAction(new MyNameIsAction(ShogiSmartAI.this, name));
+                                }
+                            }
+                        }
                     }
-                }
-                else if (allPlayerNames == null) {
-
-                    // CASE 2: we don't know the names of a the players; the only thing we're
-                    // looking for is a StartGameInfo object; ignore everything else
-                    if (myInfo instanceof StartGameInfo) {
-                        // set our instance variable with the players' names
-                        allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
-                        // perform game-specific initialization
-                        initAfterReady();
-                        // tell game that we're ready to play
-                        game.sendAction(new ReadyAction(ShogiSmartAI.this));
-                    }
-                }
-                else if (myInfo instanceof GameOverInfo) {
-
-                    // CASE 3: we get a "game over" message
-
-                    // if we are the GUI, pop up a message box and tell the
-                    // activity that the game is over
-                    if (myActivity != null) {
-                        gameIsOver(((GameOverInfo)myInfo).getMessage());
-                        myActivity.setGameOver(true);
-                    }
-
-                    // acknowledge to the game that we have receive the message
-                    game.sendAction(new GameOverAckAction(ShogiSmartAI.this));
-
-                    // mark game as being over
-                    gameOver = true;
-                }
-                else if (myInfo instanceof TimerInfo) {
-
-                    // CASE 4: we have a timer "tick"
-                    // if we have a timer-tick, and it's our timer object,
-                    // directly invoke the subclass method; otherwise, pass
-                    // it on as a message
-                    if (((TimerInfo)myInfo).getTimer() == myTimer) {
-                        // checking that it's from our timer
-                        timerTicked();
-                    }
-                    else {
-                        receiveInfo(myInfo);
-                    }
-                }
-                else {
-                    // invoke subclass method
-                    receiveInfo(myInfo);
                 }
             }
         }
-    }
-
-    /**
-     * callback method--called when we are notified that the game is over
-     *
-     * @param msg
-     * 		the "game over" message sent by the game
-     */
-    protected void gameIsOver(String msg) {
-        // the default behavior is to put a pop-up for the user to see that tells
-        // the game's result
-        MessageBox.popUpMessage(msg, myActivity);
-    }
-
-    /**
-     * Sleeps for a particular amount of time. Utility method.
-     *
-     * @param seconds
-     * 			the number of seconds to sleep for
-     */
-    protected void sleep(double seconds) {
-        long milliseconds;
-
-        //Since Thread.sleep takes in milliseconds, convert from seconds to milliseconds
-        milliseconds = (long)(seconds * 1000);
-
-        try {
-            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds.");
-            Thread.sleep(milliseconds);
-            Logger.debugLog(TAG, "Sleeping on the thread complete.");
+        /*
+        if(selPiece==null){
+            while(!goodMove) {
+                selPiece=pieces[i][j];
+                if(p instanceof Piece) myPiece = (p.getPlayer()==this.playerNum);
+            }
         }
-        catch (InterruptedException e) {
-            Logger.debugLog(TAG, "Sleeping on the thread complete.");
-        }
+
+        destRow = rnd.nextInt(pLength - 1);
+        destCol = rnd.nextInt(pieces[destRow].length - 1);
+        */
+
+        // delay for a second to make opponent think we're thinking
+        sleep(3);
+
+        // Submit our move to the game object. We haven't even checked it it's
+        // our turn, or that that position is unoccupied. If it was not our turn,
+        // we'll get a message back that we'll ignore. If it was an illegal move,
+        // we'll end up here again (and possibly again, and again). At some point,
+        // we'll end up randomly pick a move that is legal.
+        Log.d("dumb AI", "makes move");
+        game.sendAction(new ShogiMoveAction(this, selPiece, destRow, destCol, selPiece.getRow(), selPiece.getColumn()));
     }
 
-    /**
-     * Sleeps for a particular amount of time.
-     *
-     * @param seconds: The number of seconds to sleep for
-     * @param nanoseconds: The number of nanoseconds to sleep for
-     */
-    protected void sleep(double seconds, int nanoseconds){
-        long milliseconds;
+    public boolean isValidMove(Piece p, int ox, int oy, int x, int y) {
+        boolean side = p.getPlayer()==0;
+        switch (p.getType()) {
+            case PAWN:
+                if (x != ox || (side ? y > oy : y < oy)|| (side ? y < oy - 1 : y > oy + 1)) return false;
+                break;
+            case KING:
+                if ((x > ox ? x > ox + 1 : x < ox - 1)|| (y > oy ? y > oy + 1 : y < oy - 1)) return false;
+                break;
+            case GOLDGENERAL:
+                if ((x > ox ? x > ox + 1 : x < ox - 1) || (y > oy ? y > oy + 1 : y < oy - 1) || (x != ox && (side ? y == oy + 1 : y == oy - 1))) return false;
+                break;
+            case SILVERGENERAL:
+                if ((x > ox ? x > ox + 1 : x < ox - 1) || (y > oy ? y > oy + 1 : y < oy - 1) || (y == oy && x != ox) || (x == ox && (side ? y == oy + 1 : y == oy - 1))) return false;
+                break;
+            case KNIGHT:
+                if ((x > ox ? x != ox + 1 : x != ox - 1) || (side ? y != oy - 2 : y != oy + 2)) return false;
+                break;
+            case ROOK:
+                if (x != ox && y != oy) return false;
+                break;
+            case BISHOP:
+                if (Math.abs(x - ox) != Math.abs(y - oy)) return false;
+                break;
+            case LANCE:
+                if (x != ox || (side ? y > oy : y < oy)) return false;
+                break;
+            }
 
-        //Since Thread.sleep takes in milliseconds, convert from seconds to milliseconds
-        milliseconds = (long)(seconds * 1000);
-
-        try {
-            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds and " + nanoseconds + "nanoseconds.");
-            Thread.sleep(milliseconds, nanoseconds);
-            Logger.debugLog(TAG, "Sleeping on the thread complete.");
-        }
-        catch (InterruptedException e) {
-            Logger.debugLog(TAG, "Error while trying to sleep: " + e.getMessage());
-        }
+        return true;
     }
 
-    /**
-     * Tells whether this player requires a GUI. Since this is a computer
-     * player, the answer should be 'false'.
-     */
-    public final boolean requiresGui() {
-        return false;
-    }
-
-    /** tells whether this player supports a GUI. Some computer players may be
-     * implemented to do so. In that case, they should implement the 'setAsGui'
-     * method.
-     */
-    public boolean supportsGui() {
-        return false;
-    }
-
-    /**
-     * Invoked whenever the player's timer has ticked. It is expected
-     * that this will be overridden in many games.
-     */
-    protected void timerTicked() {
-        // by default, do nothing
-    }
 }// class ShogiDumbAI
