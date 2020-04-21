@@ -108,6 +108,21 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                                                 destRow=desti;
                                                 destCol=destj;
                                             }
+                                            break;
+                                        default:
+                                            boolean myP=false;
+                                            Piece myPiece = pieces[0][0];
+                                            int myRow=0;
+                                            int myCol=0;
+                                            while(!myP) {
+                                                myRow=rnd.nextInt(pLength - 1);
+                                                myPiece=pieces[rnd.nextInt(myRow)][rnd.nextInt(pieces[myRow].length - 1)];
+                                                if(myPiece instanceof Piece) myP = (pieces[i][j].getPlayer()==this.playerNum);
+                                            }
+                                            selPiece=myPiece;
+                                            destRow = rnd.nextInt(pLength - 1);
+                                            destCol = rnd.nextInt(pieces[destRow].length - 1);
+                                            break;
                                     }
                                 }
                                 else{
