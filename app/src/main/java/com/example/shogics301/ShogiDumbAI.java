@@ -15,6 +15,7 @@ import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
 import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
+import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
@@ -56,6 +57,11 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
 
         // if it was a "not your turn" message, just ignore it
         if (info instanceof NotYourTurnInfo) return;
+        if(info instanceof IllegalMoveInfo)
+        {
+            return;
+
+        }
 
         Random rnd = new Random();
 
@@ -77,7 +83,7 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
 
 
         // delay for a second to make opponent think we're thinking
-        sleep(3);
+        sleep(0.25);
 
         // Submit our move to the game object. We haven't even checked it it's
         // our turn, or that that position is unoccupied. If it was not our turn,

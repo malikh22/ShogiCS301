@@ -9,6 +9,7 @@ import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
 import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
+import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
 import com.example.shogics301.GameFramework.utilities.GameTimer;
@@ -236,6 +237,9 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
                     if (((TimerInfo)myInfo).getTimer() == myTimer) {
                         // checking that it's from our timer
                         timerTicked();
+                    }else if(myInfo instanceof IllegalMoveInfo){
+
+                        receiveInfo(myInfo);
                     }
                     else {
                         receiveInfo(myInfo);
