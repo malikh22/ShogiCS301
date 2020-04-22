@@ -622,11 +622,11 @@ public class ShogiLegalMoveList implements Serializable {
         if ((pieceName == Piece.PieceType.GOLDGENERAL) || (pieceName == Piece.PieceType.P_SILVER) || (pieceName == Piece.PieceType.P_LANCE) || (pieceName == Piece.PieceType.P_KNIGHT) || (pieceName == Piece.PieceType.P_PAWN)) {
             boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
             if (player == 0) {
-                if (((((destRow - currRow) == -1) && (destCol - currCol) == 1) || (destCol - currCol) == -1) || c) {
+                if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) ||((destCol - currCol) == -1)))) ^ c) {
                     return true;
                 }
             } else if (player == 1) {
-                if (((((destRow - currRow) == 1) && (destCol - currCol) == 1) || (destCol - currCol) == -1) || c)
+                if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) ||((destCol - currCol) == -1)))) ^ c)
                     return true;
             } else
                 return false;

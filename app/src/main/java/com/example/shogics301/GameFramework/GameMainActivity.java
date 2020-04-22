@@ -926,4 +926,9 @@ public abstract class GameMainActivity extends Activity implements
         }
     }
 
+    public Context getContext()
+    {
+        return getApplicationContext();
+    }
+
 }

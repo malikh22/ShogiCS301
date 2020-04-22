@@ -3,9 +3,12 @@ package com.example.shogics301.GameFramework.utilities;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * A SurfaceView which allows which that implements a 'flash' operation.
@@ -93,7 +96,7 @@ public class FlashSurfaceView extends SurfaceView {
     /**
      * helper class to perform the flash
      */
-    private class Flasher implements Runnable {
+    public class Flasher implements Runnable {
 
         // Drawable that we should flash
         private Drawable flashDraw;
@@ -125,6 +128,7 @@ public class FlashSurfaceView extends SurfaceView {
         public void run() {
             // create two Runnables--one each for flashing and unflashing
             Runnable newRunner1 = new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 public void run() {
                     if (flashDraw != null) {
                         // effect the flash by setting the background and invalidating
@@ -134,6 +138,7 @@ public class FlashSurfaceView extends SurfaceView {
                 }
             };
             Runnable newRunner2 = new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 public void run() {
                     if (restoreDraw != null) {
                         // effect the flash by resetting the background and invalidating

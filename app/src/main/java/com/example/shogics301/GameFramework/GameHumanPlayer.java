@@ -14,8 +14,10 @@ import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
 import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
+import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
+import com.example.shogics301.GameFramework.utilities.FlashSurfaceView;
 import com.example.shogics301.GameFramework.utilities.GameTimer;
 import com.example.shogics301.GameFramework.utilities.Logger;
 import com.example.shogics301.GameFramework.utilities.MessageBox;
@@ -48,6 +50,8 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     private GameMainActivity myActivity; // the current activity
     private GameTimer myTimer = new GameTimer(this); // my player's timer
     private boolean gameOver; // whether the game is over
+    private boolean flash = false;
+    public FlashSurfaceView flashSurfaceView;
 
     /**
      * constructor
@@ -116,6 +120,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
         myActivity = a;
         setAsGui(a);
+        flashSurfaceView = new FlashSurfaceView(myActivity.getContext());
 
     }
 
@@ -306,6 +311,12 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
                                 gameIsOver(((GameOverInfo)myInfo).getMessage());
                             }},
                         myActivity);
+            }else if(myInfo instanceof IllegalMoveInfo)
+            {
+                Log.d("flash,", "flash pls");
+                flashSurfaceView.flash(Color.RED, 250);
+
+
             }
             else if (myInfo instanceof TimerInfo) {
                 // if we have a timer-tick, and it's our timer object,
@@ -364,5 +375,11 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         // by default, do nothing
     }
 
+    public void setFlash (boolean b)
+    {
+        this.flash=b;
+
+
+    }
 }// class ShogiHumanPlayer
 

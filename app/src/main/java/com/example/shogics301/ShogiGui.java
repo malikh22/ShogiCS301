@@ -191,7 +191,7 @@ public class ShogiGui extends SurfaceView {
                     if (myPieces[k][l].getType() == Piece.PieceType.BISHOP
                             && myPieces[k][l].getPlayer() == 1) {
                         myPieces[k][l].setMyBitmap(computerBishop);
-                        canvas.drawBitmap(computerRook, left, top, null);
+                        canvas.drawBitmap(computerBishop, left, top, null);
                     }
                     if (myPieces[k][l].getType() == Piece.PieceType.KING
                             && myPieces[k][l].getPlayer() == 1) {
