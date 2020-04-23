@@ -74,7 +74,7 @@ public class ShogiLocalGame extends LocalGame {
 
 
             if (legalMove.validMove(newBoard[oldRow][oldCol].getType(), oldRow, oldCol, row, col, newBoard[oldRow][oldCol].getPlayer())) {
-                if (newBoard[row][col] != null) {
+                if (newBoard[row][col] != null && newBoard[row][col].getPlayer() != gameState.getWhoseMove()) {
                     //if possible, capture the piece at the given spot
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
