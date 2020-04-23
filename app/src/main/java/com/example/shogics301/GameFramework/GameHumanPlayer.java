@@ -36,7 +36,7 @@ import com.example.shogics301.ShogiGui;
  * @version July 2013
  *
  */
-public abstract class GameHumanPlayer extends SuperFlash implements GamePlayer, Tickable {
+public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     //Tag for logging
     private static final String TAG = "ShogiHumanPlayer";
     /**
@@ -53,6 +53,7 @@ public abstract class GameHumanPlayer extends SuperFlash implements GamePlayer, 
     private boolean gameOver; // whether the game is over
     private boolean flash = false;
     public FlashSurfaceView flashSurfaceView;
+
 
     /**
      * constructor
@@ -315,7 +316,7 @@ public abstract class GameHumanPlayer extends SuperFlash implements GamePlayer, 
             }else if(myInfo instanceof IllegalMoveInfo)
             {
                 Log.d("GameHumanPlayer,", "flash ");
-
+                flash = true;
 
 
             }
@@ -376,10 +377,9 @@ public abstract class GameHumanPlayer extends SuperFlash implements GamePlayer, 
         // by default, do nothing
     }
 
-    public void flash ()
+    public boolean getflash ()
     {
-
-
+        return this.flash;
 
     }
 }// class ShogiHumanPlayer

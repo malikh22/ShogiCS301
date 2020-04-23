@@ -16,6 +16,7 @@ import com.example.shogics301.GameFramework.GameMainActivity;
 
 import com.example.shogics301.GameFramework.Rules;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
+import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.utilities.Logger;
 
 
@@ -87,18 +88,26 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             gui = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
-            if(super.isToFlash())
-            {
-                try{
-                flashButton();}
-                catch (InterruptedException e)
-                {
+            if(info instanceof IllegalMoveInfo) {
+
+                Log.d("ShogiHP", "illegal move");
 
 
+                if (super.getflash()) {
+
+                    try {
+                        flashButton();
+                    } catch (InterruptedException e) {
+
+
+                    }
                 }
+
+                gui.invalidate();
             }
 
             gui.invalidate();
+
         }
     }
 
@@ -390,7 +399,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    super.setToFlash(false);
+                    //super.setToFlash(false);
+
                     return true;
                 }
 

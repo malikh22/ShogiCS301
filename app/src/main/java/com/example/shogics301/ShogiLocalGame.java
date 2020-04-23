@@ -1,5 +1,7 @@
 package com.example.shogics301;
 
+import android.util.Log;
+
 import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.LocalGame;
 import com.example.shogics301.GameFramework.actionMessage.GameAction;
@@ -169,7 +171,7 @@ public class ShogiLocalGame extends LocalGame {
 
             } else {
                 //figure out how to flash
-                super.setToFlash(true);
+
                 return false;
 
             }
