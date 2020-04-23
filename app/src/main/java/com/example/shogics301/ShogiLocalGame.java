@@ -1,11 +1,8 @@
 package com.example.shogics301;
 
-import android.util.Log;
-
 import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.LocalGame;
 import com.example.shogics301.GameFramework.actionMessage.GameAction;
-import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 
 /**
  * The ShogiLocalGame class for a Shogi game.  Defines and enforces
@@ -172,9 +169,7 @@ public class ShogiLocalGame extends LocalGame {
 
             } else {
                 //figure out how to flash
-                Log.d("this should send", "a flash notification");
-                IllegalMoveInfo illegalMoveInfo = new IllegalMoveInfo();
-                sma.getPlayer().sendInfo(illegalMoveInfo );
+                super.setToFlash(true);
                 return false;
 
             }

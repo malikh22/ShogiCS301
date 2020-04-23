@@ -28,7 +28,7 @@ public class ShogiState extends GameState {
     private char[][] board = new char[9][9];
 
     private Piece[][] pieces;
-    
+    private Boolean flash = false;
     // an int that tells whose move it is
     private int playerToMove;
 
@@ -288,4 +288,15 @@ public class ShogiState extends GameState {
     private void setPlayerInCheck(int idx, boolean playerInCheck) {
     }
 
+    public void setFlash (Boolean b){
+
+        this.flash = b;
+
+    }
+
+    public Boolean getFlash()
+    {
+
+        return this.flash;
+    }
 }

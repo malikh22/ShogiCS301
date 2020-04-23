@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.shogics301.GameFramework.utilities.FlashSurfaceView;
 import com.example.shogics301.GameFramework.utilities.Logger;
 
 import static com.example.shogics301.R.drawable.shougi_board;
@@ -24,7 +25,7 @@ import static com.example.shogics301.R.drawable.shougi_board;
  * TODO: Draw pieces somehow
  */
 
-public class ShogiGui extends SurfaceView {
+public class ShogiGui extends FlashSurfaceView {
     public Piece myPieces[][];
 
 
@@ -268,5 +269,12 @@ public class ShogiGui extends SurfaceView {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    @Override
+    public void flash(int color, int millis)
+    {
+        super.flash(color, millis);
+
     }
 }

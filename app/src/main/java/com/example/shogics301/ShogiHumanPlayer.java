@@ -3,6 +3,7 @@ package com.example.shogics301;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -72,7 +73,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
      * @param info the updated game state
      */
     @Override
-    public void receiveInfo(GameInfo info) {
+    public void receiveInfo(GameInfo info)  {
 
         //only update the state if info is a game state
         if (info instanceof ShogiState) {
@@ -86,6 +87,16 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             gui = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
+            if(super.isToFlash())
+            {
+                try{
+                flashButton();}
+                catch (InterruptedException e)
+                {
+
+
+                }
+            }
 
             gui.invalidate();
         }
@@ -107,6 +118,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         topView.setOnTouchListener(this);
 
         toRules = (Button) myActivity.findViewById(R.id.button2);
+        toRules.setBackgroundColor(Color.WHITE);
+        toRules.setTextColor(Color.BLACK);
         Log.d("attempt to open rules", "open rules");
 
         toRules.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +234,20 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
         );
 
+
+    }
+
+    public void flashButton() throws InterruptedException {
+        toRules.setBackgroundColor(Color.RED);
+        toRules.setTextColor(Color.RED);
+        gui.invalidate();
+
+        Log.d("ShogiHumanPlayer", "flash");
+        Thread.sleep(400);
+
+        toRules.setBackgroundColor(Color.WHITE);
+        toRules.setTextColor(Color.BLACK);
+        gui.invalidate();
 
     }
 
@@ -356,7 +383,16 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
                 //if a piece is selected and the tapped space is not a legal move,
                 //then leave everything as it is
-                else return true;
+                else {
+                    Log.d("ShogiHP","flash");
+                    try {
+                        flashButton();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    super.setToFlash(false);
+                    return true;
+                }
 
             }
         }

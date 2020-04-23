@@ -22,6 +22,7 @@ import com.example.shogics301.GameFramework.utilities.GameTimer;
 import com.example.shogics301.GameFramework.utilities.Logger;
 import com.example.shogics301.GameFramework.utilities.MessageBox;
 import com.example.shogics301.GameFramework.utilities.Tickable;
+import com.example.shogics301.ShogiGui;
 
 /**
  * class ShogiHumanPlayer
@@ -35,7 +36,7 @@ import com.example.shogics301.GameFramework.utilities.Tickable;
  * @version July 2013
  *
  */
-public abstract class GameHumanPlayer implements GamePlayer, Tickable {
+public abstract class GameHumanPlayer extends SuperFlash implements GamePlayer, Tickable {
     //Tag for logging
     private static final String TAG = "ShogiHumanPlayer";
     /**
@@ -120,7 +121,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
         myActivity = a;
         setAsGui(a);
-        flashSurfaceView = new FlashSurfaceView(myActivity.getContext());
+       // flashSurfaceView = new FlashSurfaceView(myActivity.getContext());
 
     }
 
@@ -313,8 +314,8 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
                         myActivity);
             }else if(myInfo instanceof IllegalMoveInfo)
             {
-                Log.d("flash,", "flash pls");
-                flashSurfaceView.flash(Color.RED, 250);
+                Log.d("GameHumanPlayer,", "flash ");
+
 
 
             }
@@ -375,9 +376,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         // by default, do nothing
     }
 
-    public void setFlash (boolean b)
+    public void flash ()
     {
-        this.flash=b;
+
 
 
     }

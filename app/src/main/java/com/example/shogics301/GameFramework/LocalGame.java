@@ -32,7 +32,7 @@ import com.example.shogics301.GameFramework.utilities.Tickable;
  * @author Andrew Nuxoll
  * @version July 2013
  */
-public abstract class LocalGame implements Game, Tickable {
+public abstract class LocalGame extends SuperFlash implements Game, Tickable {
     //Tag for logging
     private static final String TAG = "LocalGame";
 
