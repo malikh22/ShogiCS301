@@ -35,7 +35,7 @@ public class ShogiLocalGame extends LocalGame {
             }
         }
         int n = gameState.getWhoseMove();
-		legalMove = new ShogiLegalMoveList(n);
+        legalMove = new ShogiLegalMoveList(n);
     }
 
     @Override
@@ -80,14 +80,14 @@ public class ShogiLocalGame extends LocalGame {
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
                             gameState.setPlayerHasKing(1);
-                        } else{
+                        } else {
                             newBoard[row][col].setPlayer(0);
                             gameState.capturep0(newBoard[row][col]);
                         }
                     } else if (gameState.getWhoseMove() == 1 && newBoard[row][col].getPlayer() != 1) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
                             gameState.setPlayerHasKing(0);
-                        } else  {
+                        } else {
                             newBoard[row][col].setPlayer(1);
                             gameState.capturep1(newBoard[row][col]);
                         }
@@ -103,8 +103,40 @@ public class ShogiLocalGame extends LocalGame {
 
                     //forced promotion for piece if in proper zone
                     if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
-                        newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
-                                newBoard[row][col].getPromotedPiece(), row, col, 0);
+                        if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+                        }
+                        if (sma.thisPiece.getType() == Piece.PieceType.BISHOP) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_BISHOP);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                        }
+                        if (sma.thisPiece.getType() == Piece.PieceType.ROOK) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_ROOK);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                        }
+                        if (sma.thisPiece.getType() == Piece.PieceType.LANCE) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_LANCE);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                        }
+                        if (sma.thisPiece.getType() == Piece.PieceType.KNIGHT) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_KNIGHT);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                        }
+                        if (sma.thisPiece.getType() == Piece.PieceType.SILVERGENERAL) {
+                            sma.thisPiece.setMyType(Piece.PieceType.P_SILVER);
+                            sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                        }
                         sma.thisPiece.setColumn(col);
                         sma.thisPiece.setRow(row);
                     }
