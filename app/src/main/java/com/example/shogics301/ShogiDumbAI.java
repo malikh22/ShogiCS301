@@ -83,7 +83,7 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
 
 
         // delay for a second to make opponent think we're thinking
-        sleep(0.25);
+        sleep(0.005);
 
         // Submit our move to the game object. We haven't even checked it it's
         // our turn, or that that position is unoccupied. If it was not our turn,

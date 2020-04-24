@@ -43,6 +43,13 @@ public class ShogiGui extends FlashSurfaceView {
     private Bitmap humanLance;
     private Bitmap humanRook;
     private Bitmap humanKnight;
+    private Bitmap promotedHumanSG;
+    private Bitmap promotedHumanPawn;
+    private Bitmap promotedHumanBishop;
+    private Bitmap promotedHumanLance;
+    private Bitmap promotedHumanRook;
+    private Bitmap promotedHumanKnight;
+
 
 
     private Bitmap computerKing;
@@ -53,6 +60,12 @@ public class ShogiGui extends FlashSurfaceView {
     private Bitmap computerRook;
     private Bitmap computerKnight;
     private Bitmap computerBishop;
+    private Bitmap promotedComputerSG;
+    private Bitmap promotedComputerPawn;
+    private Bitmap promotedComputerLance;
+    private Bitmap promotedComputerRook;
+    private Bitmap promotedComputerKnight;
+    private Bitmap promotedComputerBishop;
 
 
 
@@ -78,23 +91,41 @@ public class ShogiGui extends FlashSurfaceView {
         humanSG = BitmapFactory.decodeResource(getResources(), R.drawable.silvergeneral);
         humanSG = Bitmap.createScaledBitmap(humanSG, 120, 120, false);
 
+        promotedHumanSG = BitmapFactory.decodeResource(getResources(), R.drawable.promotedsg);
+        promotedHumanSG = Bitmap.createScaledBitmap(promotedHumanSG, 120, 120, false);
+
         humanGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
         humanGG = Bitmap.createScaledBitmap(humanGG, 120, 120, false);
 
         humanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.pawn);
         humanPawn = Bitmap.createScaledBitmap(humanPawn, 120, 120, false);
 
+        promotedHumanPawn = BitmapFactory.decodeResource(getResources(), R.drawable.promotedpawn);
+        promotedHumanPawn = Bitmap.createScaledBitmap(promotedHumanPawn, 120, 120, false);
+
         humanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
         humanBishop = Bitmap.createScaledBitmap(humanBishop, 120, 120, false);
+
+        promotedHumanBishop = BitmapFactory.decodeResource(getResources(), R.drawable.promotedbishop);
+        promotedHumanBishop = Bitmap.createScaledBitmap(promotedHumanBishop, 120, 120, false);
 
         humanLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
         humanLance = Bitmap.createScaledBitmap(humanLance, 120, 120, false);
 
+        promotedHumanLance = BitmapFactory.decodeResource(getResources(), R.drawable.promotedlance);
+        promotedHumanLance = Bitmap.createScaledBitmap(promotedHumanLance, 120, 120, false);
+
         humanRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
         humanRook = Bitmap.createScaledBitmap(humanRook, 120, 120, false);
 
+        promotedHumanRook = BitmapFactory.decodeResource(getResources(), R.drawable.promotedrook);
+        promotedHumanRook = Bitmap.createScaledBitmap(promotedHumanRook, 120, 120, false);
+
         humanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
         humanKnight = Bitmap.createScaledBitmap(humanKnight, 120, 120, false);
+
+        promotedHumanKnight = BitmapFactory.decodeResource(getResources(), R.drawable.promotedknight);
+        promotedHumanKnight = Bitmap.createScaledBitmap(promotedHumanKnight, 120, 120, false);
 
         //computer piece objects
         computerKing = BitmapFactory.decodeResource(getResources(), R.drawable.king);
@@ -105,6 +136,10 @@ public class ShogiGui extends FlashSurfaceView {
         computerSG = Bitmap.createScaledBitmap(computerSG, 120, 120, false);
         computerSG = RotateBitmap(computerSG, 180);
 
+        promotedComputerSG = BitmapFactory.decodeResource(getResources(), R.drawable.promotedsg);
+        promotedComputerSG = Bitmap.createScaledBitmap(promotedComputerSG, 120, 120, false);
+        promotedComputerSG = RotateBitmap(promotedComputerSG, 180);
+
         computerGG = BitmapFactory.decodeResource(getResources(), R.drawable.goldgeneral);
         computerGG = Bitmap.createScaledBitmap(computerGG, 120, 120, false);
         computerGG = RotateBitmap(computerGG, 180);
@@ -113,21 +148,41 @@ public class ShogiGui extends FlashSurfaceView {
         computerPawn = Bitmap.createScaledBitmap(computerPawn, 120, 120, false);
         computerPawn = RotateBitmap(computerPawn, 180);
 
+        promotedComputerPawn = BitmapFactory.decodeResource(getResources(), R.drawable.promotedpawn);
+        promotedComputerPawn = Bitmap.createScaledBitmap(promotedComputerPawn, 120, 120, false);
+        promotedComputerPawn = RotateBitmap(promotedComputerPawn, 180);
+
         computerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.bishop);
         computerBishop = Bitmap.createScaledBitmap(computerBishop, 120, 120, false);
         computerBishop = RotateBitmap(computerBishop, 180);
+
+        promotedComputerBishop = BitmapFactory.decodeResource(getResources(), R.drawable.promotedbishop);
+        promotedComputerBishop = Bitmap.createScaledBitmap(promotedComputerBishop, 120, 120, false);
+        promotedComputerBishop = RotateBitmap(promotedComputerBishop, 180);
 
         computerLance = BitmapFactory.decodeResource(getResources(), R.drawable.lance);
         computerLance = Bitmap.createScaledBitmap(computerLance, 120, 120, false);
         computerLance = RotateBitmap(computerLance, 180);
 
+        promotedComputerLance = BitmapFactory.decodeResource(getResources(), R.drawable.promotedlance);
+        promotedComputerLance = Bitmap.createScaledBitmap(promotedComputerLance, 120, 120, false);
+        promotedComputerLance = RotateBitmap(promotedComputerLance, 180);
+
         computerRook = BitmapFactory.decodeResource(getResources(), R.drawable.rook);
         computerRook = Bitmap.createScaledBitmap(computerRook, 120, 120, false);
         computerRook = RotateBitmap(computerRook, 180);
 
+        promotedComputerRook = BitmapFactory.decodeResource(getResources(), R.drawable.promotedrook);
+        promotedComputerRook = Bitmap.createScaledBitmap(promotedComputerRook, 120, 120, false);
+        promotedComputerRook = RotateBitmap(promotedComputerRook, 180);
+
         computerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.knight);
         computerKnight = Bitmap.createScaledBitmap(computerKnight, 120, 120, false);
         computerKnight = RotateBitmap(computerKnight, 180);
+
+        promotedComputerKnight = BitmapFactory.decodeResource(getResources(), R.drawable.promotedknight);
+        promotedComputerKnight = Bitmap.createScaledBitmap(promotedComputerKnight, 120, 120, false);
+        promotedComputerKnight = RotateBitmap(promotedComputerKnight, 180);
 
     }
 

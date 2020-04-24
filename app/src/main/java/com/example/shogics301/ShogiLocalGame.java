@@ -74,7 +74,7 @@ public class ShogiLocalGame extends LocalGame {
             int col = sma.destCol;
 
 
-            if (legalMove.validMove(piece.getType(), oldRow, oldCol, row, col, piece.getPlayer())) {
+            if (legalMove.validMove(gameState.getBoard(), piece.getType(), oldRow, oldCol, row, col, piece.getPlayer())) {
                 if (newBoard[row][col] != null && newBoard[row][col].getPlayer() != gameState.getWhoseMove()) {
                     //if possible, capture the piece at the given spot
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
