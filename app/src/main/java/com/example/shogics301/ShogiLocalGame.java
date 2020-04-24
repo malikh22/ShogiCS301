@@ -83,7 +83,6 @@ public class ShogiLocalGame extends LocalGame {
                             newBoard[row][col].setPlayer(0);
                             gameState.capturep0(newBoard[row][col]);
                         }
-                        newBoard[row][col] = null;
                     } else if (gameState.getWhoseMove() == 1 && newBoard[row][col].getPlayer() != 1) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
                             gameState.setPlayerHasKing(0);
