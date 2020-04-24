@@ -54,16 +54,5 @@ public class ShogiMoveAction extends GameAction implements Serializable {
         this.board = board;
     }
 
-    int getRow() {
-        return destRow;
-    }
-
-    int getCol() {
-        return destCol;
-    }
-
-    Piece getPiece() {
-        return this.thisPiece;
-    }
 }
 

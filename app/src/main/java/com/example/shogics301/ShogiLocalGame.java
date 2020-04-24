@@ -67,13 +67,14 @@ public class ShogiLocalGame extends LocalGame {
         if (action instanceof ShogiMoveAction) {
             ShogiMoveAction sma = ((ShogiMoveAction) action);
             Piece[][] newBoard = gameState.getBoard();
+            Piece piece = sma.thisPiece;
             int oldRow = sma.srcRow;
             int oldCol = sma.srcCol;
             int row = sma.destRow;
             int col = sma.destCol;
 
 
-            if (legalMove.validMove(newBoard[oldRow][oldCol].getType(), oldRow, oldCol, row, col, newBoard[oldRow][oldCol].getPlayer())) {
+            if (legalMove.validMove(piece.getType(), oldRow, oldCol, row, col, piece.getPlayer())) {
                 if (newBoard[row][col] != null && newBoard[row][col].getPlayer() != gameState.getWhoseMove()) {
                     //if possible, capture the piece at the given spot
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
@@ -93,11 +94,11 @@ public class ShogiLocalGame extends LocalGame {
                     }
 
                     //Create piece in new spot
-                    newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(), sma.thisPiece.getType(), row, col, gameState.getWhoseMove());
+                    newBoard[row][col] = piece;
                     newBoard[row][col].setPlayer(sma.thisPiece.getPlayer());
-                    newBoard[sma.srcRow][sma.srcCol] = null;
-                    sma.thisPiece.setColumn(col);
-                    sma.thisPiece.setRow(row);
+                    newBoard[oldRow][oldCol] = null;
+                    piece.setColumn(col);
+                    piece.setRow(row);
 
 
                     //forced promotion for piece if in proper zone
@@ -116,10 +117,10 @@ public class ShogiLocalGame extends LocalGame {
                     }
 
                 } else {
-                    newBoard[row][col] = sma.thisPiece;
-                    sma.thisPiece.setColumn(col);
-                    sma.thisPiece.setRow(row);
-                    newBoard[sma.srcRow][sma.srcCol] = null;
+                    newBoard[row][col] = piece;
+                    piece.setColumn(col);
+                    piece.setRow(row);
+                    newBoard[oldRow][oldCol] = null;
                 }
 
                 gameState.setBoard(newBoard);
