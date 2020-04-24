@@ -79,25 +79,7 @@ public class ShogiLocalGame extends LocalGame {
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
                             gameState.setPlayerHasKing(1);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.PAWN) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.LANCE) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.KNIGHT) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.ROOK) {
-                            newBoard[row][col].setPlayer(0);
-                            gameState.capturep0(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.BISHOP) {
+                        } else{
                             newBoard[row][col].setPlayer(0);
                             gameState.capturep0(newBoard[row][col]);
                         }
@@ -105,29 +87,11 @@ public class ShogiLocalGame extends LocalGame {
                     } else if (gameState.getWhoseMove() == 1 && newBoard[row][col].getPlayer() != 1) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
                             gameState.setPlayerHasKing(0);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.PAWN) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.LANCE) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.KNIGHT) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.SILVERGENERAL) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.GOLDGENERAL) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.ROOK) {
-                            newBoard[row][col].setPlayer(1);
-                            gameState.capturep1(newBoard[row][col]);
-                        } else if (newBoard[row][col].getType() == Piece.PieceType.BISHOP) {
+                        } else  {
                             newBoard[row][col].setPlayer(1);
                             gameState.capturep1(newBoard[row][col]);
                         }
-                        newBoard[row][col] = null;
+                        newBoard[oldRow][oldCol] = null;
                     }
 
                     //Create piece in new spot
