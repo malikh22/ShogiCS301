@@ -91,7 +91,6 @@ public class ShogiLocalGame extends LocalGame {
                             newBoard[row][col].setPlayer(1);
                             gameState.capturep1(newBoard[row][col]);
                         }
-                        newBoard[row][col] = newBoard[oldRow][oldCol];
                     }
 
                     //Create piece in new spot

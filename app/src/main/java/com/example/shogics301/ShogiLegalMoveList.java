@@ -475,7 +475,7 @@ public class ShogiLegalMoveList implements Serializable {
                         i++;
                     }
                 }
-                if (currCol + 1 < 9) {
+                if (currCol + 1 < 10) {
                     if (board[currRow][currCol + 1] == null || board[currRow][currCol + 1].getPlayer() != player) {
                         moves[i] = new int[]{currRow, currCol + 1};
                     }
@@ -483,14 +483,14 @@ public class ShogiLegalMoveList implements Serializable {
                 return moves;
             } else if (pieceName.equals(Piece.PieceType.ROOK)) {
                 i = 16;
-                if (currRow + 1 < 9 && currCol + 1 < 9) {
+                if (currRow + 1 < 10 && currCol + 1 < 10) {
                     if (board[currRow + 1][currCol + 1] == null || board[currRow + 1][currCol + 1].getPlayer() != player) {
                         moves[i] = new int[]{currRow + 1, currCol + 1};
                         i++;
                     }
                 }
 
-                if (currRow + 1 < 9 && currCol - 1 >= 0) {
+                if (currRow + 1 < 10 && currCol - 1 >= 0) {
                     if (board[currRow + 1][currCol - 1] == null || board[currRow + 1][currCol - 1].getPlayer() != player) {
                         moves[i] = new int[]{currRow + 1, currCol - 1};
                         i++;
