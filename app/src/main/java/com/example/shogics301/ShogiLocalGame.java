@@ -75,6 +75,90 @@ public class ShogiLocalGame extends LocalGame {
 
 
             if (legalMove.validMove(gameState.getBoard(), piece.getType(), oldRow, oldCol, row, col, piece.getPlayer())) {
+
+
+
+
+                //forced promotion for piece if in proper zone
+                if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
+                    if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.BISHOP) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_BISHOP);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.ROOK) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_ROOK);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.LANCE) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_LANCE);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.KNIGHT) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_KNIGHT);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.SILVERGENERAL) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_SILVER);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    sma.thisPiece.setColumn(col);
+                    sma.thisPiece.setRow(row);
+                }
+
+                if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
+                    if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.BISHOP) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_BISHOP);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.ROOK) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_ROOK);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.LANCE) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_LANCE);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.KNIGHT) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_KNIGHT);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    if (sma.thisPiece.getType() == Piece.PieceType.SILVERGENERAL) {
+                        sma.thisPiece.setMyType(Piece.PieceType.P_SILVER);
+                        sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
+
+
+                    }
+                    sma.thisPiece.setColumn(col);
+                    sma.thisPiece.setRow(row);
+                }
+
+
                 if (newBoard[row][col] != null && newBoard[row][col].getPlayer() != gameState.getWhoseMove()) {
                     //if possible, capture the piece at the given spot
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {

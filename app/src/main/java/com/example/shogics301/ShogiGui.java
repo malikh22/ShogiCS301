@@ -297,6 +297,11 @@ public class ShogiGui extends FlashSurfaceView {
                         myPieces[k][l].setMyBitmap(promotedComputerSG);
                         canvas.drawBitmap(promotedComputerSG, left, top, null);
                     }
+                    if (myPieces[k][l].getType() == Piece.PieceType.P_PAWN
+                            && myPieces[k][l].getPlayer() == 1) {
+                        myPieces[k][l].setMyBitmap(promotedComputerPawn);
+                        canvas.drawBitmap(promotedComputerPawn, left, top, null);
+                    }
 
                     //draws player pieces
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
@@ -367,6 +372,11 @@ public class ShogiGui extends FlashSurfaceView {
                             && myPieces[k][l].getPlayer() == 0) {
                         myPieces[k][l].setMyBitmap(promotedHumanSG);
                         canvas.drawBitmap(promotedHumanSG, left, top, null);
+                    }
+                    if (myPieces[k][l].getType() == Piece.PieceType.P_PAWN
+                            && myPieces[k][l].getPlayer() == 0) {
+                        myPieces[k][l].setMyBitmap(promotedHumanPawn);
+                        canvas.drawBitmap(promotedHumanPawn, left, top, null);
                     }
                 }
             }
