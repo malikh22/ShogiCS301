@@ -221,7 +221,7 @@ public class ShogiLocalGame extends LocalGame {
 
                     //forced promotion for piece if in proper zone
                     if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
-                        history = history + "Human " + sma.thisPiece.getType() + " promoted to ";
+                        history = "Human " + sma.thisPiece.getType() + " promoted to ";
                         if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
                             sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
                             sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
@@ -262,7 +262,7 @@ public class ShogiLocalGame extends LocalGame {
                     }
 
                     if (row < 9 && row >= 6 && sma.thisPiece.getPlayer() == 1) {
-                        history = history + "Computer " + sma.thisPiece.getType() + " promoted to ";
+                        history =  "Computer " + sma.thisPiece.getType() + " promoted to ";
                         newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
                                 newBoard[row][col].getPromotedPiece(), row, col, 1);
                         history = history + sma.thisPiece.getType() + "\n";
@@ -272,15 +272,14 @@ public class ShogiLocalGame extends LocalGame {
 
                 } else {
                     if(sma.thisPiece.getPlayer() == 0){
-                        history = history + "Human " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
+                        history = "Human " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
                     if(sma.thisPiece.getPlayer() == 1){
-                        history = history + "Computer " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
+                        history = "Computer " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
                     newBoard[row][col] = piece;
                     piece.setColumn(col);
                     piece.setRow(row);
                     newBoard[oldRow][oldCol] = null;
                 }
-
                 gameState.setBoard(newBoard);
 
 
@@ -299,6 +298,7 @@ public class ShogiLocalGame extends LocalGame {
             gameState.setHistory(history);
             return true;
         }
+        gameState.setHistory(history);
         return true;
     }
 }
