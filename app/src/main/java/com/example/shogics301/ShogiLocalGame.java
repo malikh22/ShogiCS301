@@ -6,6 +6,8 @@ import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.LocalGame;
 import com.example.shogics301.GameFramework.actionMessage.GameAction;
 
+import java.util.ArrayList;
+
 /**
  * The ShogiLocalGame class for a Shogi game.  Defines and enforces
  * the game rules; handles interactions with players.
@@ -63,6 +65,31 @@ public class ShogiLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+
+        if (action instanceof ShogiDropAction) {
+            ShogiDropAction sda = ((ShogiDropAction) action);
+            Piece[][] newBoard = gameState.getBoard();
+            Piece piece = sda.thisPiece;
+            int row = sda.newRow;
+            int col = sda.newCol;
+            newBoard[row][col] = piece;
+
+            //remove piece that was dropped
+            if(gameState.getWhoseMove() == 0){
+                ArrayList<Piece> drops = gameState.getDrops0();
+                drops.remove(piece);
+                gameState.setDrops0(drops);
+            }
+            else if(gameState.getWhoseMove() == 1){
+                ArrayList<Piece> drops = gameState.getDrops1();
+                drops.remove(piece);
+                gameState.setDrops1(drops);
+            }
+
+            gameState.setBoard(newBoard);
+            return true;
+        }
+
         //Shogi Move Action
         if (action instanceof ShogiMoveAction) {
             ShogiMoveAction sma = ((ShogiMoveAction) action);
@@ -75,9 +102,6 @@ public class ShogiLocalGame extends LocalGame {
 
 
             if (legalMove.validMove(gameState.getBoard(), piece.getType(), oldRow, oldCol, row, col, piece.getPlayer())) {
-
-
-
 
                 //forced promotion for piece if in proper zone
                 if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {

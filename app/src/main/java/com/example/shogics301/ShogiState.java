@@ -299,4 +299,12 @@ public class ShogiState extends GameState {
 
         return this.flash;
     }
+
+    public void setDrops0(ArrayList<Piece> drops0) {
+        this.drops0 = drops0;
+    }
+
+    public void setDrops1(ArrayList<Piece> drops1) {
+        this.drops1 = drops1;
+    }
 }

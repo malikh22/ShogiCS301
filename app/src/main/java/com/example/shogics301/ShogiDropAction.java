@@ -21,15 +21,13 @@ public class ShogiDropAction extends GameAction implements Serializable {
      *
      * @param player the player who created the action
      */
-    public ShogiDropAction(GamePlayer player, Piece piece, int newRow, int newCol, int oldRow, int oldCol) {
+    public ShogiDropAction(GamePlayer player, Piece piece, int newRow, int newCol) {
         super(player);
         if(piece != null) {
             this.thisPiece = new Piece(piece.getMyBitmap(), piece.getType(), piece.getRow(),
                     piece.getColumn(), piece.getPlayer());
             this.newRow = newRow;
             this.newCol = newCol;
-            this.oldRow = oldRow;
-            this.oldCol = oldCol;
         }
     }
 }
