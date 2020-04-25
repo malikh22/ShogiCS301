@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.app.Activity;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -19,6 +20,8 @@ import com.example.shogics301.GameFramework.Rules;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.utilities.Logger;
+
+import java.util.ArrayList;
 
 
 /**
@@ -44,18 +47,19 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private boolean hasKing = true;
     private ShogiGui topView;
     private Button toRules;
+    private Button toDrops;
+    Piece toDrop = null;
+    boolean amDropping = false;
 
     private Button rulesButtonMoving;
     private Button rulesButtonPromotion;
     private Button rulesButtonToGame;
+    private Button dropsButtonToGame;
     private Button movingButtonToGame;
     private Button promotionButtonToGame;
-    private Button historyButton;
-    private Button historyButtonToGame;
 
     private boolean usingRulesScreen = false;
-    private boolean usingHistoryScreen = false;
-    private TextView historyText;
+    private boolean usingDropsScreen = false;
 
 
     /**
@@ -79,7 +83,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
      * @param info the updated game state
      */
     @Override
-    public void receiveInfo(GameInfo info) {
+    public void receiveInfo(GameInfo info)  {
 
         //only update the state if info is a game state
         if (info instanceof ShogiState) {
@@ -89,12 +93,12 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             this.myPieces = state.getBoard();
 
             if (usingRulesScreen) return;
-            if (usingHistoryScreen) return;
+            if(usingDropsScreen) return;
 
             gui = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
-            if (info instanceof IllegalMoveInfo) {
+            if(info instanceof IllegalMoveInfo) {
 
                 Log.d("ShogiHP", "illegal move");
 
@@ -135,9 +139,6 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         toRules = (Button) myActivity.findViewById(R.id.button2);
         toRules.setBackgroundColor(Color.WHITE);
         toRules.setTextColor(Color.BLACK);
-
-        historyButton = (Button) myActivity.findViewById(R.id.button);
-
         Log.d("attempt to open rules", "open rules");
 
         toRules.setOnClickListener(new View.OnClickListener() {
@@ -151,11 +152,15 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             }
         });
 
-        historyButton.setOnClickListener(new View.OnClickListener() {
+        toDrops = (Button) myActivity.findViewById(R.id.button4);
+
+        toDrops.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View V) {
-                openHistory();
+                Logger.log("drops click", "drops button clicked");
+                Log.d("on click", "on clicked");
+                openDrops();
 
             }
         });
@@ -165,8 +170,6 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             receiveInfo(state);
         }
     }
-
-
     public void openRules() {
 
 
@@ -220,28 +223,272 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 //        myActivity.startActivity(intent);
     }
 
-    public void openHistory() {
+
+    @SuppressLint("SetTextI18n")
+    public void openDrops() {
 
 
-        usingHistoryScreen = true;
-        myActivity.setContentView(R.layout.history);
-        historyButtonToGame = (Button) myActivity.findViewById(R.id.button8);
-        historyText = (TextView) myActivity.findViewById(R.id.textView46);
-        historyText.setText(state.getHistory());
-        historyButtonToGame.setOnClickListener(
+//        Intent intent = new Intent(myActivity, Rules.class);
+
+        usingDropsScreen = true;
+        myActivity.setContentView(R.layout.dropping);
+        dropsButtonToGame = (Button) myActivity.findViewById(R.id.button9);
+        Button confirmButton = (Button) myActivity.findViewById(R.id.button11);
+        ImageButton pawnButton = (ImageButton) myActivity.findViewById(R.id.imageButton4);
+        ImageButton rookButton = (ImageButton) myActivity.findViewById(R.id.imageButton5);
+        ImageButton bishopButton = (ImageButton) myActivity.findViewById(R.id.imageButton);
+        ImageButton sgButton = (ImageButton) myActivity.findViewById(R.id.imageButton6);
+        ImageButton ggButton = (ImageButton) myActivity.findViewById(R.id.imageButton2);
+        ImageButton knightButton = (ImageButton) myActivity.findViewById(R.id.imageButton3);
+        ImageButton lanceButton = (ImageButton) myActivity.findViewById(R.id.imageButton7);
+
+        final ArrayList<Piece> myDrops = state.getDrops0();
+        final ArrayList<Piece> oppDrops = state.getDrops1();
+        int myRCount = 0;
+        int myBCount = 0;
+        int myLCount = 0;
+        int myKCount = 0;
+        int myGGCount = 0;
+        int mySGCount = 0;
+        int myPCount = 0;
+
+        int oppRCount = 0;
+        int oppBCount = 0;
+        int oppLCount = 0;
+        int oppKCount = 0;
+        int oppGGCount = 0;
+        int oppSGCount = 0;
+        int oppPCount = 0;
+
+        final TextView mySelected = myActivity.findViewById(R.id.textView46);
+        TextView myPawns = myActivity.findViewById(R.id.textView47);
+        TextView myRooks = myActivity.findViewById(R.id.textView48);
+        TextView myLances = myActivity.findViewById(R.id.textView60);
+        TextView myKnights = myActivity.findViewById(R.id.textView52);
+        TextView myBishops = myActivity.findViewById(R.id.textView49);
+        TextView myGGs = myActivity.findViewById(R.id.textView51);
+        TextView mySGs = myActivity.findViewById(R.id.textView50);
+
+        TextView oppPawns = myActivity.findViewById(R.id.textView54);
+        TextView oppRooks = myActivity.findViewById(R.id.textView55);
+        TextView oppLances = myActivity.findViewById(R.id.textView61);
+        TextView oppKnights = myActivity.findViewById(R.id.textView57);
+        TextView oppBishops = myActivity.findViewById(R.id.textView56);
+        TextView oppGGs = myActivity.findViewById(R.id.textView59);
+        TextView oppSGs = myActivity.findViewById(R.id.textView58);
+
+
+        //disable all buttons to start
+        pawnButton.setEnabled(false);
+        rookButton.setEnabled(false);
+        bishopButton.setEnabled(false);
+        sgButton.setEnabled(false);
+        ggButton.setEnabled(false);
+        lanceButton.setEnabled(false);
+        knightButton.setEnabled(false);
+
+        for(Piece p : oppDrops){
+            if(p.getType() == Piece.PieceType.BISHOP){
+                oppBCount++;
+            }
+            if(p.getType() == Piece.PieceType.ROOK){
+                oppRCount++;
+            }
+            if(p.getType() == Piece.PieceType.PAWN){
+                oppPCount++;
+            }
+            if(p.getType() == Piece.PieceType.LANCE){
+                oppLCount++;
+            }
+            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+                oppGGCount++;
+            }
+            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+                oppSGCount++;
+            }
+            if(p.getType() == Piece.PieceType.KNIGHT){
+                oppKCount++;
+            }
+        }
+
+        for(Piece p : myDrops){
+            if(p.getType() == Piece.PieceType.BISHOP){
+                myBCount++;
+                bishopButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.ROOK){
+                myRCount++;
+                rookButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.PAWN){
+                myPCount++;
+                pawnButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.LANCE){
+                myLCount++;
+                lanceButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+                myGGCount++;
+                ggButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+                mySGCount++;
+                sgButton.setEnabled(true);
+            }
+            if(p.getType() == Piece.PieceType.KNIGHT){
+                myKCount++;
+                knightButton.setEnabled(true);
+            }
+        }
+
+        myLances.setText("Lances:" + " " + myLCount);
+        myRooks.setText("Rooks:" + " " + myRCount);
+        myPawns.setText("Pawns:" + " " + myPCount);
+        myBishops.setText("Bishops:" + " " + myBCount);
+        myGGs.setText("Gold Generals:" + " " + myGGCount);
+        mySGs.setText("Silver Generals:" + " " + mySGCount);
+        myKnights.setText("Knights:" + " " + myKCount);
+
+        oppLances.setText("Lances:" + " " + oppLCount);
+        oppRooks.setText("Rooks:" + " " + oppRCount);
+        oppPawns.setText("Pawns:" + " " + oppPCount);
+        oppBishops.setText("Bishops:" + " " + oppBCount);
+        oppGGs.setText("Gold Generals:" + " " + oppGGCount);
+        oppSGs.setText("Silver Generals:" + " " + oppSGCount);
+        oppKnights.setText("Knights:" + " " + oppKCount);
+
+
+        pawnButton.setOnClickListener(
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        ShogiHumanPlayer.this.setAsGui(myActivity);
-                        usingHistoryScreen = false;
-                        if (state != null) {
-                            receiveInfo(state);
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.PAWN){
+                                toDrop = p;
+                            }
                         }
+                        mySelected.setText("Selected: Pawn");
+                    }
+                }
+        );
+        rookButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.ROOK){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Rook");
                     }
                 }
 
 
         );
+        bishopButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.BISHOP){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Bishop");
+                    }
+                }
+
+
+        );
+        sgButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Silver General");
+                    }
+                }
+        );
+        ggButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Gold General");
+                    }
+                }
+        );
+
+        lanceButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.LANCE){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Lance");
+                    }
+                }
+        );
+
+        knightButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        for(Piece p : myDrops){
+                            if(p.getType() == Piece.PieceType.KNIGHT){
+                                toDrop = p;
+                            }
+                        }
+                        mySelected.setText("Selected: Knight");
+                    }
+                }
+        );
+
+        dropsButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        mySelected.setText("Selected:");
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingDropsScreen = false;
+                        toDrop = null;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                }
+        );
+
+        confirmButton.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        mySelected.setText("Selected:");
+                        amDropping = true;
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingDropsScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                }
+        );
+
+        Log.d("attempt to open rules", "open rules");
+//        myActivity.startActivity(intent);
     }
 
     public void openMoving() {
@@ -347,8 +594,14 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             return false;
         }
 
+        if(amDropping && toDrop != null && myPieces[row][col] == null) {
+            game.sendAction(new ShogiDropAction(this, toDrop, row, col));
+            amDropping = false;
+            //remove the dropped piece
+        }
+
         //when a piece on the board is currently selected
-        if (havePieceSelected) {
+        if (havePieceSelected && !amDropping) {
 
             if (state.getWhoseMove() == 0) {
                 if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 0) {
@@ -435,7 +688,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 //if a piece is selected and the tapped space is not a legal move,
                 //then leave everything as it is
                 else {
-                    Log.d("ShogiHP", "flash");
+                    Log.d("ShogiHP","flash");
                     try {
                         flashButton();
                     } catch (InterruptedException e) {
