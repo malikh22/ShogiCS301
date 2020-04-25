@@ -563,123 +563,142 @@ public class ShogiLegalMoveList implements Serializable {
         //rooks and promoted rooks
         if ((pieceName == Piece.PieceType.ROOK) || (pieceName == Piece.PieceType.P_ROOK)) {
 
+            boolean tempRook = false;
+
             if ((destRow == currRow)) {
                 if (destCol > currCol) {
                     for (int i = currCol; i < destCol; i++) {
-                        if (board[currRow][i] != null) {
+                        if (tempRook == false) {
+                            if (board[currRow][i] != null) {
+                                tempRook = true;
+                            }
+
+                        }
+                        if (tempRook) {
                             return false;
                         }
-
                     }
                 } else if (destCol < currCol) {
                     for (int i = currCol; i > destCol; i--) {
-                        if (board[currRow][i] != null) {
+                        if (tempRook == false) {
+                            if (board[currRow][i] != null) {
+                                tempRook = true;
+                            }
+                        }
+                        if (tempRook) {
                             return false;
+                        }
+                    }
+                    return true;
+                } else if (destCol == currCol) {
+                    if (destRow > currRow) {
+                        for (int i = currRow; i < destRow; i++) {
+                            if (tempRook == false) {
+                                if (board[i][destCol] != null) {
+                                    tempRook = true;
+                                }
+                            }
+                            if (tempRook) {
+                                return false;
+                            }
+                        }
+                    } else if (destRow < currRow) {
+                        for (int i = currRow; i > destRow - 1; i--) {
+                            if (tempRook == false) {
+                                if (board[i][destCol] != null) {
+                                    return false;
+                                }
+                            }
+                            if (tempRook) {
+                                return false;
+                            }
                         }
 
                     }
                 }
-                return true;
-            } else if (destCol == currCol) {
-                if (destRow > currRow) {
-                    for (int i = currRow; i < destRow; i++) {
-                        if (board[i][destCol] != null) {
-                            return false;
-                        }
-
-                    }
-                } else if (destRow < currRow) {
-                    for (int i = currRow; i > destRow; i--) {
-                        if (board[i][destCol] != null) {
-                            return false;
-                        }
-
-                    }
-                }
-
             }
         }
 
-        //knights
-        if (pieceName == Piece.PieceType.KNIGHT) {
-            if (player == 0) {
-                if ((destRow == currRow - 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
-                    return true;
+                //knights
+                if (pieceName == Piece.PieceType.KNIGHT) {
+                    if (player == 0) {
+                        if ((destRow == currRow - 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
+                            return true;
+                        }
+                    } else if (player == 1) {
+                        if ((destRow == currRow + 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
+                            return true;
+                        }
+                    } else
+                        return false;
                 }
-            } else if (player == 1) {
-                if ((destRow == currRow + 2) && (((destCol == (currCol + 1))) || (destCol == (currCol - 1)))) {
-                    return true;
-                }
-            } else
-                return false;
-        }
 
-        //bishops and promoted bishops
-        if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP)) {
-            if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
-                return true;
+                //bishops and promoted bishops
+                if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP)) {
+                    if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
+                        return true;
+                    }
+                }
+
+                //lance
+                if (pieceName == Piece.PieceType.LANCE) {
+                    if (player == 0) {
+                        if ((destRow < currRow) && (destCol == currCol)) {
+                            return true;
+                        }
+                    } else if (player == 1) {
+                        if ((destRow > currRow) && (destCol == currCol)) {
+                            return true;
+                        }
+
+                    } else
+                        return false;
+
+                }
+                //silver general
+                if (pieceName == Piece.PieceType.SILVERGENERAL) {
+                    boolean b = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
+                    if (player == 0) {
+                        if (b || ((destRow == currRow - 1) && (destCol == currCol))) {
+                            return true;
+                        }
+                    } else if (player == 1) {
+                        if (b || ((destRow == currRow + 1) && (destCol == currCol))) {
+                            return true;
+                        }
+
+                    } else
+                        return false;
+
+                }
+
+                //gold generals, promoted silver generals, promoted lances, promoted pawns, promoted pawns
+                if ((pieceName == Piece.PieceType.GOLDGENERAL) || (pieceName == Piece.PieceType.P_SILVER) || (pieceName == Piece.PieceType.P_LANCE) || (pieceName == Piece.PieceType.P_KNIGHT) || (pieceName == Piece.PieceType.P_PAWN)) {
+                    boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
+                    if (player == 0) {
+                        if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c) {
+                            return true;
+                        }
+                    } else if (player == 1) {
+                        if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c)
+                            return true;
+                    } else
+                        return false;
+
+                }
+
+                //king, promoted bishops, promoted rook
+                if ((pieceName == Piece.PieceType.KING) || (pieceName == Piece.PieceType.P_BISHOP) || (pieceName == Piece.PieceType.P_ROOK)) {
+                    boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
+                    boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
+
+                    if (d || e) {
+                        return true;
+                    } else
+                        return false;
+
+                }
+                return false;
+
             }
         }
-
-        //lance
-        if (pieceName == Piece.PieceType.LANCE) {
-            if (player == 0) {
-                if ((destRow < currRow) && (destCol == currCol)) {
-                    return true;
-                }
-            } else if (player == 1) {
-                if ((destRow > currRow) && (destCol == currCol)) {
-                    return true;
-                }
-
-            } else
-                return false;
-
-        }
-        //silver general
-        if (pieceName == Piece.PieceType.SILVERGENERAL) {
-            boolean b = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
-            if (player == 0) {
-                if (b || ((destRow == currRow - 1) && (destCol == currCol))) {
-                    return true;
-                }
-            } else if (player == 1) {
-                if (b || ((destRow == currRow + 1) && (destCol == currCol))) {
-                    return true;
-                }
-
-            } else
-                return false;
-
-        }
-
-        //gold generals, promoted silver generals, promoted lances, promoted pawns, promoted pawns
-        if ((pieceName == Piece.PieceType.GOLDGENERAL) || (pieceName == Piece.PieceType.P_SILVER) || (pieceName == Piece.PieceType.P_LANCE) || (pieceName == Piece.PieceType.P_KNIGHT) || (pieceName == Piece.PieceType.P_PAWN)) {
-            boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
-            if (player == 0) {
-                if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c) {
-                    return true;
-                }
-            } else if (player == 1) {
-                if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c)
-                    return true;
-            } else
-                return false;
-
-        }
-
-        //king, promoted bishops, promoted rook
-        if ((pieceName == Piece.PieceType.KING) || (pieceName == Piece.PieceType.P_BISHOP) || (pieceName == Piece.PieceType.P_ROOK)) {
-            boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
-            boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
-
-            if (d || e) {
-                return true;
-            } else
-                return false;
-
-        }
-        return false;
-
-    }
-}
