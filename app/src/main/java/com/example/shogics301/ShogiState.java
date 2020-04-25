@@ -42,6 +42,7 @@ public class ShogiState extends GameState {
     private ArrayList<ShogiMoveAction> moves;
 
     private boolean[] playersHaveKing = {true, true};
+    private String history;
 
 
     /**
@@ -222,7 +223,7 @@ public class ShogiState extends GameState {
     	playerToMove = id;
     }
 
-    public ArrayList<ShogiMoveAction> getHistory() { return moves; }
+    public ArrayList<ShogiMoveAction> getMoves() { return moves; }
     public void recordHistory(ShogiMoveAction move) { moves.add(move); }
 
     public ArrayList<Piece> getDrops0() {return drops0;}
@@ -300,11 +301,17 @@ public class ShogiState extends GameState {
         return this.flash;
     }
 
-    public void setDrops0(ArrayList<Piece> drops0) {
-        this.drops0 = drops0;
+    public void setHistory(String history)
+    {
+
+        this.history = history;
+
     }
 
-    public void setDrops1(ArrayList<Piece> drops1) {
-        this.drops1 = drops1;
+    public String getHistory()
+    {
+
+        return this.history;
+
     }
 }

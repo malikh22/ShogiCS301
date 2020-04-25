@@ -541,7 +541,7 @@ public class ShogiLegalMoveList implements Serializable {
     }
 
     public boolean validMove(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol, int destRow, int destCol, int player) {
-        if(board[destRow][destCol] != null && player == 1 && board[destRow][destCol].getPlayer() == 1){
+        if (board[destRow][destCol] != null && player == 1 && board[destRow][destCol].getPlayer() == 1) {
             return false;
         }
 
@@ -563,8 +563,39 @@ public class ShogiLegalMoveList implements Serializable {
         //rooks and promoted rooks
         if ((pieceName == Piece.PieceType.ROOK) || (pieceName == Piece.PieceType.P_ROOK)) {
 
-            if ((destRow == currRow) || (destCol == currCol)) {
+            if ((destRow == currRow)) {
+                if (destCol > currCol) {
+                    for (int i = currCol; i < destCol; i++) {
+                        if (board[currRow][i] != null) {
+                            return false;
+                        }
+
+                    }
+                } else if (destCol < currCol) {
+                    for (int i = currCol; i > destCol; i--) {
+                        if (board[currRow][i] != null) {
+                            return false;
+                        }
+
+                    }
+                }
                 return true;
+            } else if (destCol == currCol) {
+                if (destRow > currRow) {
+                    for (int i = currRow; i < destRow; i++) {
+                        if (board[i][destCol] != null) {
+                            return false;
+                        }
+
+                    }
+                } else if (destRow < currRow) {
+                    for (int i = currRow; i > destRow; i--) {
+                        if (board[i][destCol] != null) {
+                            return false;
+                        }
+
+                    }
+                }
 
             }
         }
@@ -584,7 +615,7 @@ public class ShogiLegalMoveList implements Serializable {
         }
 
         //bishops and promoted bishops
-        if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP))  {
+        if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP)) {
             if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
                 return true;
             }
@@ -626,11 +657,11 @@ public class ShogiLegalMoveList implements Serializable {
         if ((pieceName == Piece.PieceType.GOLDGENERAL) || (pieceName == Piece.PieceType.P_SILVER) || (pieceName == Piece.PieceType.P_LANCE) || (pieceName == Piece.PieceType.P_KNIGHT) || (pieceName == Piece.PieceType.P_PAWN)) {
             boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
             if (player == 0) {
-                if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) ||((destCol - currCol) == -1)))) ^ c) {
+                if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c) {
                     return true;
                 }
             } else if (player == 1) {
-                if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) ||((destCol - currCol) == -1)))) ^ c)
+                if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c)
                     return true;
             } else
                 return false;
