@@ -643,9 +643,88 @@ public class ShogiLegalMoveList implements Serializable {
         //bishops and promoted bishops
         if ((pieceName == Piece.PieceType.BISHOP) || (pieceName == Piece.PieceType.P_BISHOP)) {
             if (((destRow - currRow) * (destRow - currRow)) == (((destCol - (currCol)) * ((destCol - (currCol)))))) {
-                return true;
-            }
+                boolean tempBishop = false;
+
+                if ((destRow > currRow)) {
+                    if (destCol > currCol) {
+                        for (int j = currRow; j < destRow; j++) {
+                            for (int i = currCol; i < destCol; i++) {
+                                if (tempBishop == false) {
+                                    if (board[j + 1][i + 1] != null) {
+                                        tempBishop = true;
+                                    }
+
+                                }
+                                if (tempBishop) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (tempBishop == false) {
+                            return true;
+                        } else return false;
+                    }
+                } else if (destRow < currRow) {
+                    if (destCol < currCol) {
+                        for (int j = currRow; j > destRow; j--) {
+                            for (int i = currCol; i > destCol; i--) {
+                                if (tempBishop == false) {
+                                    if (board[j - 1][i - 1] != null) {
+                                        tempBishop = true;
+                                    }
+                                }
+                                if (tempBishop) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (tempBishop == false) {
+                            return true;
+                        } else return false;
+                    }
+                }
+                if ((destRow < currRow)) {
+                    if (destCol > currCol) {
+                        for (int j = currRow; j > destRow; j--) {
+                            for (int i = currCol; i < destCol; i++) {
+                                if (tempBishop == false) {
+                                    if (board[j - 1][i + 1] != null) {
+                                        tempBishop = true;
+                                    }
+
+                                }
+                                if (tempBishop) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (tempBishop == false) {
+                            return true;
+                        } else return false;
+                    }
+                } else if (destRow > currRow) {
+                    if (destCol < currCol) {
+                        for (int j = currRow; j < destRow; j++) {
+                            for (int i = currCol; i > destCol; i--) {
+                                if (tempBishop == false) {
+                                    if (board[j + 1][i - 1] != null) {
+                                        tempBishop = true;
+                                    }
+                                }
+                                if (tempBishop) {
+                                    return false;
+                                }
+                            }
+                        }
+                        if (tempBishop == false) {
+                            return true;
+                        } else return false;
+                    }
+                }
+
+            } else return false;
         }
+
 
         //lance
         if (pieceName == Piece.PieceType.LANCE) {
