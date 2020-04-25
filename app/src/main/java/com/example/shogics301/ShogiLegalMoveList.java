@@ -565,64 +565,66 @@ public class ShogiLegalMoveList implements Serializable {
 
             boolean tempRook = false;
 
-                if ((destRow == currRow)) {
-                    if (destCol > currCol) {
-                        for (int i = currCol + 1; i < destCol; i++) {
-                            if (tempRook == false) {
-                                if (board[currRow][i] != null) {
-                                    tempRook = true;
-                                }
-
-                            }
-                            if (tempRook) {
-                                return false;
-                            }
-                        }
-                    } else if (destCol < currCol) {
-                        for (int i = currCol - 1; i > destCol; i--) {
-                            if (tempRook == false) {
-                                if (board[currRow][i] != null) {
-                                    tempRook = true;
-                                }
-                            }
-                            if (tempRook) {
-                                return false;
-                            }
-                        }
+            if ((destRow == currRow)) {
+                if (destCol > currCol) {
+                    for (int i = currCol; i < destCol; i++) {
                         if (tempRook == false) {
-                            return true;
-                        } else return false;
-                    }
-                } else if (destCol == currCol) {
-                    if (destRow > currRow) {
-                        for (int i = currRow; i < destRow; i++) {
-                            if (tempRook == false) {
-                                if (board[i + 1][destCol] != null) {
-                                    tempRook = true;
-                                }
+                            if (board[currRow][i + 1] != null) {
+                                tempRook = true;
                             }
-                            if (tempRook) {
-                                return false;
-                            }
-                        }
-                    } else if (destRow < currRow) {
-                        for (int i = currRow; i > destRow; i--) {
-                            if (tempRook == false) {
-                                if (board[i - 1][destCol] != null) {
-                                    tempRook = true;
-                                }
-                            }
-                            if (tempRook) {
-                                return false;
-                            }
-                        }
 
+                        }
+                        if (tempRook) {
+                            return false;
+                        }
+                    }
+                } else if (destCol < currCol) {
+                    for (int i = currCol; i > destCol; i--) {
+                        if (tempRook == false) {
+                            if (board[currRow][i - 1] != null) {
+                                tempRook = true;
+                            }
+                        }
+                        if (tempRook) {
+                            return false;
+                        }
                     }
                 }
                 if (tempRook == false) {
                     return true;
                 } else return false;
-            }
+
+            } else if (destCol == currCol) {
+                if (destRow > currRow) {
+                    for (int i = currRow; i < destRow; i++) {
+                        if (tempRook == false) {
+                            if (board[i + 1][destCol] != null) {
+                                tempRook = true;
+                            }
+                        }
+                        if (tempRook) {
+                            return false;
+                        }
+                    }
+                } else if (destRow < currRow) {
+                    for (int i = currRow; i > destRow; i--) {
+                        if (tempRook == false) {
+                            if (board[i - 1][destCol] != null) {
+                                tempRook = true;
+                            }
+                        }
+                        if (tempRook) {
+                            return false;
+                        }
+                    }
+
+                }
+
+                if (tempRook == false) {
+                    return true;
+                }
+            } else return false;
+        }
 
         //knights
         if (pieceName == Piece.PieceType.KNIGHT) {
@@ -648,36 +650,36 @@ public class ShogiLegalMoveList implements Serializable {
         //lance
         if (pieceName == Piece.PieceType.LANCE) {
             boolean tempRook = false;
-                 if (destCol == currCol) {
-                    if (destRow > currRow) {
-                        for (int i = currRow; i < destRow; i++) {
-                            if (tempRook == false) {
-                                if (board[i + 1][destCol] != null) {
-                                    tempRook = true;
-                                }
-                            }
-                            if (tempRook) {
-                                return false;
+            if (destCol == currCol) {
+                if (destRow > currRow) {
+                    for (int i = currRow; i < destRow; i++) {
+                        if (tempRook == false) {
+                            if (board[i + 1][destCol] != null) {
+                                tempRook = true;
                             }
                         }
-                    } else if (destRow < currRow) {
-                        for (int i = currRow; i > destRow; i--) {
-                            if (tempRook == false) {
-                                if (board[i - 1][destCol] != null) {
-                                    tempRook = true;
-                                }
-                            }
-                            if (tempRook) {
-                                return false;
-                            }
+                        if (tempRook) {
+                            return false;
                         }
-
                     }
+                } else if (destRow < currRow) {
+                    for (int i = currRow; i > destRow; i--) {
+                        if (tempRook == false) {
+                            if (board[i - 1][destCol] != null) {
+                                tempRook = true;
+                            }
+                        }
+                        if (tempRook) {
+                            return false;
+                        }
+                    }
+
+                }
                 if (tempRook == false) {
                     return true;
-                }} else return false;
-            }
-
+                }
+            } else return false;
+        }
 
 
         //silver general
