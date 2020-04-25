@@ -545,6 +545,18 @@ public class ShogiLegalMoveList implements Serializable {
             return false;
         }
 
+        //king, promoted bishops, promoted rook
+        if ((pieceName == Piece.PieceType.KING) || (pieceName == Piece.PieceType.P_BISHOP) || (pieceName == Piece.PieceType.P_ROOK)) {
+            boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
+            boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
+
+            if (d || e) {
+                return true;
+            } else
+                return false;
+
+        }
+
         //pawns
         if (pieceName == Piece.PieceType.PAWN) {
             if (player == 0) {
@@ -808,18 +820,6 @@ public class ShogiLegalMoveList implements Serializable {
             } else if (player == 1) {
                 if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c)
                     return true;
-            } else
-                return false;
-
-        }
-
-        //king, promoted bishops, promoted rook
-        if ((pieceName == Piece.PieceType.KING) ^ (pieceName == Piece.PieceType.P_BISHOP) || (pieceName == Piece.PieceType.P_ROOK)) {
-            boolean d = (((destRow - currRow) * (destRow - currRow)) == 1) && ((((destCol - (currCol)) * ((destCol - (currCol))))) == 1);
-            boolean e = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
-
-            if (d || e) {
-                return true;
             } else
                 return false;
 
