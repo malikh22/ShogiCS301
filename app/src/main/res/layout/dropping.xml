@@ -18,27 +18,29 @@
             android:text="@android:string/cancel" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/bishop" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:visibility="visible"
+                android:src="@drawable/bishop"
+                 />
 
             <ImageButton
                 android:id="@+id/imageButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/goldgeneral" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/goldgeneral" />
 
             <ImageButton
                 android:id="@+id/imageButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/knight" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/knight" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,39 +50,39 @@
 
             <ImageButton
                 android:id="@+id/imageButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/pawn" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/pawn" />
 
             <ImageButton
                 android:id="@+id/imageButton5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/rook" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/rook" />
 
             <ImageButton
                 android:id="@+id/imageButton6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/silvergeneral" />
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/silvergeneral" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/imageButton7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/lance" />
+                android:src="@drawable/lance" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="200dp"
+                android:layout_height="175dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 

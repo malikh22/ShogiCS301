@@ -620,6 +620,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             game.sendAction(new ShogiDropAction(this, toDrop, row, col));
             amDropping = false;
             //remove the dropped piece
+            gui.invalidate();
         }
 
         //when a piece on the board is currently selected
