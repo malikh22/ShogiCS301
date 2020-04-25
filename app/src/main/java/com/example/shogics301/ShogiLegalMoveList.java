@@ -646,49 +646,35 @@ public class ShogiLegalMoveList implements Serializable {
                 boolean tempBishop = false;
 
                 if ((destRow > currRow)) {
+                    int loops =0;
                     if (destCol > currCol) {
                         for (int j = currRow; j < destRow; j++) {
                             for (int i = currCol; i < destCol; i++) {
                                 if (tempBishop == false) {
-                                    if (board[j + 1][i + 1] != null) {
+                                    if (board[j + 1][i + 1 + loops] != null) {
                                         tempBishop = true;
                                     }
-
+                                    if(tempBishop == false) {
+                                        break;
+                                    }
                                 }
                                 if (tempBishop) {
                                     return false;
                                 }
                             }
+                            loops++;
                         }
                         if (tempBishop == false) {
                             return true;
                         } else return false;
                     }
                 } else if (destRow < currRow) {
+                    int loops = 0;
                     if (destCol < currCol) {
                         for (int j = currRow; j > destRow; j--) {
                             for (int i = currCol; i > destCol; i--) {
                                 if (tempBishop == false) {
-                                    if (board[j - 1][i - 1] != null) {
-                                        tempBishop = true;
-                                    }
-                                }
-                                if (tempBishop) {
-                                    return false;
-                                }
-                            }
-                        }
-                        if (tempBishop == false) {
-                            return true;
-                        } else return false;
-                    }
-                }
-                if ((destRow < currRow)) {
-                    if (destCol > currCol) {
-                        for (int j = currRow; j > destRow; j--) {
-                            for (int i = currCol; i < destCol; i++) {
-                                if (tempBishop == false) {
-                                    if (board[j - 1][i +1] != null) {
+                                    if (board[j - 1][i - 1 +loops] != null) {
                                         tempBishop = true;
                                     }
                                     if(tempBishop == false)
@@ -700,6 +686,31 @@ public class ShogiLegalMoveList implements Serializable {
                                     return false;
                                 }
                             }
+                            loops--;
+                        }
+                        if (tempBishop == false) {
+                            return true;
+                        } else return false;
+                    }
+                }
+                if ((destRow < currRow)) {
+                    if (destCol > currCol) {
+                        int loops = 0;
+                        for (int j = currRow; j > destRow; j--) {
+                            for (int i = currCol; i < destCol; i++) {
+                                if (tempBishop == false) {
+                                    if (board[j - 1][i + 1+loops] != null) {
+                                        tempBishop = true;
+                                    }
+                                    if (tempBishop == false) {
+                                        break;
+                                    }
+                                }
+                                if (tempBishop) {
+                                    return false;
+                                }
+                            }
+                            loops++;
                         }
                         if (tempBishop == false) {
                             return true;
@@ -707,17 +718,23 @@ public class ShogiLegalMoveList implements Serializable {
                     }
                 } else if (destRow > currRow) {
                     if (destCol < currCol) {
+                        int loops = 0;
                         for (int j = currRow; j < destRow; j++) {
                             for (int i = currCol; i > destCol; i--) {
                                 if (tempBishop == false) {
-                                    if (board[j + 1][i - 1] != null) {
+                                    if (board[j + 1][i - 1+loops] != null) {
                                         tempBishop = true;
+                                    }
+                                    if(tempBishop == false)
+                                    {
+                                        break;
                                     }
                                 }
                                 if (tempBishop) {
                                     return false;
                                 }
                             }
+                            loops--;
                         }
                         if (tempBishop == false) {
                             return true;

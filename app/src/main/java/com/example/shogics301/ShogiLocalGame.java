@@ -23,7 +23,7 @@ public class ShogiLocalGame extends LocalGame {
     //Tag for logging
 
     private static final String TAG = "ShogiLocalGame";
-    private String history; 
+    private String history;
 
     // the game's state
     private ShogiState gameState;
