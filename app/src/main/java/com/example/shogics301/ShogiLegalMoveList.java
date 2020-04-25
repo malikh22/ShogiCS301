@@ -567,7 +567,7 @@ public class ShogiLegalMoveList implements Serializable {
 
             if ((destRow == currRow)) {
                 if (destCol > currCol) {
-                    for (int i = currCol; i < destCol; i++) {
+                    for (int i = currCol; i < destCol-1; i++) {
                         if (tempRook == false) {
                             if (board[currRow][i + 1] != null) {
                                 tempRook = true;
@@ -579,7 +579,7 @@ public class ShogiLegalMoveList implements Serializable {
                         }
                     }
                 } else if (destCol < currCol) {
-                    for (int i = currCol; i > destCol; i--) {
+                    for (int i = currCol; i > destCol+1; i--) {
                         if (tempRook == false) {
                             if (board[currRow][i - 1] != null) {
                                 tempRook = true;
@@ -596,7 +596,7 @@ public class ShogiLegalMoveList implements Serializable {
 
             } else if (destCol == currCol) {
                 if (destRow > currRow) {
-                    for (int i = currRow; i < destRow; i++) {
+                    for (int i = currRow; i < destRow-1; i++) {
                         if (tempRook == false) {
                             if (board[i + 1][destCol] != null) {
                                 tempRook = true;
@@ -607,7 +607,7 @@ public class ShogiLegalMoveList implements Serializable {
                         }
                     }
                 } else if (destRow < currRow) {
-                    for (int i = currRow; i > destRow; i--) {
+                    for (int i = currRow; i > destRow+1; i--) {
                         if (tempRook == false) {
                             if (board[i - 1][destCol] != null) {
                                 tempRook = true;
@@ -648,8 +648,8 @@ public class ShogiLegalMoveList implements Serializable {
                 if ((destRow > currRow)) {
                     int loops =0;
                     if (destCol > currCol) {
-                        for (int j = currRow; j < destRow; j++) {
-                            for (int i = currCol; i < destCol; i++) {
+                        for (int j = currRow; j < destRow-1; j++) {
+                            for (int i = currCol; i < destCol-1; i++) {
                                 if (tempBishop == false) {
                                     if (board[j + 1][i + 1 + loops] != null) {
                                         tempBishop = true;
@@ -671,8 +671,8 @@ public class ShogiLegalMoveList implements Serializable {
                 } else if (destRow < currRow) {
                     int loops = 0;
                     if (destCol < currCol) {
-                        for (int j = currRow; j > destRow; j--) {
-                            for (int i = currCol; i > destCol; i--) {
+                        for (int j = currRow; j > destRow+1; j--) {
+                            for (int i = currCol; i > destCol+1; i--) {
                                 if (tempBishop == false) {
                                     if (board[j - 1][i - 1 +loops] != null) {
                                         tempBishop = true;
@@ -696,8 +696,8 @@ public class ShogiLegalMoveList implements Serializable {
                 if ((destRow < currRow)) {
                     if (destCol > currCol) {
                         int loops = 0;
-                        for (int j = currRow; j > destRow; j--) {
-                            for (int i = currCol; i < destCol; i++) {
+                        for (int j = currRow; j > destRow+1; j--) {
+                            for (int i = currCol; i < destCol-1; i++) {
                                 if (tempBishop == false) {
                                     if (board[j - 1][i + 1+loops] != null) {
                                         tempBishop = true;
@@ -719,8 +719,8 @@ public class ShogiLegalMoveList implements Serializable {
                 } else if (destRow > currRow) {
                     if (destCol < currCol) {
                         int loops = 0;
-                        for (int j = currRow; j < destRow; j++) {
-                            for (int i = currCol; i > destCol; i--) {
+                        for (int j = currRow; j < destRow-1; j++) {
+                            for (int i = currCol; i > destCol+1; i--) {
                                 if (tempBishop == false) {
                                     if (board[j + 1][i - 1+loops] != null) {
                                         tempBishop = true;
@@ -751,7 +751,7 @@ public class ShogiLegalMoveList implements Serializable {
             boolean tempRook = false;
             if (destCol == currCol) {
                 if (destRow > currRow) {
-                    for (int i = currRow; i < destRow; i++) {
+                    for (int i = currRow; i < destRow-1; i++) {
                         if (tempRook == false) {
                             if (board[i + 1][destCol] != null) {
                                 tempRook = true;
@@ -762,7 +762,7 @@ public class ShogiLegalMoveList implements Serializable {
                         }
                     }
                 } else if (destRow < currRow) {
-                    for (int i = currRow; i > destRow; i--) {
+                    for (int i = currRow; i > destRow+1; i--) {
                         if (tempRook == false) {
                             if (board[i - 1][destCol] != null) {
                                 tempRook = true;

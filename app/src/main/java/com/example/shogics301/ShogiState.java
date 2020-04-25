@@ -313,7 +313,7 @@ public class ShogiState extends GameState {
     public void setHistory(String history)
     {
 
-        this.history = history;
+        this.history = this.history + history;
 
     }
 

@@ -190,6 +190,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             receiveInfo(state);
         }
     }
+
     @SuppressLint("SetTextI18n")
     public void openDrops() {
 
@@ -451,9 +452,6 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                         }
                     }
                 });
-
-        Log.d("attempt to open rules", "open rules");
-//        myActivity.startActivity(intent);
     }
 
     public void openHistory() {
@@ -462,6 +460,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         historyButtonToGame = (Button) myActivity.findViewById(R.id.button8);
         historyText = (TextView) myActivity.findViewById(R.id.textView46);
         historyText.setText(state.getHistory());
+        gui.invalidate();
         historyButtonToGame.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
@@ -617,6 +616,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         }
 
         if (amDropping && toDrop != null && myPieces[row][col] == null) {
+            row = (int) ((event.getY() - ShogiGui.topLeftY) / (ShogiGui.space));
+            col = (int) ((event.getX() - ShogiGui.topLeftX) / (ShogiGui.space));
             game.sendAction(new ShogiDropAction(this, toDrop, row, col));
             amDropping = false;
             //remove the dropped piece

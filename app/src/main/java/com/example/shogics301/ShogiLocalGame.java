@@ -272,9 +272,9 @@ public class ShogiLocalGame extends LocalGame {
 
                 } else {
                     if(sma.thisPiece.getPlayer() == 0){
-                        history = "Human " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
+                        history = "Human " + sma.thisPiece.getType() + " has moved to " +row+ " " + col+ "\n";}
                     if(sma.thisPiece.getPlayer() == 1){
-                        history = "Computer " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
+                        history = "Computer " + sma.thisPiece.getType() + " has moved to " +row+ " " + col+ "\n";}
                     newBoard[row][col] = piece;
                     piece.setColumn(col);
                     piece.setRow(row);
