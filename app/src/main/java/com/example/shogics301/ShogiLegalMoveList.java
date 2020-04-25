@@ -688,10 +688,13 @@ public class ShogiLegalMoveList implements Serializable {
                         for (int j = currRow; j > destRow; j--) {
                             for (int i = currCol; i < destCol; i++) {
                                 if (tempBishop == false) {
-                                    if (board[j - 1][i + 1] != null) {
+                                    if (board[j - 1][i +1] != null) {
                                         tempBishop = true;
                                     }
-
+                                    if(tempBishop == false)
+                                    {
+                                        break;
+                                    }
                                 }
                                 if (tempBishop) {
                                     return false;

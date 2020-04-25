@@ -23,6 +23,7 @@ public class ShogiLocalGame extends LocalGame {
     //Tag for logging
 
     private static final String TAG = "ShogiLocalGame";
+    private String history; 
 
     // the game's state
     private ShogiState gameState;
@@ -105,6 +106,7 @@ public class ShogiLocalGame extends LocalGame {
 
                 //forced promotion for piece if in proper zone
                 if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
+                    history = history + "Human " + sma.thisPiece.getType() + " promoted to ";
                     if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
                         sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
                         sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
@@ -139,11 +141,13 @@ public class ShogiLocalGame extends LocalGame {
 
 
                     }
+                    history = history + sma.thisPiece.getType() + "\n";
                     sma.thisPiece.setColumn(col);
                     sma.thisPiece.setRow(row);
                 }
 
-                if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
+                if (row < 9 && row >= 6 && sma.thisPiece.getPlayer() == 1) {
+                    history = history + "Computer " + sma.thisPiece.getType() + " promoted to ";
                     if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
                         sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
                         sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
@@ -180,6 +184,8 @@ public class ShogiLocalGame extends LocalGame {
                     }
                     sma.thisPiece.setColumn(col);
                     sma.thisPiece.setRow(row);
+                    history = history + sma.thisPiece.getType() + "\n";
+
                 }
 
 
@@ -187,15 +193,19 @@ public class ShogiLocalGame extends LocalGame {
                     //if possible, capture the piece at the given spot
                     if (gameState.getWhoseMove() == 0 && newBoard[row][col].getPlayer() != 0) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
+                            history = history + "Human " + sma.thisPiece.getType() + "has captured the computer's king. \n";
                             gameState.setPlayerHasKing(1);
                         } else {
+                            history = history + "Human's " + sma.thisPiece.getType() + "has captured the computer's " + newBoard[row][col].getType() + "\n";
                             newBoard[row][col].setPlayer(0);
                             gameState.capturep0(newBoard[row][col]);
                         }
                     } else if (gameState.getWhoseMove() == 1 && newBoard[row][col].getPlayer() != 1) {
                         if (newBoard[row][col].getType() == Piece.PieceType.KING) {
+                            history = history + "Computer's " + sma.thisPiece.getType() + "has captured the human's king. \n";
                             gameState.setPlayerHasKing(0);
                         } else {
+                            history = history + "Computer's " + sma.thisPiece.getType() + "has captured the human's " + newBoard[row][col].getType() + "\n";
                             newBoard[row][col].setPlayer(1);
                             gameState.capturep1(newBoard[row][col]);
                         }
@@ -211,6 +221,7 @@ public class ShogiLocalGame extends LocalGame {
 
                     //forced promotion for piece if in proper zone
                     if (row < 3 && row >= 0 && sma.thisPiece.getPlayer() == 0) {
+                        history = history + "Human " + sma.thisPiece.getType() + " promoted to ";
                         if (sma.thisPiece.getType() == Piece.PieceType.PAWN) {
                             sma.thisPiece.setMyType(Piece.PieceType.P_PAWN);
                             sma.thisPiece.setMyBitmap(sma.thisPiece.getMyBitmap());
@@ -245,18 +256,25 @@ public class ShogiLocalGame extends LocalGame {
 
 
                         }
+                        history = history + sma.thisPiece.getType() + "\n";
                         sma.thisPiece.setColumn(col);
                         sma.thisPiece.setRow(row);
                     }
 
-                    if (row < 9 && row >= 7 && sma.thisPiece.getPlayer() == 1) {
+                    if (row < 9 && row >= 6 && sma.thisPiece.getPlayer() == 1) {
+                        history = history + "Computer " + sma.thisPiece.getType() + " promoted to ";
                         newBoard[row][col] = new Piece(sma.thisPiece.getMyBitmap(),
                                 newBoard[row][col].getPromotedPiece(), row, col, 1);
+                        history = history + sma.thisPiece.getType() + "\n";
                         sma.thisPiece.setColumn(col);
                         sma.thisPiece.setRow(row);
                     }
 
                 } else {
+                    if(sma.thisPiece.getPlayer() == 0){
+                        history = history + "Human " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
+                    if(sma.thisPiece.getPlayer() == 1){
+                        history = history + "Computer " + sma.thisPiece.getType() + "has moved to " +row+ " " + col+ "\n";}
                     newBoard[row][col] = piece;
                     piece.setColumn(col);
                     piece.setRow(row);
@@ -278,6 +296,7 @@ public class ShogiLocalGame extends LocalGame {
                 return false;
 
             }
+            gameState.setHistory(history);
             return true;
         }
         return true;
