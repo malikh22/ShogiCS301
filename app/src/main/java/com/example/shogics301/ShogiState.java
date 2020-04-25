@@ -26,6 +26,8 @@ public class ShogiState extends GameState {
 
     // the 9x9 array of char that represents the pieces on the board
     private char[][] board = new char[9][9];
+    private String history;
+
 
     private Piece[][] pieces;
     private Boolean flash = false;
@@ -222,7 +224,7 @@ public class ShogiState extends GameState {
         playerToMove = id;
     }
 
-    public ArrayList<ShogiMoveAction> getHistory() { return moves; }
+    public ArrayList<ShogiMoveAction> getMoves() { return moves; }
     public void recordHistory(ShogiMoveAction move) { moves.add(move); }
 
     public ArrayList<Piece> getDrops0() {return drops0;}
@@ -306,5 +308,19 @@ public class ShogiState extends GameState {
 
     public void setDrops1(ArrayList<Piece> drops1) {
         this.drops1 = drops1;
+    }
+
+    public void setHistory(String history)
+    {
+
+        this.history = history;
+
+    }
+
+    public String getHistory()
+    {
+
+        return this.history;
+
     }
 }

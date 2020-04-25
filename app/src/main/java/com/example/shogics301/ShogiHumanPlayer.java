@@ -57,9 +57,13 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private Button dropsButtonToGame;
     private Button movingButtonToGame;
     private Button promotionButtonToGame;
+    private Button historyButton;
+    private Button historyButtonToGame;
 
     private boolean usingRulesScreen = false;
     private boolean usingDropsScreen = false;
+    private boolean usingHistoryScreen = false;
+    private TextView historyText;
 
 
     /**
@@ -83,7 +87,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
      * @param info the updated game state
      */
     @Override
-    public void receiveInfo(GameInfo info)  {
+    public void receiveInfo(GameInfo info) {
 
         //only update the state if info is a game state
         if (info instanceof ShogiState) {
@@ -93,12 +97,14 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             this.myPieces = state.getBoard();
 
             if (usingRulesScreen) return;
-            if(usingDropsScreen) return;
+            if (usingDropsScreen) return;
+            if (usingHistoryScreen) return;
+
 
             gui = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
-            if(info instanceof IllegalMoveInfo) {
+            if (info instanceof IllegalMoveInfo) {
 
                 Log.d("ShogiHP", "illegal move");
 
@@ -141,6 +147,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         toRules.setTextColor(Color.BLACK);
         Log.d("attempt to open rules", "open rules");
 
+        historyButton = (Button) myActivity.findViewById(R.id.button);
+
+
         toRules.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -165,65 +174,22 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             }
         });
 
+        historyButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View V) {
+                Logger.log("drops click", "drops button clicked");
+                Log.d("on click", "on clicked");
+                openHistory();
+
+            }
+        });
+
         // GUI values are updated
         if (state != null) {
             receiveInfo(state);
         }
     }
-    public void openRules() {
-
-
-//        Intent intent = new Intent(myActivity, Rules.class);
-
-        usingRulesScreen = true;
-        myActivity.setContentView(R.layout.rules);
-        rulesButtonToGame = (Button) myActivity.findViewById(R.id.button7);
-        rulesButtonMoving = (Button) myActivity.findViewById(R.id.button3);
-        rulesButtonPromotion = (Button) myActivity.findViewById(R.id.button5);
-
-        rulesButtonToGame.setOnClickListener(
-                new View.OnClickListener() {
-
-                    public void onClick(View v) {
-                        ShogiHumanPlayer.this.setAsGui(myActivity);
-                        usingRulesScreen = false;
-                        if (state != null) {
-                            receiveInfo(state);
-                        }
-                    }
-                }
-
-
-        );
-
-        rulesButtonMoving.setOnClickListener(
-                new View.OnClickListener() {
-
-                    public void onClick(View v) {
-                        openMoving();
-                    }
-                }
-
-
-        );
-
-        rulesButtonPromotion.setOnClickListener(
-                new View.OnClickListener() {
-
-                    public void onClick(View v) {
-
-                        openPromotion();
-                    }
-                }
-
-
-        );
-
-        Log.d("attempt to open rules", "open rules");
-//        myActivity.startActivity(intent);
-    }
-
-
     @SuppressLint("SetTextI18n")
     public void openDrops() {
 
@@ -287,56 +253,56 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         lanceButton.setEnabled(false);
         knightButton.setEnabled(false);
 
-        for(Piece p : oppDrops){
-            if(p.getType() == Piece.PieceType.BISHOP){
+        for (Piece p : oppDrops) {
+            if (p.getType() == Piece.PieceType.BISHOP) {
                 oppBCount++;
             }
-            if(p.getType() == Piece.PieceType.ROOK){
+            if (p.getType() == Piece.PieceType.ROOK) {
                 oppRCount++;
             }
-            if(p.getType() == Piece.PieceType.PAWN){
+            if (p.getType() == Piece.PieceType.PAWN) {
                 oppPCount++;
             }
-            if(p.getType() == Piece.PieceType.LANCE){
+            if (p.getType() == Piece.PieceType.LANCE) {
                 oppLCount++;
             }
-            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+            if (p.getType() == Piece.PieceType.GOLDGENERAL) {
                 oppGGCount++;
             }
-            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+            if (p.getType() == Piece.PieceType.SILVERGENERAL) {
                 oppSGCount++;
             }
-            if(p.getType() == Piece.PieceType.KNIGHT){
+            if (p.getType() == Piece.PieceType.KNIGHT) {
                 oppKCount++;
             }
         }
 
-        for(Piece p : myDrops){
-            if(p.getType() == Piece.PieceType.BISHOP){
+        for (Piece p : myDrops) {
+            if (p.getType() == Piece.PieceType.BISHOP) {
                 myBCount++;
                 bishopButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.ROOK){
+            if (p.getType() == Piece.PieceType.ROOK) {
                 myRCount++;
                 rookButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.PAWN){
+            if (p.getType() == Piece.PieceType.PAWN) {
                 myPCount++;
                 pawnButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.LANCE){
+            if (p.getType() == Piece.PieceType.LANCE) {
                 myLCount++;
                 lanceButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+            if (p.getType() == Piece.PieceType.GOLDGENERAL) {
                 myGGCount++;
                 ggButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+            if (p.getType() == Piece.PieceType.SILVERGENERAL) {
                 mySGCount++;
                 sgButton.setEnabled(true);
             }
-            if(p.getType() == Piece.PieceType.KNIGHT){
+            if (p.getType() == Piece.PieceType.KNIGHT) {
                 myKCount++;
                 knightButton.setEnabled(true);
             }
@@ -363,8 +329,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.PAWN){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.PAWN) {
                                 toDrop = p;
                             }
                         }
@@ -376,8 +342,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.ROOK){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.ROOK) {
                                 toDrop = p;
                             }
                         }
@@ -391,8 +357,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.BISHOP){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.BISHOP) {
                                 toDrop = p;
                             }
                         }
@@ -406,8 +372,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.SILVERGENERAL){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.SILVERGENERAL) {
                                 toDrop = p;
                             }
                         }
@@ -419,8 +385,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.GOLDGENERAL){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.GOLDGENERAL) {
                                 toDrop = p;
                             }
                         }
@@ -433,8 +399,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.LANCE){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.LANCE) {
                                 toDrop = p;
                             }
                         }
@@ -447,8 +413,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        for(Piece p : myDrops){
-                            if(p.getType() == Piece.PieceType.KNIGHT){
+                        for (Piece p : myDrops) {
+                            if (p.getType() == Piece.PieceType.KNIGHT) {
                                 toDrop = p;
                             }
                         }
@@ -484,7 +450,69 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             receiveInfo(state);
                         }
                     }
+                });
+
+        Log.d("attempt to open rules", "open rules");
+//        myActivity.startActivity(intent);
+    }
+
+    public void openHistory() {
+        usingHistoryScreen = true;
+        myActivity.setContentView(R.layout.history);
+        historyButtonToGame = (Button) myActivity.findViewById(R.id.button8);
+        historyText = (TextView) myActivity.findViewById(R.id.textView46);
+        historyText.setText(state.getHistory());
+        historyButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingHistoryScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                });
+    }
+
+    public void openRules() {
+        usingRulesScreen = true;
+        myActivity.setContentView(R.layout.rules);
+        rulesButtonToGame = (Button) myActivity.findViewById(R.id.button7);
+        rulesButtonMoving = (Button) myActivity.findViewById(R.id.button3);
+        rulesButtonPromotion = (Button) myActivity.findViewById(R.id.button5);
+
+        rulesButtonToGame.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ShogiHumanPlayer.this.setAsGui(myActivity);
+                        usingRulesScreen = false;
+                        if (state != null) {
+                            receiveInfo(state);
+                        }
+                    }
+                });
+
+        rulesButtonMoving.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        openMoving();
+                    }
                 }
+
+
+        );
+
+        rulesButtonPromotion.setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+
+                        openPromotion();
+                    }
+                }
+
+
         );
 
         Log.d("attempt to open rules", "open rules");
@@ -497,7 +525,6 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
         movingButtonToGame.setOnClickListener(
                 new View.OnClickListener() {
-
                     public void onClick(View v) {
                         ShogiHumanPlayer.this.setAsGui(myActivity);
                         usingRulesScreen = false;
@@ -505,12 +532,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             receiveInfo(state);
                         }
                     }
-                }
-
-
-        );
-
-
+                });
     }
 
     public void openPromotion() {
@@ -594,7 +616,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             return false;
         }
 
-        if(amDropping && toDrop != null && myPieces[row][col] == null) {
+        if (amDropping && toDrop != null && myPieces[row][col] == null) {
             game.sendAction(new ShogiDropAction(this, toDrop, row, col));
             amDropping = false;
             //remove the dropped piece
@@ -688,7 +710,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 //if a piece is selected and the tapped space is not a legal move,
                 //then leave everything as it is
                 else {
-                    Log.d("ShogiHP","flash");
+                    Log.d("ShogiHP", "flash");
                     try {
                         flashButton();
                     } catch (InterruptedException e) {
