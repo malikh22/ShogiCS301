@@ -201,7 +201,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         usingDropsScreen = true;
         myActivity.setContentView(R.layout.dropping);
         dropsButtonToGame = (Button) myActivity.findViewById(R.id.button9);
-        Button confirmButton = (Button) myActivity.findViewById(R.id.button11);
+        final Button confirmButton = (Button) myActivity.findViewById(R.id.button11);
         ImageButton pawnButton = (ImageButton) myActivity.findViewById(R.id.imageButton4);
         ImageButton rookButton = (ImageButton) myActivity.findViewById(R.id.imageButton5);
         ImageButton bishopButton = (ImageButton) myActivity.findViewById(R.id.imageButton);
@@ -337,6 +337,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Pawn");
+                        confirmButton.setEnabled(true);
                     }
                 }
         );
@@ -350,6 +351,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Rook");
+                        confirmButton.setEnabled(true);
                     }
                 }
 
@@ -365,6 +367,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Bishop");
+                        confirmButton.setEnabled(true);
                     }
                 }
 
@@ -380,6 +383,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Silver General");
+                        confirmButton.setEnabled(true);
                     }
                 }
         );
@@ -393,6 +397,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Gold General");
+                        confirmButton.setEnabled(true);
                     }
                 }
         );
@@ -407,6 +412,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Lance");
+                        confirmButton.setEnabled(true);
                     }
                 }
         );
@@ -421,9 +427,14 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                             }
                         }
                         mySelected.setText("Selected: Knight");
+                        confirmButton.setEnabled(true);
                     }
                 }
         );
+
+        if(toDrop == null){
+            confirmButton.setEnabled(false);
+        }
 
         dropsButtonToGame.setOnClickListener(
                 new View.OnClickListener() {
