@@ -50,6 +50,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private Button toDrops;
     Piece toDrop = null;
     boolean amDropping = false;
+    boolean droppedThisTurn = false;
 
     private Button rulesButtonMoving;
     private Button rulesButtonPromotion;
@@ -447,6 +448,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                         amDropping = true;
                         ShogiHumanPlayer.this.setAsGui(myActivity);
                         usingDropsScreen = false;
+                        ArrayList<Piece> updated = state.getDrops0();
+                        updated.remove(toDrop);
+                        state.setDrops0(updated);
                         if (state != null) {
                             receiveInfo(state);
                         }
@@ -620,6 +624,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             col = (int) ((event.getX() - ShogiGui.topLeftX) / (ShogiGui.space));
             game.sendAction(new ShogiDropAction(this, toDrop, row, col));
             amDropping = false;
+            droppedThisTurn = true;
             //remove the dropped piece
             gui.invalidate();
         }
@@ -702,7 +707,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 //move the piece
                 else if (myPieces[rowSel][colSel].legalMove(myPieces, row, col)) {
                     game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel], row, col, rowSel, colSel));
-
+                    droppedThisTurn = false;
                     //reset
                     havePieceSelected = false;
                     rowSel = -1;
@@ -746,7 +751,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 }
             }
         }
-
+        droppedThisTurn = false;
         //redraw board with pieces updated
         gui.invalidate();
         //done
