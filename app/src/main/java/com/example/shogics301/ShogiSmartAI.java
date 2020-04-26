@@ -135,7 +135,7 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
             destCol = rnd.nextInt(pieces[destRow].length - 1);
         }
         // delay for a second to make opponent think we're thinking
-        sleep(0.1);
+        sleep(0.05);
 
         // Submit our move to the game object. We haven't even checked it it's
         // our turn, or that that position is unoccupied. If it was not our turn,
