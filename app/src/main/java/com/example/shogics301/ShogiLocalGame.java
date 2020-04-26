@@ -87,6 +87,13 @@ public class ShogiLocalGame extends LocalGame {
                 gameState.setDrops1(drops);
             }
 
+
+            if (gameState.getWhoseMove() == 1) {
+                gameState.setWhoseMove(0);
+            } else if (gameState.getWhoseMove() == 0) {
+                gameState.setWhoseMove(1);
+            }
+
             gameState.setBoard(newBoard);
             return true;
         }

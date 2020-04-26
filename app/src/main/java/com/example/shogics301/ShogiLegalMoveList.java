@@ -552,9 +552,7 @@ public class ShogiLegalMoveList implements Serializable {
 
             if (d || e) {
                 return true;
-            } else
-                return false;
-
+            }
         }
 
         //pawns
