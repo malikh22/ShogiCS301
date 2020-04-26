@@ -43,14 +43,7 @@ public class ShogiMainActivity extends GameMainActivity implements Serializable 
 
         // a computer player type (player type 2)
         playerTypes.add(new GamePlayerType("Smart Computer Player") {
-            public GamePlayer createPlayer(String name) {
-                return new ShogiSmartAI(name) {
-                    @Override
-                    protected void receiveInfo(GameInfo info) {
-
-                    }
-                };
-            }});
+            public GamePlayer createPlayer(String name) { return new ShogiSmartAI(name); }});
 
         // Create a game configuration class for Shogi:
         // - player types as given above

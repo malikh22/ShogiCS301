@@ -15,6 +15,7 @@ import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
 import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
+import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.infoMessage.NotYourTurnInfo;
 import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
 import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
@@ -38,6 +39,7 @@ import java.util.Random;
 public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
     //Tag for logging
     private static final String TAG = "ShogiDumbAI";
+    private ShogiLegalMoveList myLegalMoves;
 
     public ShogiSmartAI(String name) {
         // invoke superclass constructor
@@ -56,16 +58,18 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
 
         // if it was a "not your turn" message, just ignore it
         if (info instanceof NotYourTurnInfo) return;
+        if (info instanceof IllegalMoveInfo) return;
 
+
+        myLegalMoves = new ShogiLegalMoveList(playerNum);
         Random rnd = new Random();
 
         ShogiState state = (ShogiState) info;
         Piece[][] pieces = state.getBoard();
         int pLength = pieces.length;
         Piece selPiece = null;
-        boolean goodMove = false;
-        int destRow = 0;
-        int destCol = 0;
+        int destRow=0;
+        int destCol=0;
 
         //scroll through board
 
@@ -77,56 +81,39 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
 
         for (int i = 0; i < pLength; i++){
             for (int j = 0; j < pieces[i].length; j++) {
-                if(pieces[i][j] != null){
+                if(pieces[i][j] != null && pieces[i][j].getPlayer()==playerNum){
                     for (int desti = 0; desti < pLength; desti++){
                         for (int destj = 0; destj < pieces[i].length; destj++) {
-                            if(isValidMove(pieces[i][j],i,j,desti,destj)){
-                                if(pieces[desti][destj] != null){
+                            if(myLegalMoves.validMove(pieces,pieces[i][j].getType(),i,j,desti,destj,pieces[i][j].getPlayer())){
+                                if(pieces[desti][destj]!=null && pieces[desti][destj].getPlayer()!=playerNum){
                                     switch (pieces[desti][destj].getType()) {
                                         case GOLDGENERAL:
                                         case ROOK:
                                         case BISHOP:
                                         case SILVERGENERAL:
-                                            if(rnd.nextBoolean()){
-                                                selPiece=pieces[i][j];
-                                                destRow=desti;
-                                                destCol=destj;
+                                            if (selPiece == null || (selPiece.getType() != Piece.PieceType.GOLDGENERAL && selPiece.getType() != Piece.PieceType.ROOK && selPiece.getType() != Piece.PieceType.BISHOP && selPiece.getType() != Piece.PieceType.SILVERGENERAL) || rnd.nextBoolean()) {
+                                                selPiece = pieces[i][j];
+                                                destRow = desti;
+                                                destCol = destj;
                                             }
                                             break;
                                         case KING:
                                         case KNIGHT:
                                         case LANCE:
-                                            if(selPiece==null || pieces[desti][destj].getType() == Piece.PieceType.PAWN){
-                                                selPiece=pieces[i][j];
-                                                destRow=desti;
-                                                destCol=destj;
+                                            if (selPiece == null || pieces[desti][destj].getType() == Piece.PieceType.PAWN) {
+                                                selPiece = pieces[i][j];
+                                                destRow = desti;
+                                                destCol = destj;
                                             }
                                             break;
                                         case PAWN:
-                                            if(selPiece==null){
-                                                selPiece=pieces[i][j];
-                                                destRow=desti;
-                                                destCol=destj;
+                                            if (selPiece == null) {
+                                                selPiece = pieces[i][j];
+                                                destRow = desti;
+                                                destCol = destj;
                                             }
-                                            break;
-                                        default:
-                                            boolean myP=false;
-                                            Piece myPiece = pieces[0][0];
-                                            int myRow=0;
-                                            int myCol=0;
-                                            while(!myP) {
-                                                myRow=rnd.nextInt(pLength - 1);
-                                                myPiece=pieces[rnd.nextInt(myRow)][rnd.nextInt(pieces[myRow].length - 1)];
-                                                if(myPiece instanceof Piece) myP = (pieces[i][j].getPlayer()==this.playerNum);
-                                            }
-                                            selPiece=myPiece;
-                                            destRow = rnd.nextInt(pLength - 1);
-                                            destCol = rnd.nextInt(pieces[destRow].length - 1);
                                             break;
                                     }
-                                }
-                                else{
-
                                 }
                             }
                         }
@@ -134,60 +121,29 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                 }
             }
         }
-        /*
         if(selPiece==null){
-            while(!goodMove) {
-                selPiece=pieces[i][j];
-                if(p instanceof Piece) myPiece = (p.getPlayer()==this.playerNum);
+            boolean myP=false;
+            int myRow=0;
+            Piece myPiece = pieces[0][0];
+            while(!myP) {
+                myRow=rnd.nextInt(pLength - 1);
+                myPiece=pieces[myRow][rnd.nextInt(pieces[myRow].length - 1)];
+                if(myPiece!=null) myP = (myPiece.getPlayer()==playerNum);
             }
+            selPiece=myPiece;
+            destRow = rnd.nextInt(pLength - 1);
+            destCol = rnd.nextInt(pieces[destRow].length - 1);
         }
-
-        destRow = rnd.nextInt(pLength - 1);
-        destCol = rnd.nextInt(pieces[destRow].length - 1);
-        */
-
         // delay for a second to make opponent think we're thinking
-        sleep(0.01);
+        sleep(0.1);
 
         // Submit our move to the game object. We haven't even checked it it's
         // our turn, or that that position is unoccupied. If it was not our turn,
         // we'll get a message back that we'll ignore. If it was an illegal move,
         // we'll end up here again (and possibly again, and again). At some point,
         // we'll end up randomly pick a move that is legal.
-        Log.d("dumb AI", "makes move");
+        Log.d("smart AI", "makes move");
         game.sendAction(new ShogiMoveAction(this, selPiece, destRow, destCol, selPiece.getRow(), selPiece.getColumn()));
-    }
-
-    public boolean isValidMove(Piece p, int ox, int oy, int x, int y) {
-        boolean side = p.getPlayer()==0;
-        switch (p.getType()) {
-            case PAWN:
-                if (x != ox || (side ? y > oy : y < oy)|| (side ? y < oy - 1 : y > oy + 1)) return false;
-                break;
-            case KING:
-                if ((x > ox ? x > ox + 1 : x < ox - 1)|| (y > oy ? y > oy + 1 : y < oy - 1)) return false;
-                break;
-            case GOLDGENERAL:
-                if ((x > ox ? x > ox + 1 : x < ox - 1) || (y > oy ? y > oy + 1 : y < oy - 1) || (x != ox && (side ? y == oy + 1 : y == oy - 1))) return false;
-                break;
-            case SILVERGENERAL:
-                if ((x > ox ? x > ox + 1 : x < ox - 1) || (y > oy ? y > oy + 1 : y < oy - 1) || (y == oy && x != ox) || (x == ox && (side ? y == oy + 1 : y == oy - 1))) return false;
-                break;
-            case KNIGHT:
-                if ((x > ox ? x != ox + 1 : x != ox - 1) || (side ? y != oy - 2 : y != oy + 2)) return false;
-                break;
-            case ROOK:
-                if (x != ox && y != oy) return false;
-                break;
-            case BISHOP:
-                if (Math.abs(x - ox) != Math.abs(y - oy)) return false;
-                break;
-            case LANCE:
-                if (x != ox || (side ? y > oy : y < oy)) return false;
-                break;
-            }
-
-        return true;
     }
 
 }// class ShogiDumbAI

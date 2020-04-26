@@ -541,7 +541,7 @@ public class ShogiLegalMoveList implements Serializable {
     }
 
     public boolean validMove(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol, int destRow, int destCol, int player) {
-        if (board[destRow][destCol] != null && player == 1 && board[destRow][destCol].getPlayer() == 1) {
+        if (board[destRow][destCol] != null && player == board[destRow][destCol].getPlayer()) {
             return false;
         }
 
