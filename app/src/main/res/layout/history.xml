@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="To Game" />
+
     <TextView
         android:id="@+id/textView47"
         android:layout_width="match_parent"
@@ -14,13 +20,13 @@
     <TextView
         android:id="@+id/textView46"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="8dp"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
         android:text="Moves: "
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="To Game" />
 </LinearLayout>

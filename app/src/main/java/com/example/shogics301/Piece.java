@@ -16,44 +16,54 @@ public class Piece {
     private boolean selected = false;
 
     PieceType getPromotedPiece() {
-        if (this.getType() == PieceType.PAWN){
+        if (this.getType() == PieceType.PAWN) {
             return PieceType.P_PAWN;
         }
-        if (this.getType() == PieceType.KNIGHT){
+        if (this.getType() == PieceType.KNIGHT) {
             return PieceType.P_KNIGHT;
         }
-        if (this.getType() == PieceType.ROOK){
+        if (this.getType() == PieceType.ROOK) {
             return PieceType.P_ROOK;
         }
-        if (this.getType() == PieceType.LANCE){
+        if (this.getType() == PieceType.LANCE) {
             return PieceType.P_LANCE;
         }
-        if(this.getType() == PieceType.SILVERGENERAL){
+        if (this.getType() == PieceType.SILVERGENERAL) {
             return PieceType.P_SILVER;
         }
-        if(this.getType() == PieceType.BISHOP){
+        if (this.getType() == PieceType.BISHOP) {
             return PieceType.P_BISHOP;
-        }
-        else return null;
+        } else return null;
+    }
+
+
+
+    boolean isPromoted(Piece piece) {
+        if (piece.getType() == PieceType.P_BISHOP || piece.getType() == PieceType.P_LANCE || piece.getType() == PieceType.P_ROOK ||
+                piece.getType() == PieceType.P_PAWN || piece.getType() == PieceType.P_KNIGHT || piece.getType() == PieceType.P_SILVER) {
+            return true;
+        } else return false;
+
+
     }
 
     /**
-     *
-     * @param board the current setup of pieces on the board
+     * @param board   the current setup of pieces on the board
      * @param currRow the row of the space that may be legal for this piece to move to
      * @param currCol the column of the space that may be legal for this piece to move to
-     *
      * @return true if this is a legal move, false otherwise
      */
-    public boolean legalMove(Piece[][] board, int currRow, int currCol){
+    public boolean legalMove(Piece[][] board, int currRow, int currCol) {
         if (true) return true;
         int a = player;
         ShogiLegalMoveList getLegalMoves = new ShogiLegalMoveList(a);
         int[][] moves = getLegalMoves.moves(board, this.getType(), row, column);
 
-        for(int i = 0; i < moves.length; i++) {
-            if(moves[i] == null){ continue; }
-            if(moves[i][0] == currRow && moves[i][1] == currCol){
+        for (int i = 0; i < moves.length; i++) {
+            if (moves[i] == null) {
+                continue;
+            }
+            if (moves[i][0] == currRow && moves[i][1] == currCol) {
                 return true;
             }
         }
@@ -93,30 +103,52 @@ public class Piece {
         this.captured = captured;
     }
 
-    public PieceType getType() { return this.myType; }
+    public PieceType getType() {
+        return this.myType;
+    }
 
     public void setMyType(PieceType pieceType) {
         this.myType = pieceType;
     }
 
-    public void setRow(int row) { this.row = row; }
+    public void setRow(int row) {
+        this.row = row;
+    }
 
-    public void setColumn(int column) { this.column = column; }
+    public void setColumn(int column) {
+        this.column = column;
+    }
 
-    public int getRow() { return this.row; }
+    public int getRow() {
+        return this.row;
+    }
 
-    public int getColumn() { return this.column; }
+    public int getColumn() {
+        return this.column;
+    }
 
-    public void setMyBitmap(Bitmap bitmap) { this.myBitmap = bitmap; }
+    public void setMyBitmap(Bitmap bitmap) {
+        this.myBitmap = bitmap;
+    }
 
-    public Bitmap getMyBitmap() { return myBitmap; }
+    public Bitmap getMyBitmap() {
+        return myBitmap;
+    }
 
-    public int getPlayer() { return this.player; }
+    public int getPlayer() {
+        return this.player;
+    }
 
-    public void setPlayer(int player) { this.player = player; }
+    public void setPlayer(int player) {
+        this.player = player;
+    }
 
-    public boolean isSelected() { return selected; }
+    public boolean isSelected() {
+        return selected;
+    }
 
-    public void setSelected(boolean b) { this.selected = b;}
+    public void setSelected(boolean b) {
+        this.selected = b;
+    }
 
 }

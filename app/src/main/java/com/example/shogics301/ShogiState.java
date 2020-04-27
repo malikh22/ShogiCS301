@@ -26,7 +26,7 @@ public class ShogiState extends GameState {
 
     // the 9x9 array of char that represents the pieces on the board
     private char[][] board = new char[9][9];
-    private String history;
+    private String history = "Start of Game!\n";
 
 
     private Piece[][] pieces;
@@ -160,6 +160,8 @@ public class ShogiState extends GameState {
 
         //copy history of moves
         moves = original.moves;
+
+        history = original.history;
 
         //copy original check for kings
         playersHaveKing = original.playersHaveKing;

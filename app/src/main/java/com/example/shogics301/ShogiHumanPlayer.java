@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -475,6 +476,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         historyButtonToGame = (Button) myActivity.findViewById(R.id.button8);
         historyText = (TextView) myActivity.findViewById(R.id.textView46);
         historyText.setText(state.getHistory());
+        historyText.setMovementMethod(new ScrollingMovementMethod());
         gui.invalidate();
         historyButtonToGame.setOnClickListener(
                 new View.OnClickListener() {
