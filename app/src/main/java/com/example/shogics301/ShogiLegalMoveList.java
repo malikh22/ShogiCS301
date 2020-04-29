@@ -3,10 +3,12 @@ package com.example.shogics301;
 import java.io.Serializable;
 
 /**
+ * Handles move legality
  * @author Hera Malik
+ * @author Josh Henderson
  */
 
-public class ShogiLegalMoveList implements Serializable {
+class ShogiLegalMoveList implements Serializable {
     private static final long serialVersionUID = 42978563847L;
     private int player;
     private int playerIdx;
@@ -45,7 +47,8 @@ public class ShogiLegalMoveList implements Serializable {
                 if (currRow - 1 >= 0) {
                     if (board[currRow - 1][currCol] == null) {
                         moves[0] = new int[]{currRow - 1, currCol};
-                    } else if (board[currRow - 1][currCol] != null && board[currRow - 1][currCol].getPlayer() != player) {
+                    } else if (board[currRow - 1][currCol] != null
+                            && board[currRow - 1][currCol].getPlayer() != player) {
                         moves[0] = new int[]{currRow - 1, currCol};
                     }
                 }
@@ -517,29 +520,6 @@ public class ShogiLegalMoveList implements Serializable {
         return moves;
     }
 
-    //TODO: use
-    public int[][] kingInCheck(Piece[][] board, ShogiState state, int currRow, int currCol) {
-        if (!board[currRow][currCol].getType().equals(Piece.PieceType.KING)) {
-            return null;
-        }
-
-        Piece piece = board[currRow][currCol];
-        int[][] possibleMoves;
-
-        if (state.determinePlayerInCheck(playerIdx, board, piece.getRow(), piece.getColumn())) {
-            possibleMoves = moves(board, piece.getType(), piece.getRow(), piece.getColumn());
-            for (int i = 0; i < possibleMoves.length; i++) {
-                if (possibleMoves[i] == null) {
-                    continue;
-                }
-                if (state.determinePlayerInCheck(playerIdx, board, possibleMoves[i][0], possibleMoves[i][1])) {
-                    possibleMoves[i] = null;
-                }
-            }
-        }
-        return new int[][]{{4}};
-    }
-
     public boolean validMove(Piece[][] board, Piece.PieceType pieceName, int currRow, int currCol, int destRow, int destCol, int player) {
         if (board[destRow][destCol] != null && player == board[destRow][destCol].getPlayer()) {
             return false;
@@ -558,13 +538,9 @@ public class ShogiLegalMoveList implements Serializable {
         //pawns
         if (pieceName == Piece.PieceType.PAWN) {
             if (player == 0) {
-                if ((destRow == currRow - 1) && (destCol == currCol)) {
-                    return true;
-                }
+                return (destRow == currRow - 1) && (destCol == currCol);
             } else if (player == 1) {
-                if ((destRow == currRow + 1) && (destCol == currCol)) {
-                    return true;
-                }
+                return (destRow == currRow + 1) && (destCol == currCol);
 
             }
             return false;
@@ -578,50 +554,40 @@ public class ShogiLegalMoveList implements Serializable {
             if ((destRow == currRow)) {
                 if (destCol > currCol) {
                     for (int i = currCol; i < destCol-1; i++) {
-                        if (tempRook == false) {
-                            if (board[currRow][i + 1] != null) {
-                                tempRook = true;
-                            }
-
+                        if (board[currRow][i + 1] != null) {
+                            tempRook = true;
                         }
+
                         if (tempRook) {
                             return false;
                         }
                     }
                 } else if (destCol < currCol) {
                     for (int i = currCol; i > destCol+1; i--) {
-                        if (tempRook == false) {
-                            if (board[currRow][i - 1] != null) {
-                                tempRook = true;
-                            }
+                        if (board[currRow][i - 1] != null) {
+                            tempRook = true;
                         }
                         if (tempRook) {
                             return false;
                         }
                     }
                 }
-                if (tempRook == false) {
-                    return true;
-                } else return false;
+                return true;
 
             } else if (destCol == currCol) {
                 if (destRow > currRow) {
                     for (int i = currRow; i < destRow-1; i++) {
-                        if (tempRook == false) {
-                            if (board[i + 1][destCol] != null) {
-                                tempRook = true;
-                            }
+                        if (board[i + 1][destCol] != null) {
+                            tempRook = true;
                         }
                         if (tempRook) {
                             return false;
                         }
                     }
-                } else if (destRow < currRow) {
+                } else {
                     for (int i = currRow; i > destRow+1; i--) {
-                        if (tempRook == false) {
-                            if (board[i - 1][destCol] != null) {
-                                tempRook = true;
-                            }
+                        if (board[i - 1][destCol] != null) {
+                            tempRook = true;
                         }
                         if (tempRook) {
                             return false;
@@ -630,9 +596,7 @@ public class ShogiLegalMoveList implements Serializable {
 
                 }
 
-                if (tempRook == false) {
-                    return true;
-                }
+                return true;
             } else return false;
         }
 
@@ -660,47 +624,35 @@ public class ShogiLegalMoveList implements Serializable {
                     if (destCol > currCol) {
                         for (int j = currRow; j < destRow-1; j++) {
                             for (int i = currCol; i < destCol-1; i++) {
-                                if (tempBishop == false) {
-                                    if (board[j + 1][i + 1 + loops] != null) {
-                                        tempBishop = true;
-                                    }
-                                    if(tempBishop == false) {
-                                        break;
-                                    }
+                                if (board[j + 1][i + 1 + loops] != null) {
+                                    tempBishop = true;
                                 }
-                                if (tempBishop) {
-                                    return false;
+                                if(!tempBishop) {
+                                    break;
                                 }
+                                return false;
                             }
                             loops++;
                         }
-                        if (tempBishop == false) {
-                            return true;
-                        } else return false;
+                        return !tempBishop;
                     }
                 } else if (destRow < currRow) {
                     int loops = 0;
                     if (destCol < currCol) {
                         for (int j = currRow; j > destRow+1; j--) {
                             for (int i = currCol; i > destCol+1; i--) {
-                                if (tempBishop == false) {
-                                    if (board[j - 1][i - 1 +loops] != null) {
-                                        tempBishop = true;
-                                    }
-                                    if(tempBishop == false)
-                                    {
-                                        break;
-                                    }
+                                if (board[j - 1][i - 1 +loops] != null) {
+                                    tempBishop = true;
                                 }
-                                if (tempBishop) {
-                                    return false;
+                                if(!tempBishop)
+                                {
+                                    break;
                                 }
+                                return false;
                             }
                             loops--;
                         }
-                        if (tempBishop == false) {
-                            return true;
-                        } else return false;
+                        return true;
                     }
                 }
                 if ((destRow < currRow)) {
@@ -708,47 +660,35 @@ public class ShogiLegalMoveList implements Serializable {
                         int loops = 0;
                         for (int j = currRow; j > destRow+1; j--) {
                             for (int i = currCol; i < destCol-1; i++) {
-                                if (tempBishop == false) {
-                                    if (board[j - 1][i + 1+loops] != null) {
-                                        tempBishop = true;
-                                    }
-                                    if (tempBishop == false) {
-                                        break;
-                                    }
+                                if (board[j - 1][i + 1+loops] != null) {
+                                    tempBishop = true;
                                 }
-                                if (tempBishop) {
-                                    return false;
+                                if (!tempBishop) {
+                                    break;
                                 }
+                                return false;
                             }
                             loops++;
                         }
-                        if (tempBishop == false) {
-                            return true;
-                        } else return false;
+                        return !tempBishop;
                     }
                 } else if (destRow > currRow) {
                     if (destCol < currCol) {
                         int loops = 0;
                         for (int j = currRow; j < destRow-1; j++) {
                             for (int i = currCol; i > destCol+1; i--) {
-                                if (tempBishop == false) {
-                                    if (board[j + 1][i - 1+loops] != null) {
-                                        tempBishop = true;
-                                    }
-                                    if(tempBishop == false)
-                                    {
-                                        break;
-                                    }
+                                if (board[j + 1][i - 1+loops] != null) {
+                                    tempBishop = true;
                                 }
-                                if (tempBishop) {
-                                    return false;
+                                if(!tempBishop)
+                                {
+                                    break;
                                 }
+                                return false;
                             }
                             loops--;
                         }
-                        if (tempBishop == false) {
-                            return true;
-                        } else return false;
+                        return !tempBishop;
                     }
                 }
 
@@ -762,7 +702,7 @@ public class ShogiLegalMoveList implements Serializable {
             if (destCol == currCol) {
                 if (destRow > currRow) {
                     for (int i = currRow; i < destRow-1; i++) {
-                        if (tempRook == false) {
+                        if (!tempRook) {
                             if (board[i + 1][destCol] != null) {
                                 tempRook = true;
                             }
@@ -773,7 +713,7 @@ public class ShogiLegalMoveList implements Serializable {
                     }
                 } else if (destRow < currRow) {
                     for (int i = currRow; i > destRow+1; i--) {
-                        if (tempRook == false) {
+                        if (!tempRook) {
                             if (board[i - 1][destCol] != null) {
                                 tempRook = true;
                             }
@@ -784,7 +724,7 @@ public class ShogiLegalMoveList implements Serializable {
                     }
 
                 }
-                if (tempRook == false) {
+                if (!tempRook) {
                     return true;
                 }
             } else return false;
@@ -812,12 +752,9 @@ public class ShogiLegalMoveList implements Serializable {
         if ((pieceName == Piece.PieceType.GOLDGENERAL) ^ (pieceName == Piece.PieceType.P_SILVER) ^ (pieceName == Piece.PieceType.P_LANCE) ^ (pieceName == Piece.PieceType.P_KNIGHT) ^ (pieceName == Piece.PieceType.P_PAWN)) {
             boolean c = ((destRow == currRow) && ((destCol == currCol + 1) || (destCol == currCol - 1))) || ((destCol == currCol) && ((destRow == currRow + 1) || (destRow == currRow - 1)));
             if (player == 0) {
-                if (((((destRow - currRow) == -1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c) {
-                    return true;
-                }
+                return ((((destRow - currRow) == -1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c;
             } else if (player == 1) {
-                if (((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c)
-                    return true;
+                return ((((destRow - currRow) == 1) && (((destCol - currCol) == 1) || ((destCol - currCol) == -1)))) ^ c;
             } else
                 return false;
 

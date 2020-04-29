@@ -22,4 +22,40 @@ Solution: I used this line:
 Where to find: ShogiHumanPlayer
 -HM (malikh22)
 
+Date: 4/12/2020
+Problem: config screen not displaying
+Source: Dr. Vegdahl
+Solution: I had a debugging session with Dr. Vegdahl where we fixed the issues
+Where to find: ShogiLocalGame
+-HM (malikh22)
 
+Date: 4/12/2020
+Problem: needed to lock orientation to portrait
+Source: Dr. Vegdahl
+Solution: I used this line:
+    myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+Where to find: ShogiHumanPlayer
+-HM (malikh22)
+
+Date: 4/19/2020
+Problem: needed to fix response of GUI to player input
+Source: Dr. Vegdahl
+Solution: I had a debugging session with Dr. Vegdahl where we made sure the info was being
+    stored correctly, in addition to fixing the board dimensions
+Where to find: ShogiHumanPlayer, ShogiGUI
+-HM (malikh22)
+
+Date: 4/27/2020
+Problem: move history was not displaying
+Source: Dr. Vegdahl
+Solution: Josh had a debugging session with Dr. Vegdahl where they made sure the info was being
+    stored and displayed properly
+Where to find: mainly ShogiHumanPlayer
+-HM (malikh22)
+
+Date: 4/28/2020
+Problem: wanted to add line seperator to drop screen
+Source: https://stackoverflow.com/questions/5049852/android-drawing-separator-divider-line-in-layout
+Solution: I added the code snippet shown to the xml file.
+Where to find: dropping.xml
+-HM (malikh22)

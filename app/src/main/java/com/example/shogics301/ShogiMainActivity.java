@@ -1,24 +1,18 @@
 package com.example.shogics301;
-//TODO: finish this up
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.shogics301.GameFramework.GameMainActivity;
 import com.example.shogics301.GameFramework.GamePlayer;
 import com.example.shogics301.GameFramework.LocalGame;
 import com.example.shogics301.GameFramework.gameConfiguration.GameConfig;
 import com.example.shogics301.GameFramework.gameConfiguration.GamePlayerType;
-import com.example.shogics301.GameFramework.infoMessage.GameInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.example.shogics301.R.layout.activity_main;
-
+/*
+ * This is the class for the main activity. Handles player and game creation.
+ *
+ */
 public class ShogiMainActivity extends GameMainActivity implements Serializable {
     private static final long serialVersionUID = 42978563847L;
     private static final int PORT_NUMBER = 3452;
@@ -50,7 +44,8 @@ public class ShogiMainActivity extends GameMainActivity implements Serializable 
         // - from 1 to 2 players
         // - name of game is "Counter Game"
         // - port number as defined above
-        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "Shogi", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2,
+                "Shogi", PORT_NUMBER);
 
 
         // Add the default players to the configuration
