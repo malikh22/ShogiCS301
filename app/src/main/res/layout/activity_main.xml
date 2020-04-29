@@ -30,6 +30,7 @@
             android:id="@+id/shogiBoard"
             android:layout_width="match_parent"
             android:layout_height="1050dp"
+            android:background="#D8BC5E"
             android:clickable="false" />
 
         <LinearLayout

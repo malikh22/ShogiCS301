@@ -1,5 +1,6 @@
 package com.example.shogics301;
 
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.example.shogics301.GameFramework.GamePlayer;
@@ -24,6 +25,7 @@ public class ShogiLocalGame extends LocalGame {
 
     private static final String TAG = "ShogiLocalGame";
     private String history;
+
 
     // the game's state
     private ShogiState gameState;
@@ -74,6 +76,16 @@ public class ShogiLocalGame extends LocalGame {
             int row = sda.newRow;
             int col = sda.newCol;
             newBoard[row][col] = piece;
+            if(gameState.getWhoseMove() ==0)
+            {
+                history = "Human has dropped a " + sda.thisPiece.getType() + " at " + row + ", " + col +"\n";
+
+            }
+            if(gameState.getWhoseMove() ==1)
+            {
+                history = "Computer has dropped a " + sda.thisPiece.getType() + " at " + row + ", " + col+"\n";
+
+            }
 
             //remove piece that was dropped
             if(gameState.getWhoseMove() == 0){
@@ -93,7 +105,8 @@ public class ShogiLocalGame extends LocalGame {
             } else if (gameState.getWhoseMove() == 0) {
                 gameState.setWhoseMove(1);
             }
-
+            gameState.setHistory(history);
+            history = "";
             gameState.setBoard(newBoard);
             return true;
         }
@@ -203,7 +216,7 @@ public class ShogiLocalGame extends LocalGame {
                             history = history + "Human " + sma.thisPiece.getType() + " has captured the computer's king. \n";
                             gameState.setPlayerHasKing(1);
                         } else {
-                            history = history + "Human's " + sma.thisPiece.getType() + " has captured the computer's " + newBoard[row][col].getType() + "\n";
+                            history = history + "Human's " + sma.thisPiece.getType() + " has captured the computer's " + newBoard[row][col].getType() + " at " + row + ", " + col + "\n";
                             newBoard[row][col].setPlayer(0);
                             gameState.capturep0(newBoard[row][col]);
                         }
@@ -212,7 +225,7 @@ public class ShogiLocalGame extends LocalGame {
                             history = history + "Computer's " + sma.thisPiece.getType() + " has captured the human's king. \n";
                             gameState.setPlayerHasKing(0);
                         } else {
-                            history = history + "Computer's " + sma.thisPiece.getType() + " has captured the human's " + newBoard[row][col].getType() + "\n";
+                            history = history + "Computer's " + sma.thisPiece.getType() + " has captured the human's " + newBoard[row][col].getType() + " at " + row + ", " + col + "\n";
                             newBoard[row][col].setPlayer(1);
                             gameState.capturep1(newBoard[row][col]);
                         }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,6 +24,8 @@ import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.utilities.Logger;
 
 import java.util.ArrayList;
+
+import static android.graphics.Color.rgb;
 
 
 /**
@@ -66,6 +69,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     private boolean usingDropsScreen = false;
     private boolean usingHistoryScreen = false;
     private TextView historyText;
+    private MediaPlayer mediaPlayer;
+
 
 
     /**
@@ -141,15 +146,18 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
         topView = (ShogiGui) myActivity.findViewById(R.id.shogiBoard);
+        mediaPlayer = MediaPlayer.create(myActivity.getContext(), R.raw.errorsound);
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         topView.setOnTouchListener(this);
 
         toRules = (Button) myActivity.findViewById(R.id.button2);
-        toRules.setBackgroundColor(Color.WHITE);
+        toRules.setBackgroundColor(rgb(216, 188, 94));
+
         toRules.setTextColor(Color.BLACK);
         Log.d("attempt to open rules", "open rules");
 
         historyButton = (Button) myActivity.findViewById(R.id.button);
+        historyButton.setBackgroundColor(rgb(216, 188, 94));
 
 
         toRules.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +172,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         });
 
         toDrops = (Button) myActivity.findViewById(R.id.button4);
-
+        toDrops.setBackgroundColor(rgb(216, 188, 94));
         toDrops.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -731,14 +739,9 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 //then leave everything as it is
                 else {
                     Log.d("ShogiHP", "flash");
-                    try {
-                        flashButton();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //super.setToFlash(false);
+                    //make noise
+                    mediaPlayer.start();
 
-                    return true;
                 }
 
             }
