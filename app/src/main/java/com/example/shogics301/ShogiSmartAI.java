@@ -91,6 +91,10 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                                         case ROOK:
                                         case BISHOP:
                                         case SILVERGENERAL:
+                                        case P_SILVER:
+                                        case P_BISHOP:
+                                        case P_KNIGHT:
+                                        case P_ROOK:
                                             if (selPiece == null || (selPiece.getType() != Piece.PieceType.GOLDGENERAL && selPiece.getType() != Piece.PieceType.ROOK && selPiece.getType() != Piece.PieceType.BISHOP && selPiece.getType() != Piece.PieceType.SILVERGENERAL) || rnd.nextBoolean()) {
                                                 selPiece = pieces[i][j];
                                                 destRow = desti;
@@ -100,6 +104,8 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                                         case KING:
                                         case KNIGHT:
                                         case LANCE:
+                                        case P_LANCE:
+                                        case P_PAWN:
                                             if (selPiece == null || pieces[desti][destj].getType() == Piece.PieceType.PAWN) {
                                                 selPiece = pieces[i][j];
                                                 destRow = desti;
