@@ -74,6 +74,7 @@ public class ShogiGui extends FlashSurfaceView {
     public ShogiGui(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+
         board = BitmapFactory.decodeResource(getResources(), shougi_board);
         board = Bitmap.createScaledBitmap(board, 1300, 1400, false);
 

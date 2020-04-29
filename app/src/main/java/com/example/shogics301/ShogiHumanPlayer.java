@@ -3,6 +3,7 @@ package com.example.shogics301;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -50,9 +51,12 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     boolean amDropping = false;
     boolean droppedThisTurn = false;
 
+
     private boolean usingRulesScreen = false;
     private boolean usingDropsScreen = false;
     private boolean usingHistoryScreen = false;
+
+
 
 
     /**
@@ -60,9 +64,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
      *
      * @param name the name of the human player
      */
-    public ShogiHumanPlayer(String name) {
-        super(name);
-    }
+    public ShogiHumanPlayer(String name) { super(name); }
 
     @Override
     public View getTopView() {
@@ -92,6 +94,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
             gui = myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
+
+
 
             if (info instanceof IllegalMoveInfo) {
 
@@ -645,6 +649,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             row = (int) ((event.getY() - ShogiGui.topLeftY) / (ShogiGui.space));
             col = (int) ((event.getX() - ShogiGui.topLeftX) / (ShogiGui.space));
             game.sendAction(new ShogiDropAction(this, toDrop, row, col));
+            MediaPlayer drop = MediaPlayer.create(topView.getContext(),R.raw.drop);
+            drop.start();
             amDropping = false;
             droppedThisTurn = true;
             //remove the dropped piece
@@ -679,6 +685,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                         gui.pieceIsSelected = true;
                         rowSel = row;
                         colSel = col;
+                        MediaPlayer pick = MediaPlayer.create(topView.getContext(),R.raw.pickup);
+                        pick.start();
                     }
                 }
 
@@ -688,6 +696,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
                     game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel],
                             row, col, rowSel, colSel));
+                    MediaPlayer drop = MediaPlayer.create(topView.getContext(),R.raw.drop);
+                    drop.start();
 
                     //reset
                     havePieceSelected = false;
@@ -723,6 +733,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                         gui.pieceIsSelected = true;
                         rowSel = row;
                         colSel = col;
+                        MediaPlayer pick = MediaPlayer.create(topView.getContext(),R.raw.pickup);
+                        pick.start();
                     }
                 }
 
@@ -731,6 +743,8 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 else if (myPieces[rowSel][colSel].legalMove(myPieces, row, col)) {
                     game.sendAction(new ShogiMoveAction(this, myPieces[rowSel][colSel],
                             row, col, rowSel, colSel));
+                    MediaPlayer drop = MediaPlayer.create(topView.getContext(),R.raw.drop);
+                    drop.start();
                     droppedThisTurn = false;
                     //reset
                     havePieceSelected = false;
