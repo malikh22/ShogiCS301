@@ -45,10 +45,17 @@ Solution: I had a debugging session with Dr. Vegdahl where we made sure the info
 Where to find: ShogiHumanPlayer, ShogiGUI
 -HM (malikh22)
 
-Date: 4/28/2020
+Date: 4/27/2020
 Problem: move history was not displaying
 Source: Dr. Vegdahl
 Solution: Josh had a debugging session with Dr. Vegdahl where they made sure the info was being
     stored and displayed properly
 Where to find: mainly ShogiHumanPlayer
+-HM (malikh22)
+
+Date: 4/28/2020
+Problem: wanted to add line seperator to drop screen
+Source: https://stackoverflow.com/questions/5049852/android-drawing-separator-divider-line-in-layout
+Solution: I added the code snippet shown to the xml file.
+Where to find: dropping.xml
 -HM (malikh22)
