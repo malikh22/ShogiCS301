@@ -127,7 +127,7 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                 }
             }
         }
-        if(selPiece==null){
+        while(selPiece==null){
             boolean myP=false;
             int myRow=0;
             Piece myPiece = pieces[0][0];
@@ -136,9 +136,9 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                 myPiece=pieces[myRow][rnd.nextInt(pieces[myRow].length - 1)];
                 if(myPiece!=null) myP = (myPiece.getPlayer()==playerNum);
             }
-            selPiece=myPiece;
             destRow = rnd.nextInt(pLength - 1);
             destCol = rnd.nextInt(pieces[destRow].length - 1);
+            if(myLegalMoves.validMove(pieces,pieces[myPiece.getRow()][myPiece.getColumn()].getType(),myPiece.getRow(),myPiece.getColumn(),destRow,destCol,pieces[myPiece.getRow()][myPiece.getColumn()].getPlayer())) selPiece = myPiece;
         }
         // delay for a second to make opponent think we're thinking
         sleep(0.005);
