@@ -274,6 +274,7 @@ public class ShogiState extends GameState {
         //ShogiPiece king = board[row][col]; //the to-be-found king of the specified player
         int thisPlayerPiece; //for determining if the king is the specified player's
         boolean playerInCheck = false;
+        ShogiLegalMoveList moves = new  ShogiLegalMoveList(0);
 
         //determine which player's piece we should be looking for
         if(idx == 0) thisPlayerPiece = 0;
@@ -286,7 +287,7 @@ public class ShogiState extends GameState {
             for(c = 0; c < 9; c++) {
                 if (board[r][c] != null &&
                         board[r][c].getPlayer() != thisPlayerPiece &&
-                        board[r][c].legalMove(board, row, col)) {
+                        moves.validMove(board, board[r][c].getType(), r, c, row, col, 1)) {
 
                     playerInCheck = true;
                     break;

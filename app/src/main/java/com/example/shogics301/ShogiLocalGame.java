@@ -12,10 +12,10 @@ import java.util.ArrayList;
  * The ShogiLocalGame class for a Shogi game.  Defines and enforces
  * the game rules; handles interactions with players.
  * <p>
- * TODO: Update to reflect Shogi rules and interactions
  *
  * @author Steven R. Vegdahl
  * @author Hera Malik
+ * @author Josh Henderson
  * @version April 2020
  */
 
@@ -66,6 +66,7 @@ public class ShogiLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action) {
+
 
         if (action instanceof ShogiDropAction) {
             ShogiDropAction sda = ((ShogiDropAction) action);
@@ -312,8 +313,6 @@ public class ShogiLocalGame extends LocalGame {
                 return false;
 
             }
-//            gameState.setHistory(history);
-//            return true;
         }
         gameState.setHistory(history);
         history = "";

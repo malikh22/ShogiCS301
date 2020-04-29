@@ -1,6 +1,8 @@
 package com.example.shogics301;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -97,11 +99,39 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
             gui = myActivity.findViewById(R.id.shogiBoard);
             gui.myPieces = this.myPieces;
 
+            //finds the player's king
+            int kingRow = 0;
+            int kingCol = 0;
+            for(int i = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    if (myPieces[i][j] != null){
+                        Piece possKing = myPieces[i][j];
+                        if(possKing.getPlayer() == 0 &&
+                                possKing.getType() == Piece.PieceType.KING){
+                            kingRow = i;
+                            kingCol = j;
+                        }
+                    }
+                }
+            }
+
+            //if the king is in check, notify the player
+            if(state.determinePlayerInCheck(0, this.myPieces, kingRow, kingCol)){
+                new AlertDialog.Builder(getTopView().getContext())
+                        .setTitle("You are in check!")
+                        .setMessage("Your king is in danger. You should move it.")
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton("Ok", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
 
 
             if (info instanceof IllegalMoveInfo) {
 
                 Log.d("ShogiHP", "illegal move");
+
 
 
                 if (super.getflash()) {
@@ -707,7 +737,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                     havePieceSelected = false;
                     rowSel = 0;
                     colSel = 0;
-                } else return true;
+                } else { return true; }
 
             } else {
                 if (myPieces[row][col] != null && myPieces[row][col].getPlayer() == 1) {
@@ -760,6 +790,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
                 //then leave everything as it is
                 else {
                     Log.d("ShogiHP", "flash");
+
                     try {
                         flashButton();
                     } catch (InterruptedException e) {

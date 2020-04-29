@@ -35,7 +35,8 @@ import java.util.Random;
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
- * @version July 2013
+ * @author Dalton Faker
+ * @version April 2020
  */
 public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
     //Tag for logging
@@ -142,6 +143,7 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
             if(myLegalMoves.validMove(pieces,pieces[myPiece.getRow()][myPiece.getColumn()].getType(),myPiece.getRow(),myPiece.getColumn(),destRow,destCol,pieces[myPiece.getRow()][myPiece.getColumn()].getPlayer())) selPiece = myPiece;
         }
 
+        //makes a random drop
         ArrayList<Piece> myDrops = (playerNum==0)?state.getDrops0() : state.getDrops1();
         if(!myDrops.isEmpty() && rnd.nextInt(10)<2 && (pieces[destRow][destCol]== null || pieces[destRow][destCol].getType()== Piece.PieceType.PAWN)) {
 

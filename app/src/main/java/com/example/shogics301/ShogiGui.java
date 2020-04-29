@@ -248,8 +248,8 @@ public class ShogiGui extends FlashSurfaceView {
         for (int k = 0; k < 9; k++) {
             for (int l = 0; l < 9; l++) {
                 if (myPieces[k][l] != null) {
-                    float left = topLeftX + (myPieces[k][l].getColumn() * space);
-                    float top = topLeftY + (myPieces[k][l].getRow() * space);
+                    float left = topLeftX + (myPieces[k][l].getColumn() * space) - 5;
+                    float top = topLeftY + (myPieces[k][l].getRow() * space) + 5;
                     //draws opponent pieces
                     if (myPieces[k][l].getType() == Piece.PieceType.PAWN
                             && myPieces[k][l].getPlayer() == 1) {
