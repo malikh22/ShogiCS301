@@ -7,13 +7,14 @@ import java.io.Serializable;
 
 
 /**
+ * A game-move object that a Shogi player sends to the game to drop
+ * a captured piece.
  * @author Hera Malik
  */
 
 public class ShogiDropAction extends GameAction implements Serializable {
     private static final long serialVersionUID = 42978563847L;
-    private Piece capturedPiece;
-    public int newRow, newCol, oldRow, oldCol;
+    public int newRow, newCol;
     public Piece thisPiece;
 
     /**

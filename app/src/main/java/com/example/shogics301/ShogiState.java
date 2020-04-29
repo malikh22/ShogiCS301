@@ -12,6 +12,7 @@ import java.util.ArrayList;
  *
  * @author Steven R. Vegdahl
  * @author Hera Malik
+ * @author Josh Henderson
  * @version March 2020
  */
 public class ShogiState extends GameState {
@@ -189,24 +190,6 @@ public class ShogiState extends GameState {
         return board[row][col];
     }
 
-    /**
-     * Sets a piece on a square
-     *
-     * @param row
-     * 		the row being queried
-     * @param
-     * 		col the column being queried
-     * @param
-     * 		piece the piece to place
-     */
-    void setPiece(int row, int col, char piece) {
-        // if we're out of bounds or anything, return;
-        if (board == null || row < 0 || col < 0) return;
-        if (row >= board.length || col >= board[row].length) return;
-
-        // return the character that is in the proper position
-        board[row][col] = piece;
-    }
 
     /**
      * Tells whose move it is.
@@ -226,16 +209,48 @@ public class ShogiState extends GameState {
         playerToMove = id;
     }
 
-    public ArrayList<ShogiMoveAction> getMoves() { return moves; }
-    public void recordHistory(ShogiMoveAction move) { moves.add(move); }
 
+    /**
+     * get player 0's captured pieces
+     * @return
+     *      player 0's captured pieces
+     */
     public ArrayList<Piece> getDrops0() {return drops0;}
+
+    /**
+     * get player 1's captured pieces
+     * @return
+     *      player 1's captured pieces
+     */
     public ArrayList<Piece> getDrops1() {return drops1;}
+
+    /**
+     * add the captured piece to player 0's captured pieces
+     * @param captured
+     * 		the piece captured by player 0
+     */
     public void capturep0 (Piece captured) { drops0.add(captured); }
+
+    /**
+     * add the captured piece to player 1's captured pieces
+     * @param captured
+     * 		the piece captured by player 1
+     */
     public void capturep1 (Piece captured) { drops1.add(captured); }
 
 
+    /**
+     * get the current board
+     * @return
+     *      the current board
+     */
     public Piece[][] getBoard() { return pieces; }
+
+    /**
+     * set the current board to the updated configuration
+     * @param pieces
+     * 		the new board setup
+     */
     public void setBoard(Piece[][] pieces) { this.pieces = pieces; }
 
     public boolean getPlayerHasKing(int i) { return playersHaveKing[i]; }
@@ -312,17 +327,18 @@ public class ShogiState extends GameState {
         this.drops1 = drops1;
     }
 
-    public void setHistory(String history)
-    {
 
-        this.history = this.history + history;
+    /**
+     * adds the most recent event to the history
+     * @param history
+     * 		a string representation of the most recent event in the game
+     */
+    public void setHistory(String history) { this.history = this.history + history; }
 
-    }
-
-    public String getHistory()
-    {
-
-        return this.history;
-
-    }
+    /**
+     * get the history of the moves made during the game
+     * @return
+     * 		the history of moves made
+     */
+    public String getHistory() { return this.history; }
 }

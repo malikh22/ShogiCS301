@@ -99,7 +99,7 @@ public abstract class NetworkObjectPasser {
     public abstract void onReceiveObject(Object obj);
 
     private enum RunnerStatus {
-        WAITING, READY, FAILED;
+        WAITING, READY, FAILED
     }
 
     private class CreateRunner implements Runnable {
@@ -229,7 +229,7 @@ public abstract class NetworkObjectPasser {
     public void sendObject(Object obj) {
         // schedule the "send" in the object's "sending" thread
         //Check if the object is Serializable
-        if(!Serializable.class.isInstance(obj)){
+        if(!(obj instanceof Serializable)){
             Logger.log(TAG, "Object is not Serializable", Logger.ERROR);
         }
 

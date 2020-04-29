@@ -34,12 +34,12 @@ import java.util.Random;
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
- * @version July 2013
+ * @author Dalton Faker
+ * @version April 2020
  */
 public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
     //Tag for logging
     private static final String TAG = "ShogiDumbAI";
-    private ShogiLegalMoveList myLegalMoves;
 
     public ShogiSmartAI(String name) {
         // invoke superclass constructor
@@ -56,12 +56,12 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
     @Override
     protected void receiveInfo(GameInfo info) {
 
-        // if it was a "not your turn" message, just ignore it
+        // if it was a "not your turn" or "illegal move" message, just ignore it
         if (info instanceof NotYourTurnInfo) return;
         if (info instanceof IllegalMoveInfo) return;
 
 
-        myLegalMoves = new ShogiLegalMoveList(playerNum);
+        ShogiLegalMoveList myLegalMoves = new ShogiLegalMoveList(playerNum);
         Random rnd = new Random();
 
         ShogiState state = (ShogiState) info;
@@ -84,6 +84,7 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
                 if(pieces[i][j] != null && pieces[i][j].getPlayer()==playerNum){
                     for (int desti = 0; desti < pLength; desti++){
                         for (int destj = 0; destj < pieces[i].length; destj++) {
+                            assert pieces[i][j] != null;
                             if(myLegalMoves.validMove(pieces,pieces[i][j].getType(),i,j,desti,destj,pieces[i][j].getPlayer())){
                                 if(pieces[desti][destj]!=null && pieces[desti][destj].getPlayer()!=playerNum){
                                     switch (pieces[desti][destj].getType()) {
@@ -134,7 +135,7 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
             destRow = rnd.nextInt(pLength - 1);
             destCol = rnd.nextInt(pieces[destRow].length - 1);
         }
-        // delay for a second to make opponent think we're thinking
+        // delay to make opponent think we're thinking
         sleep(0.05);
 
         // Submit our move to the game object. We haven't even checked it it's

@@ -1,10 +1,14 @@
 package com.example.shogics301;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
+
+/**
+ * A representation of a Shogi piece
+ * @author Hera Malik
+ * @author Josh Henderson
+ * @version April 2020
+ */
 public class Piece {
 
     private boolean captured = false;
@@ -12,9 +16,10 @@ public class Piece {
     private int row = 300;
     private int column = 300;
     private Bitmap myBitmap;
-    private int player = 0;
+    private int player;
     private boolean selected = false;
 
+    //get the promoted version of a base piece
     PieceType getPromotedPiece() {
         if (this.getType() == PieceType.PAWN) {
             return PieceType.P_PAWN;
@@ -37,12 +42,12 @@ public class Piece {
     }
 
 
-
+    //check if a given piece is promoted
     boolean isPromoted(Piece piece) {
-        if (piece.getType() == PieceType.P_BISHOP || piece.getType() == PieceType.P_LANCE || piece.getType() == PieceType.P_ROOK ||
-                piece.getType() == PieceType.P_PAWN || piece.getType() == PieceType.P_KNIGHT || piece.getType() == PieceType.P_SILVER) {
-            return true;
-        } else return false;
+        return piece.getType() == PieceType.P_BISHOP || piece.getType() == PieceType.P_LANCE
+                || piece.getType() == PieceType.P_ROOK ||
+                piece.getType() == PieceType.P_PAWN || piece.getType() == PieceType.P_KNIGHT
+                || piece.getType() == PieceType.P_SILVER;
 
 
     }
@@ -53,17 +58,16 @@ public class Piece {
      * @param currCol the column of the space that may be legal for this piece to move to
      * @return true if this is a legal move, false otherwise
      */
-    public boolean legalMove(Piece[][] board, int currRow, int currCol) {
-        if (true) return true;
+    boolean legalMove(Piece[][] board, int currRow, int currCol) {
         int a = player;
         ShogiLegalMoveList getLegalMoves = new ShogiLegalMoveList(a);
         int[][] moves = getLegalMoves.moves(board, this.getType(), row, column);
 
-        for (int i = 0; i < moves.length; i++) {
-            if (moves[i] == null) {
+        for (int[] move : moves) {
+            if (move == null) {
                 continue;
             }
-            if (moves[i][0] == currRow && moves[i][1] == currCol) {
+            if (move[0] == currRow && move[1] == currCol) {
                 return true;
             }
         }
@@ -71,7 +75,7 @@ public class Piece {
         return false;
     }
 
-    public boolean getSelected() {
+    boolean getSelected() {
         return this.selected;
     }
 
@@ -107,7 +111,7 @@ public class Piece {
         return this.myType;
     }
 
-    public void setMyType(PieceType pieceType) {
+    void setMyType(PieceType pieceType) {
         this.myType = pieceType;
     }
 
@@ -115,7 +119,7 @@ public class Piece {
         this.row = row;
     }
 
-    public void setColumn(int column) {
+    void setColumn(int column) {
         this.column = column;
     }
 
@@ -123,15 +127,15 @@ public class Piece {
         return this.row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return this.column;
     }
 
-    public void setMyBitmap(Bitmap bitmap) {
+    void setMyBitmap(Bitmap bitmap) {
         this.myBitmap = bitmap;
     }
 
-    public Bitmap getMyBitmap() {
+    Bitmap getMyBitmap() {
         return myBitmap;
     }
 
@@ -143,11 +147,7 @@ public class Piece {
         this.player = player;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean b) {
+    void setSelected(boolean b) {
         this.selected = b;
     }
 

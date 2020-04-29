@@ -22,7 +22,7 @@ public class Moving extends Activity {
         setContentView(R.layout.moving);
 
 
-        toGame = (Button) findViewById(R.id.button10);
+        toGame = findViewById(R.id.button10);
         toGame.setOnClickListener(new View.OnClickListener() {
 
             @Override

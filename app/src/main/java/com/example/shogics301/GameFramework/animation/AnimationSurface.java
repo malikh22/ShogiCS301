@@ -264,6 +264,6 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
             this.animator.onTouch(event);
         }
         return true;
-    };// class AnimationThread
+    }// class AnimationThread
 
 }// class AnimationSurface

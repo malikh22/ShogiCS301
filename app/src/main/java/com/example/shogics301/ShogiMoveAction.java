@@ -18,8 +18,7 @@ public class ShogiMoveAction extends GameAction implements Serializable {
     private static final String TAG = "ShogiMoveAction";
 	private static final long serialVersionUID = -2242980258970485343L;
 	
-	// instance variables: the selected row and column
-    private Piece capturedPiece;
+	// instance variables
     public int destRow, destCol, srcRow, srcCol;
     public Piece thisPiece;
     public Piece[][] board = new Piece[9][9];
@@ -31,8 +30,10 @@ public class ShogiMoveAction extends GameAction implements Serializable {
      *
      * @param player the player who created the action
      * @param piece the piece to be moved
-     * @param destRow the new row to which shogiPiece Piece will be moved
-     * @param destCol the new column to which shogiPiece Piece will be moved
+     * @param destRow the new row to which this piece will be moved
+     * @param destCol the new column to which this piece will be moved
+     * @param srcRow the source row of this piece
+     * @param srcCol the source column of this piece
      */
     public ShogiMoveAction(GamePlayer player, Piece piece, int destRow,
                            int destCol, int srcRow, int srcCol) {
@@ -47,11 +48,6 @@ public class ShogiMoveAction extends GameAction implements Serializable {
             this.srcRow = srcRow;
             this.srcCol = srcCol;
         }
-    }
-
-    public ShogiMoveAction(GamePlayer player, Piece[][] board){
-        super(player);
-        this.board = board;
     }
 
 }

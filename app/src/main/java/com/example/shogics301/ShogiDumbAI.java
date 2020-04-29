@@ -1,27 +1,12 @@
 package com.example.shogics301;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
-import com.example.shogics301.GameFramework.Game;
-import com.example.shogics301.GameFramework.GameComputerPlayer;
-import com.example.shogics301.GameFramework.GameMainActivity;
-import com.example.shogics301.GameFramework.GamePlayer;
 
-import com.example.shogics301.GameFramework.actionMessage.GameOverAckAction;
-import com.example.shogics301.GameFramework.actionMessage.MyNameIsAction;
-import com.example.shogics301.GameFramework.actionMessage.ReadyAction;
-import com.example.shogics301.GameFramework.infoMessage.BindGameInfo;
+import com.example.shogics301.GameFramework.GameComputerPlayer;
 import com.example.shogics301.GameFramework.infoMessage.GameInfo;
-import com.example.shogics301.GameFramework.infoMessage.GameOverInfo;
 import com.example.shogics301.GameFramework.infoMessage.IllegalMoveInfo;
 import com.example.shogics301.GameFramework.infoMessage.NotYourTurnInfo;
-import com.example.shogics301.GameFramework.infoMessage.StartGameInfo;
-import com.example.shogics301.GameFramework.infoMessage.TimerInfo;
-import com.example.shogics301.GameFramework.utilities.GameTimer;
-import com.example.shogics301.GameFramework.utilities.Logger;
-import com.example.shogics301.GameFramework.utilities.MessageBox;
 import com.example.shogics301.GameFramework.utilities.Tickable;
 
 import java.util.Random;
@@ -34,7 +19,8 @@ import java.util.Random;
  *
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
- * @version July 2013
+ * @author Dalton Faker
+ * @version April 2020
  */
 public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
     //Tag for logging
@@ -63,6 +49,7 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
 
         }
 
+        //chooses a random row, col, and piece to make a random move
         Random rnd = new Random();
 
         ShogiState state = (ShogiState) info;
@@ -75,7 +62,7 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
             int i = rnd.nextInt(pLength - 1);
             int j = rnd.nextInt(pieces[i].length - 1);
             p=pieces[i][j];
-            if(p instanceof Piece) myPiece = (p.getPlayer()==this.playerNum);
+            if(p != null) myPiece = (p.getPlayer()==this.playerNum);
         }
 
         int destRow = rnd.nextInt(pLength - 1);
@@ -91,6 +78,7 @@ public class ShogiDumbAI extends GameComputerPlayer implements Tickable {
         // we'll end up here again (and possibly again, and again). At some point,
         // we'll end up randomly pick a move that is legal.
         Log.d("dumb AI", "makes move");
-        game.sendAction(new ShogiMoveAction(this, p, destRow, destCol, p.getRow(), p.getColumn()));
+        game.sendAction(new ShogiMoveAction(this, p, destRow, destCol, p.getRow(),
+                p.getColumn()));
     }
 }// class ShogiDumbAI

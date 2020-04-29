@@ -24,7 +24,7 @@ public class Rules extends Activity {
         setContentView(R.layout.rules);
 
 
-        toGame = (Button) findViewById(R.id.button7);
+        toGame = findViewById(R.id.button7);
         toGame.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -35,7 +35,7 @@ public class Rules extends Activity {
         });
 
 
-        moving = (Button) findViewById(R.id.button3);
+        moving = findViewById(R.id.button3);
         moving.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -45,7 +45,7 @@ public class Rules extends Activity {
             }
         });
 
-        promotion = (Button) findViewById(R.id.button5);
+        promotion = findViewById(R.id.button5);
         promotion.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -20,7 +20,7 @@ public class Promotion extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.promotion);
 
-        toGame = (Button) findViewById(R.id.button6);
+        toGame = findViewById(R.id.button6);
         toGame.setOnClickListener(new View.OnClickListener() {
 
             @Override

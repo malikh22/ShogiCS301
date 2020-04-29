@@ -90,7 +90,7 @@ public abstract class LocalGame implements Game, Tickable {
         if (this.players != null) return;
 
         // create/store a copy of the player array
-        this.players = (GamePlayer[])players.clone();
+        this.players = players.clone();
 
         // create an array for the players' names; these names will be
         // filled during the initial message-protocol between the game
@@ -205,7 +205,7 @@ public abstract class LocalGame implements Game, Tickable {
                     playersReady = new boolean[players.length]; // array to keep track of players responding
                     for (GamePlayer p : players) {
                         p.sendInfo(
-                                new StartGameInfo((String[])playerNames.clone()));
+                                new StartGameInfo(playerNames.clone()));
                     }
                 }
             }
@@ -292,7 +292,7 @@ public abstract class LocalGame implements Game, Tickable {
 
         // if the player is NOT a player who is presently allowed to
         // move, send the player a message
-        if (!canMove(playerId)) {;
+        if (!canMove(playerId)) {
             player.sendInfo(new NotYourTurnInfo());
             return;
         }
@@ -415,7 +415,7 @@ public abstract class LocalGame implements Game, Tickable {
     }
 
     // an enum-class that itemizes the game stages
-    protected static enum GameStage {
+    protected enum GameStage {
         BEFORE_GAME, WAITING_FOR_NAMES, WAITING_FOR_READY, DURING_GAME, GAME_OVER, SETUP_PHASE
     }
 
@@ -449,10 +449,7 @@ public abstract class LocalGame implements Game, Tickable {
      * @return
      */
     public boolean inSetupPhase(){
-        if(this.gameStage == GameStage.SETUP_PHASE){
-            return true;
-        }
-        return false;
+        return this.gameStage == GameStage.SETUP_PHASE;
     }
 
     /**
