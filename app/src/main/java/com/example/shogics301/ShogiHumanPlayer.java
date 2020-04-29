@@ -21,6 +21,8 @@ import com.example.shogics301.GameFramework.utilities.Logger;
 
 import java.util.ArrayList;
 
+import static android.graphics.Color.rgb;
+
 
 /**
  * class ShogiHumanPlayer
@@ -50,7 +52,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
     Piece toDrop = null;
     boolean amDropping = false;
     boolean droppedThisTurn = false;
-
+    Button dropsButtonToGame;
 
     private boolean usingRulesScreen = false;
     private boolean usingDropsScreen = false;
@@ -134,13 +136,14 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         topView = myActivity.findViewById(R.id.shogiBoard);
         myActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         topView.setOnTouchListener(this);
-
         toRules = myActivity.findViewById(R.id.button2);
-        toRules.setBackgroundColor(Color.WHITE);
+        toRules.setBackgroundColor(rgb(222, 198, 95));
         toRules.setTextColor(Color.BLACK);
         Log.d("attempt to open rules", "open rules");
 
         Button historyButton = myActivity.findViewById(R.id.button);
+        historyButton.setBackgroundColor(rgb(222, 198, 95));
+
 
 
         toRules.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +158,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
         });
 
         Button toDrops = myActivity.findViewById(R.id.button4);
+        toDrops.setBackgroundColor(rgb(222, 198, 95));
 
         toDrops.setOnClickListener(new View.OnClickListener() {
 
@@ -192,7 +196,7 @@ public class ShogiHumanPlayer extends GameHumanPlayer implements View.OnClickLis
 
         usingDropsScreen = true;
         myActivity.setContentView(R.layout.dropping);
-        Button dropsButtonToGame = myActivity.findViewById(R.id.button9);
+        dropsButtonToGame = myActivity.findViewById(R.id.button9);
         final Button confirmButton = myActivity.findViewById(R.id.button11);
         ImageButton pawnButton = myActivity.findViewById(R.id.imageButton4);
         ImageButton rookButton = myActivity.findViewById(R.id.imageButton5);
