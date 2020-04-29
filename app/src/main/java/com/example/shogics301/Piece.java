@@ -53,27 +53,10 @@ public class Piece {
     }
 
     /**
-     * @param board   the current setup of pieces on the board
-     * @param currRow the row of the space that may be legal for this piece to move to
-     * @param currCol the column of the space that may be legal for this piece to move to
-     * @return true if this is a legal move, false otherwise
+     * don't know what's going on here but don't touch
      */
     boolean legalMove(Piece[][] board, int currRow, int currCol) {
-        if (true) return true;
-        int a = player;
-        ShogiLegalMoveList getLegalMoves = new ShogiLegalMoveList(a);
-        int[][] moves = getLegalMoves.moves(board, this.getType(), row, column);
-
-        for (int[] move : moves) {
-            if (move == null) {
-                continue;
-            }
-            if (move[0] == currRow && move[1] == currCol) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     boolean getSelected() {
