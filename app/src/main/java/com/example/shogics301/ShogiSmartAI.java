@@ -24,6 +24,7 @@ import com.example.shogics301.GameFramework.utilities.Logger;
 import com.example.shogics301.GameFramework.utilities.MessageBox;
 import com.example.shogics301.GameFramework.utilities.Tickable;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -140,16 +141,34 @@ public class ShogiSmartAI extends GameComputerPlayer implements Tickable {
             destCol = rnd.nextInt(pieces[destRow].length - 1);
             if(myLegalMoves.validMove(pieces,pieces[myPiece.getRow()][myPiece.getColumn()].getType(),myPiece.getRow(),myPiece.getColumn(),destRow,destCol,pieces[myPiece.getRow()][myPiece.getColumn()].getPlayer())) selPiece = myPiece;
         }
-        // delay for a second to make opponent think we're thinking
-        sleep(0.005);
 
-        // Submit our move to the game object. We haven't even checked it it's
-        // our turn, or that that position is unoccupied. If it was not our turn,
-        // we'll get a message back that we'll ignore. If it was an illegal move,
-        // we'll end up here again (and possibly again, and again). At some point,
-        // we'll end up randomly pick a move that is legal.
-        Log.d("smart AI", "makes move");
-        game.sendAction(new ShogiMoveAction(this, selPiece, destRow, destCol, selPiece.getRow(), selPiece.getColumn()));
+        ArrayList<Piece> myDrops = (playerNum==0)?state.getDrops0() : state.getDrops1();
+        if(!myDrops.isEmpty() && rnd.nextInt(10)<2 && (pieces[destRow][destCol]== null || pieces[destRow][destCol].getType()== Piece.PieceType.PAWN)) {
+
+            int dropIDX = rnd.nextInt(myDrops.size());
+            selPiece = myDrops.get(dropIDX);
+            while(pieces[destRow][destCol]!=null){
+                destRow = rnd.nextInt(pLength - 1);
+                destCol = rnd.nextInt(pieces[destRow].length - 1);
+            }
+            sleep(.05);
+            game.sendAction(new ShogiDropAction(this,selPiece,destRow,destCol));
+
+        }
+        else {
+
+            // delay to make opponent think we're thinking
+            sleep(0.05);
+
+            // Submit our move to the game object. We haven't even checked it it's
+            // our turn, or that that position is unoccupied. If it was not our turn,
+            // we'll get a message back that we'll ignore. If it was an illegal move,
+            // we'll end up here again (and possibly again, and again). At some point,
+            // we'll end up randomly pick a move that is legal.
+            Log.d("smart AI", "makes move");
+            game.sendAction(new ShogiMoveAction(this, selPiece, destRow, destCol, selPiece.getRow(), selPiece.getColumn()));
+        }
     }
+
 
 }// class ShogiDumbAI
